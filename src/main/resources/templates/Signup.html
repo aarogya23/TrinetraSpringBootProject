@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Trinetra Games</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .shape {
+            position: absolute;
+            background: rgba(255, 149, 0, 0.08);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            left: 80%;
+            animation-delay: 2s;
+            background: rgba(255, 205, 0, 0.08);
+        }
+
+        .shape:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            left: 60%;
+            animation-delay: 4s;
+            background: rgba(255, 165, 0, 0.1);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 25px 50px rgba(255, 149, 0, 0.15);
+            animation: slideUp 0.8s ease-out;
+            border: 2px solid rgba(255, 149, 0, 0.1);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            width: 200px;
+            height: 120px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 10px 30px rgba(255, 149, 0, 0.4);
+            overflow: hidden;
+        }
+
+        .logo img {
+            width: 200px;
+            height: auto;
+            object-fit: contain;
+            border-radius: 20px;
+        }
+
+        .logo-white {
+            display: block;
+        }
+
+        .logo-dark {
+            display: none;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #ff9500, #ffcd00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .input-container {
+            position: relative;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #ffe4b3;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #fffef9;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #ff9500;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(255, 149, 0, 0.1);
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #ffb84d;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .input-icon:hover {
+            color: #ff9500;
+        }
+
+        .password-strength {
+            margin-top: 8px;
+            font-size: 14px;
+        }
+
+        .strength-bar {
+            height: 4px;
+            background: #ffe4b3;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .strength-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b, #ff9500, #ffcd00, #06ffa5);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #ff9500, #ffcd00);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 149, 0, 0.4);
+            background: linear-gradient(135deg, #e6840b, #e6b800);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 25px;
+            color: #666;
+        }
+
+        .login-link a {
+            color: #ff9500;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+            color: #e6840b;
+        }
+
+        .error-message {
+            color: #ff4757;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .success-message {
+            color: #06ffa5;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+                padding: 30px 25px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 149, 0, 0.1);
+            border: 2px solid rgba(255, 149, 0, 0.2);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            color: #ff9500;
+            font-size: 20px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 149, 0, 0.2);
+            transform: scale(1.1);
+        }
+
+        .dark-mode {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #0f0f0f 100%);
+        }
+
+        .dark-mode .shape {
+            background: rgba(255, 149, 0, 0.1);
+        }
+
+        .dark-mode .shape:nth-child(2) {
+            background: rgba(255, 205, 0, 0.08);
+        }
+
+        .dark-mode .shape:nth-child(3) {
+            background: rgba(255, 165, 0, 0.12);
+        }
+
+        .dark-mode .container {
+            background: rgba(30, 30, 30, 0.95);
+            color: white;
+            border: 1px solid rgba(255, 149, 0, 0.2);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .dark-mode h1 {
+            color: white;
+            background: linear-gradient(135deg, #ff9500, #ffcd00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .dark-mode .subtitle {
+            color: #bdc3c7;
+        }
+
+        .dark-mode .form-group label {
+            color: #ecf0f1;
+        }
+
+        .dark-mode .form-control {
+            background: rgba(40, 40, 40, 0.8);
+            border-color: #4a4a4a;
+            color: white;
+        }
+
+        .dark-mode .form-control:focus {
+            background: rgba(40, 40, 40, 1);
+            border-color: #ff9500;
+        }
+
+        .dark-mode .strength-bar {
+            background: #4a4a4a;
+        }
+
+        .dark-mode .login-link {
+            color: #bdc3c7;
+        }
+
+        .dark-mode .login-link a {
+            color: #ffb84d;
+        }
+
+        .dark-mode .login-link a:hover {
+            color: #ff9500;
+        }
+
+        .dark-mode .logo-white {
+            display: none;
+        }
+
+        .dark-mode .logo-dark {
+            display: block;
+        }
+
+        .dark-mode .input-icon {
+            color: #ff9500;
+        }
+
+        .dark-mode .input-icon:hover {
+            color: #ffb84d;
+        }
+
+        .dark-mode .theme-toggle {
+            background: rgba(255, 149, 0, 0.2);
+        }
+
+        .dark-mode .theme-toggle:hover {
+            background: rgba(255, 149, 0, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation">
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+    </div>
+
+    <button class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <img src="/image/black.png" alt="Trinetra Games Logo" class="logo-white">
+                <img src="/image/white.png" alt="Trinetra Games Logo" class="logo-dark">
+            </div>
+            <h1>Join Trinetra Games</h1>
+            <p class="subtitle">Create your gaming account and start your journey</p>
+        </div>
+
+        <form id="signupForm" method="POST" action="/signup">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <div class="input-container">
+                    <input type="text" id="username" name="username" class="form-control" required minlength="3">
+                    <i class="fas fa-user input-icon"></i>
+                </div>
+                <div class="error-message" id="usernameError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <div class="input-container">
+                    <input type="email" id="email" name="email" class="form-control" required>
+                    <i class="fas fa-envelope input-icon"></i>
+                </div>
+                <div class="error-message" id="emailError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="country">Country</label>
+                <div class="input-container">
+                    <select id="country" name="country" class="form-control" required>
+                        <option value="">Select your country</option>
+                        <option value="Nepal">Nepal</option>
+                        <option value="United States">United States</option>
+                        <option value="Canada">Canada</option>
+                        <option value="United Kingdom">United Kingdom</option>
+                        <option value="India">India</option>
+                        <option value="Australia">Australia</option>
+                        <option value="Germany">Germany</option>
+                        <option value="France">France</option>
+                        <option value="Japan">Japan</option>
+                        <option value="South Korea">South Korea</option>
+                        <option value="Brazil">Brazil</option>
+                        <option value="Mexico">Mexico</option>
+                    </select>
+                    <i class="fas fa-globe input-icon"></i>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="input-container">
+                    <input type="password" id="password" name="password" class="form-control" required minlength="6">
+                    <i class="fas fa-eye input-icon" onclick="togglePassword()"></i>
+                </div>
+                <div class="password-strength">
+                    <div class="strength-bar">
+                        <div class="strength-fill" id="strengthFill"></div>
+                    </div>
+                    <div id="strengthText"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <div class="input-container">
+                    <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required>
+                    <i class="fas fa-lock input-icon"></i>
+                </div>
+                <div class="error-message" id="confirmError"></div>
+                <div class="success-message" id="confirmSuccess">Passwords match!</div>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                Create Account
+                <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
+            </button>
+        </form>
+
+        <div class="login-link">
+            Already have an account? <a href="/login">Sign in here</a>
+        </div>
+    </div>
+
+    <script>
+        let isDarkMode = false;
+
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            const icon = document.querySelector('.theme-toggle i');
+            icon.className = isDarkMode ? 'fas fa-sun' : 'fas fa-moon';
+        }
+
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const icon = document.querySelector('.input-icon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.className = 'fas fa-eye-slash input-icon';
+            } else {
+                passwordInput.type = 'password';
+                icon.className = 'fas fa-eye input-icon';
+            }
+        }
+
+        document.getElementById('password').addEventListener('input', function() {
+            const password = this.value;
+            const strengthFill = document.getElementById('strengthFill');
+            const strengthText = document.getElementById('strengthText');
+            
+            let score = 0;
+            const checks = [
+                password.length >= 6,
+                /[a-z]/.test(password),
+                /[A-Z]/.test(password),
+                /\d/.test(password),
+                /[^a-zA-Z\d]/.test(password)
+            ];
+            
+            score = checks.filter(Boolean).length;
+            
+            const strength = ['Very Weak', 'Weak', 'Fair', 'Good', 'Strong'];
+            const colors = ['#ff6b6b', '#ff9500', '#ffcd00', '#48cae4', '#06ffa5'];
+            
+            strengthFill.style.width = (score * 20) + '%';
+            strengthFill.style.background = colors[score - 1] || '#e1e5e9';
+            strengthText.textContent = password ? strength[score - 1] || 'Very Weak' : '';
+        });
+
+        document.getElementById('confirmPassword').addEventListener('input', function() {
+            const password = document.getElementById('password').value;
+            const confirm = this.value;
+            const errorMsg = document.getElementById('confirmError');
+            const successMsg = document.getElementById('confirmSuccess');
+            
+            if (confirm && password !== confirm) {
+                errorMsg.style.display = 'block';
+                errorMsg.textContent = 'Passwords do not match';
+                successMsg.style.display = 'none';
+            } else if (confirm && password === confirm) {
+                errorMsg.style.display = 'none';
+                successMsg.style.display = 'block';
+            } else {
+                errorMsg.style.display = 'none';
+                successMsg.style.display = 'none';
+            }
+        });
+
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                e.preventDefault();
+                alert('Passwords do not match!');
+            }
+        });
+    </script>
+</body>
+</html>

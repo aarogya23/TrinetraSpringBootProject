@@ -1,0 +1,280 @@
+body{
+    font-family: 'Roboto';
+}
+
+.flexbox{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+}
+.navtext{
+    margin-top:40px;
+    margin-right: 60px;
+    display: flex;
+    gap:52px;
+    font-size: 24px;
+
+}
+.mainlogo{
+    margin-left: 60px;
+    margin-top: 50px;
+}
+.profile{
+    height:51px;
+    width:48px;
+    background-color: #f2af0d;
+    border-radius: 100%;
+    margin-top:40px;
+    margin-right:60px;
+}
+.navtext p{
+    font-weight: 600;
+}
+.navactive{
+    color: #f2af0d;
+}
+.sidenav{
+    width:283px;
+    margin-left: 60px;
+    margin-top: 100px;
+    align-items: center;
+}
+.logo1{
+    padding-top: 100px;
+    margin-left: 60px;
+    align-items: center;
+}
+.logo2{
+    padding-top: 100px;
+    margin-left: 60px;
+    align-items: center;
+}
+.logo3{
+    padding-top: 100px;
+    margin-left: 60px;
+    align-items: center;
+}
+.slider{
+    margin-left: 410px;
+    margin-top: -365px;
+    object-fit: cover;
+}
+.slider img{
+    height: 344px;
+     width: 563px;
+     border-radius: 10px;
+}
+.buttom{
+    text-decoration: none;
+    background-color: #f2af0d;
+    color: black;
+    padding: 12px 24px;
+    border-radius:15px;
+}
+.circle{
+    display: flex;
+    flex-direction: row;
+    margin-left:236px;
+}
+.circle1{
+    height:20px;
+    width:20px;
+    background-color: rgb(85, 85, 85);
+    border-radius: 100%;
+}
+.circle2{
+    height:20px;
+    width:20px;
+    background-color: rgb(85, 85, 85);
+    border-radius: 100%;
+    margin-left: 25px;
+}
+.circle3{
+    height:20px;
+    width:20px;
+    background-color: rgb(85, 85, 85);
+    border-radius: 100%;
+    margin-left: 25px;
+
+}
+.choice{
+    margin-left:613px;
+    margin-top:-375px;
+    font-size: 24px;
+}
+.option1{
+    height: 56px;
+    width: 278px;
+    background-color: #D9D9D9;
+    border-radius: 10px;
+}
+.option2{
+    height: 56px;
+    width: 278px;
+    background-color: #D9D9D9;
+    border-radius: 10px;
+    margin-top:50px;
+}
+.option3{
+    height: 56px;
+    width: 278px;
+    background-color: #D9D9D9;
+    border-radius: 10px;
+    margin-top:50px;
+}
+.spring{
+    margin-left:329px;
+    display: flex;
+    flex-direction: row;
+}
+.spring1{
+    height:197px;
+    width:311px;
+    background-color: #D9D9D9;
+    border-radius: 10px;
+}
+.spring2{
+    height:197px;
+    width:311px;
+    background-color: #D9D9D9;
+    margin-left:50px;
+    border-radius: 10px;
+}
+.spring3{
+    height:197px;
+    width:311px;
+    background-color: #D9D9D9;
+    margin-left:50px;
+    border-radius: 10px;
+}
+.freegame{
+    height:458px;
+    width:1031px;
+    background-color:#D9D9D9;
+    margin-left:331px;
+    margin-top: 125px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+
+}
+.image1{
+    width: 287px;
+    height: 332px;
+    background-color: #f2af0d;
+    margin-left: -126px;
+    margin-top: 87px;
+    border-radius: 10px;
+}
+.image2{
+    width: 287px;
+    height: 332px;
+    background-color: #f2af0d;
+    margin-left: 52px;
+    margin-top: 87px;
+    border-radius: 10px;
+}
+.image3{
+    width: 287px;
+    height: 332px;
+    background-color: #f2af0d;
+    margin-left: 52px;
+    margin-top: 87px;
+    border-radius: 10px;
+
+}
+.play{
+    margin-left:329px;
+    display: flex;
+    flex-direction: row;
+}
+.play1{
+    height:197px;
+    width:311px;
+    background-color: #D9D9D9;
+    border-radius: 10px;
+    margin-bottom: 561px;
+}
+.play2{
+    height:197px;
+    width:311px;
+    background-color: #D9D9D9;
+    margin-left:50px;
+    border-radius: 10px;
+    margin-bottom: 561px;
+}
+.play3{
+    height:197px;
+    width:311px;
+    background-color: #D9D9D9;
+    margin-left:50px;
+    border-radius: 10px;
+    margin-bottom: 561px;
+}
+.playsec{
+    margin-left:329px;
+    margin-top: -450px;
+    display: flex;
+    flex-direction: row;
+}
+.pl1{
+    height:197px;
+    width:311px;
+    background-color: #D9D9D9;
+    border-radius: 10px;
+    margin-bottom: 561px;
+}
+.pl2{
+    height:197px;
+    width:311px;
+    background-color: #D9D9D9;
+    margin-left:50px;
+    border-radius: 10px;
+    margin-bottom: 561px;
+}
+.pl3{
+    height:197px;
+    width:311px;
+    background-color: #D9D9D9;
+    margin-left:50px;
+    border-radius: 10px;
+    margin-bottom: 561px;
+}
+.fifa{
+    height:458px;
+    width:1031px;
+    background-color:#D9D9D9;
+    margin-left:331px;
+    margin-top: -350px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 60px;
+
+}
+.fifa1{
+    width: 287px;
+    height: 332px;
+    background-color: #f2af0d;
+    margin-left: -126px;
+    margin-top: 87px;
+    border-radius: 10px;
+}
+.fifa2{
+    width: 287px;
+    height: 332px;
+    background-color: #f2af0d;
+    margin-left: 52px;
+    margin-top: 87px;
+    border-radius: 10px;
+}
+.fifa3{
+    width: 287px;
+    height: 332px;
+    background-color: #f2af0d;
+    margin-left: 52px;
+    margin-top: 87px;
+    border-radius: 10px;
+
+}

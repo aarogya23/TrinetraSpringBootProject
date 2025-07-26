@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login to Trinetra Games</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .shape {
+            position: absolute;
+            background: rgba(255, 149, 0, 0.08);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            left: 80%;
+            animation-delay: 2s;
+            background: rgba(255, 205, 0, 0.08);
+        }
+
+        .shape:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            left: 60%;
+            animation-delay: 4s;
+            background: rgba(255, 165, 0, 0.1);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 25px 50px rgba(255, 149, 0, 0.15);
+            animation: slideUp 0.8s ease-out;
+            border: 2px solid rgba(255, 149, 0, 0.1);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            width: 200px;
+            height: 120px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 10px 30px rgba(255, 149, 0, 0.4);
+            overflow: hidden;
+        }
+
+        .logo img {
+            width: 200px;
+            height: auto;
+            object-fit: contain;
+            border-radius: 20px;
+        }
+
+        .logo-white {
+            display: block;
+        }
+
+        .logo-dark {
+            display: none;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #ff9500, #ffcd00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .input-container {
+            position: relative;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #ffe4b3;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #fffef9;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #ff9500;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(255, 149, 0, 0.1);
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #ffb84d;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .input-icon:hover {
+            color: #ff9500;
+        }
+
+        .forgot-password {
+            text-align: right;
+            margin-top: 8px;
+        }
+
+        .forgot-password a {
+            color: #ff9500;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-password a:hover {
+            color: #e6840b;
+            text-decoration: underline;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #ff9500, #ffcd00);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 149, 0, 0.4);
+            background: linear-gradient(135deg, #e6840b, #e6b800);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .divider {
+            text-align: center;
+            margin: 25px 0;
+            position: relative;
+            color: #999;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #ffe4b3;
+        }
+
+        .divider span {
+            background: white;
+            padding: 0 15px;
+            font-size: 14px;
+        }
+
+        .social-login {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #ffe4b3;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .social-btn:hover {
+            border-color: #ff9500;
+            background: #fffef9;
+            transform: translateY(-1px);
+        }
+
+        .social-btn.google {
+            color: #4285f4;
+        }
+
+        .social-btn.facebook {
+            color: #1877f2;
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 25px;
+            color: #666;
+        }
+
+        .signup-link a {
+            color: #ff9500;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .signup-link a:hover {
+            text-decoration: underline;
+            color: #e6840b;
+        }
+
+        .error-message {
+            color: #ff4757;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .remember-me input[type="checkbox"] {
+            margin-right: 8px;
+            accent-color: #ff9500;
+        }
+
+        .remember-me label {
+            font-size: 14px;
+            color: #666;
+            cursor: pointer;
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+                padding: 30px 25px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+
+            .social-login {
+                flex-direction: column;
+            }
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 149, 0, 0.1);
+            border: 2px solid rgba(255, 149, 0, 0.2);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            color: #ff9500;
+            font-size: 20px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 149, 0, 0.2);
+            transform: scale(1.1);
+        }
+
+        .dark-mode {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #0f0f0f 100%);
+        }
+
+        .dark-mode .shape {
+            background: rgba(255, 149, 0, 0.1);
+        }
+
+        .dark-mode .shape:nth-child(2) {
+            background: rgba(255, 205, 0, 0.08);
+        }
+
+        .dark-mode .shape:nth-child(3) {
+            background: rgba(255, 165, 0, 0.12);
+        }
+
+        .dark-mode .container {
+            background: rgba(30, 30, 30, 0.95);
+            color: white;
+            border: 1px solid rgba(255, 149, 0, 0.2);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .dark-mode h1 {
+            color: white;
+            background: linear-gradient(135deg, #ff9500, #ffcd00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .dark-mode .subtitle {
+            color: #bdc3c7;
+        }
+
+        .dark-mode .form-group label {
+            color: #ecf0f1;
+        }
+
+        .dark-mode .form-control {
+            background: rgba(40, 40, 40, 0.8);
+            border-color: #4a4a4a;
+            color: white;
+        }
+
+        .dark-mode .form-control:focus {
+            background: rgba(40, 40, 40, 1);
+            border-color: #ff9500;
+        }
+
+        .dark-mode .signup-link {
+            color: #bdc3c7;
+        }
+
+        .dark-mode .signup-link a {
+            color: #ffb84d;
+        }
+
+        .dark-mode .signup-link a:hover {
+            color: #ff9500;
+        }
+
+        .dark-mode .forgot-password a {
+            color: #ffb84d;
+        }
+
+        .dark-mode .forgot-password a:hover {
+            color: #ff9500;
+        }
+
+        .dark-mode .logo-white {
+            display: none;
+        }
+
+        .dark-mode .logo-dark {
+            display: block;
+        }
+
+        .dark-mode .input-icon {
+            color: #ff9500;
+        }
+
+        .dark-mode .input-icon:hover {
+            color: #ffb84d;
+        }
+
+        .dark-mode .theme-toggle {
+            background: rgba(255, 149, 0, 0.2);
+        }
+
+        .dark-mode .theme-toggle:hover {
+            background: rgba(255, 149, 0, 0.4);
+        }
+
+        .dark-mode .divider::before {
+            background: #4a4a4a;
+        }
+
+        .dark-mode .divider span {
+            background: rgba(30, 30, 30, 0.95);
+            color: #bdc3c7;
+        }
+
+        .dark-mode .social-btn {
+            background: rgba(40, 40, 40, 0.8);
+            border-color: #4a4a4a;
+            color: #ecf0f1;
+        }
+
+        .dark-mode .social-btn:hover {
+            background: rgba(40, 40, 40, 1);
+            border-color: #ff9500;
+        }
+
+        .dark-mode .social-btn.google {
+            color: #4285f4;
+        }
+
+        .dark-mode .social-btn.facebook {
+            color: #1877f2;
+        }
+
+        .dark-mode .remember-me label {
+            color: #bdc3c7;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation">
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+    </div>
+
+    <button class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <img src="/image/black.png" alt="Trinetra Games Logo" class="logo-white">
+                <img src="/image/white.png" alt="Trinetra Games Logo" class="logo-dark">
+            </div>
+            <h1>Welcome Back</h1>
+            <p class="subtitle">Sign in to your Trinetra Games account</p>
+        </div>
+
+        <form id="loginForm" method="POST" action="/login">
+            <div class="form-group">
+                <label for="email"> Username</label>
+                <div class="input-container">
+                    <input type="text" id="email" name="username" class="form-control" required>
+                    <i class="fas fa-user input-icon"></i>
+                </div>
+                <div class="error-message" id="emailError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="input-container">
+                    <input type="password" id="password" name="password" class="form-control" required>
+                    <i class="fas fa-eye input-icon" onclick="togglePassword()"></i>
+                </div>
+                <div class="forgot-password">
+                    <a href="/forgot-password">Forgot your password?</a>
+                </div>
+            </div>
+
+            <div class="remember-me">
+                <input type="checkbox" id="remember" name="remember">
+                <label for="remember">Remember me</label>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                Sign In
+                <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
+            </button>
+        </form>
+
+        <div class="divider">
+            <span>or continue with</span>
+        </div>
+
+        <div class="social-login">
+            <button class="social-btn google" onclick="loginWithGoogle()">
+                <i class="fab fa-google"></i>
+                Google
+            </button>
+            <button class="social-btn facebook" onclick="loginWithFacebook()">
+                <i class="fab fa-facebook-f"></i>
+                Facebook
+            </button>
+        </div>
+
+        <div class="signup-link">
+            Don't have an account? <a href="/signup">Create one here</a>
+        </div>
+    </div>
+
+    <script>
+        let isDarkMode = false;
+
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            const icon = document.querySelector('.theme-toggle i');
+            icon.className = isDarkMode ? 'fas fa-sun' : 'fas fa-moon';
+        }
+
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const icon = document.querySelector('.input-icon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.className = 'fas fa-eye-slash input-icon';
+            } else {
+                passwordInput.type = 'password';
+                icon.className = 'fas fa-eye input-icon';
+            }
+        }
+
+        function loginWithGoogle() {
+            // Placeholder for Google login functionality
+            alert('Google login integration would be implemented here');
+        }
+
+        function loginWithFacebook() {
+            // Placeholder for Facebook login functionality
+            alert('Facebook login integration would be implemented here');
+        }
+
+        // Form validation
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            if (!email || !password) {
+                e.preventDefault();
+                alert('Please fill in all fields');
+                return;
+            }
+
+            // Basic email/username validation
+            if (email.includes('@') && !email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+                e.preventDefault();
+                document.getElementById('emailError').style.display = 'block';
+                document.getElementById('emailError').textContent = 'Please enter a valid email address';
+                return;
+            }
+
+            // Clear any previous errors
+            document.getElementById('emailError').style.display = 'none';
+        });
+
+        // Clear error messages on input
+        document.getElementById('email').addEventListener('input', function() {
+            document.getElementById('emailError').style.display = 'none';
+        });
+
+        // Add some subtle animations
+        document.querySelectorAll('.form-control').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.parentElement.style.transform = 'scale(1.02)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.parentElement.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

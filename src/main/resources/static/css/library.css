@@ -1,0 +1,54 @@
+body{
+    font-family: 'Roboto';
+}
+.sidenav1{
+    margin-left: 60px;
+    margin-top: 100px;
+}
+.logo1{
+    margin-top: 100px;
+}
+.navtext{
+    margin-left:50px;
+     display: flex; 
+     margin-top: 50px; 
+     font-weight: 600; 
+     font-size: 24px; 
+     align-items: center;
+}
+.search{
+    height: 44px; 
+    width: 194px;
+    background-color:#DFDEDE;
+    border-radius: 10px;
+}
+.first{
+    display: flex;
+    margin-top: 100px;
+    font-size: 24px;
+}
+.Second{
+    display: flex;
+    margin-top: 80px;
+    font-size: 24px;
+}
+.game{
+    display: flex;
+    margin-top: 100px;
+}
+.game1{
+    display: flex;
+    margin-top: 50px;
+}
+.game2{
+    display: flex;
+    margin-top: 50px;
+}
+.filter{
+    width:346px ;
+    height:486px ;
+    background-color:#D9D9D9 ;
+    margin-left: 1034px;
+    border-radius: 10px;
+    margin-top: -1030px;
+}

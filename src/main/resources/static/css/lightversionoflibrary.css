@@ -1,0 +1,98 @@
+/* Light Theme Variables */
+:root {
+    --primary-bg: #ffffff;
+    --secondary-bg: #f0f0f0;
+    --accent-color: #ff8c00;
+    --hover-accent: #ff7700;
+    --text-color: #222222;
+    --text-dark: #111111;
+    --light-bg: #f9f9f9;
+    --card-bg: #ffffff;
+    --border-radius: 10px;
+    --transition: all 0.3s ease;
+    --box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.library-header,
+.library-controls,
+.empty-library,
+.game-card,
+.secret-code-section,
+.game-list-item,
+.toast {
+    background: linear-gradient(135deg, var(--card-bg), #eaeaea);
+    border: 1px solid #ccc;
+    color: var(--text-color);
+}
+
+.library-title {
+    background: linear-gradient(135deg, var(--accent-color), #ffaa33);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.stat-item {
+    background: rgba(255, 140, 0, 0.15);
+}
+
+.view-btn,
+.filter-dropdown select,
+.library-search input,
+.btn-secondary {
+    background: #fff;
+    color: var(--text-color);
+    border: 1px solid #ccc;
+}
+
+.view-btn:hover,
+.btn-secondary:hover,
+.toggle-code-btn:hover {
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+    background: rgba(255, 140, 0, 0.1);
+}
+
+.view-btn.active,
+.btn-primary,
+.copy-code-btn {
+    background: linear-gradient(135deg, var(--accent-color), var(--hover-accent));
+    color: white;
+}
+
+.library-search input:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 8px rgba(255, 140, 0, 0.3);
+}
+
+.secret-code {
+    background-color: #fafafa;
+    border: 1px dashed #aaa;
+    color: var(--accent-color);
+}
+
+.toast.success i {
+    color: #4CAF50;
+}
+
+.toast.info i {
+    color: #2196F3;
+}
+
+.toast.error i {
+    color: #f44336;
+}
+
+@media (max-width: 768px) {
+    .library-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    .games-grid {
+        grid-template-columns: 1fr;
+    }
+    .game-list-item {
+        flex-direction: column;
+        text-align: center;
+    }
+}
