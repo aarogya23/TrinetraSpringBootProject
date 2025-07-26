@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trinetra Games</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+    <link  href="" th:href="@{/css/Index.css}" rel="stylesheet">
+   <style>
+
+    
+   @media (max-width: 576px) {
+    .card-img-top {
+        max-height: 345px;
+    }
+    #eafc{
+            max-height: 171px;
+    }
+
+    .scroll-container {
+     overflow-x: auto;
+     -webkit-overflow-scrolling: touch;
+    }
+
+    .scroll-container .row {
+     flex-wrap: nowrap;
+    }
+
+    .scroll-container .col-10 {
+        flex: 0 0 auto;
+    }
+
+    }
+    .theme-toggle {
+        background: var(--toggle-bg, #333);
+        border: 2px solid var(--toggle-border, #555);
+        border-radius: 50px;
+        padding: 6px 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        margin-left: 15px;
+    }
+
+    .theme-toggle:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .theme-toggle i {
+        font-size: 16px;
+        color: var(--toggle-icon-color, #fff);
+        transition: all 0.3s ease;
+    }
+
+    .theme-toggle-text {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--toggle-text-color, #fff);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* Mobile theme toggle styling */
+    @media (max-width: 768px) {
+        .theme-toggle {
+            margin-left: 0;
+            margin-top: 10px;
+            justify-content: center;
+        }
+        
+        .mobile-theme-toggle {
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+            border-top: 1px solid var(--border-color, #333);
+            margin-top: 10px;
+        }
+    }
+
+    /* Hide desktop theme toggle on mobile */
+    @media (max-width: 768px) {
+        .desktop-theme-toggle {
+            display: none !important;
+        }
+    }
+
+    /* Hide mobile theme toggle on desktop */
+    @media (min-width: 769px) {
+        .mobile-theme-toggle {
+            display: none !important;
+        }
+    }
+
+   /* Trinetra Color Theme Variables */
+:root {
+    --trinetra-primary: #FF8C00;  /* Dark Orange */
+    --trinetra-secondary: #FFD700; /* Gold/Yellow */
+    --trinetra-accent: #FF6B35;    /* Orange Red */
+    --trinetra-light: #FFF8E1;     /* Light Yellow */
+    --trinetra-gradient: linear-gradient(135deg, #FF8C00, #FFD700);
+    --trinetra-gradient-reverse: linear-gradient(135deg, #FFD700, #FF8C00);
+}
+
+/* Chat Container Styles */
+.chat-container {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background: var(--card-bg, #ffffff);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(255, 140, 0, 0.15);
+    border: 2px solid var(--trinetra-primary);
+    min-height: 600px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* Model Selector */
+.model-selector {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: var(--trinetra-light, #FFF8E1);
+    border-radius: 12px;
+    border: 2px solid var(--trinetra-secondary, #FFD700);
+}
+
+.model-selector label {
+    display: block;
+    font-weight: 600;
+    color: var(--text-color, #333);
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.model-selector select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--trinetra-primary, #FF8C00);
+    border-radius: 8px;
+    background: var(--input-bg, #ffffff);
+    color: var(--text-color, #333);
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.model-selector select:focus {
+    outline: none;
+    border-color: var(--trinetra-secondary, #FFD700);
+    box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+}
+
+/* Chat Box */
+.chat-box {
+    flex: 1;
+    padding: 1.5rem;
+    background: var(--chat-bg, #fafafa);
+    border-radius: 15px;
+    border: 2px solid var(--trinetra-secondary, #FFD700);
+    overflow-y: auto;
+    max-height: 500px;
+    min-height: 400px;
+    margin-bottom: 1.5rem;
+    position: relative;
+    box-shadow: inset 0 2px 8px rgba(255, 140, 0, 0.1);
+}
+
+/* Custom Scrollbar */
+.chat-box::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-box::-webkit-scrollbar-track {
+    background: var(--trinetra-light, #FFF8E1);
+    border-radius: 4px;
+}
+
+.chat-box::-webkit-scrollbar-thumb {
+    background: var(--trinetra-gradient);
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+.chat-box::-webkit-scrollbar-thumb:hover {
+    background: var(--trinetra-gradient-reverse);
+}
+
+/* Empty Chat Message */
+.empty-chat-message {
+    text-align: center;
+    color: var(--text-muted, #666);
+    padding: 3rem 1rem;
+}
+
+.empty-chat-message p {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    background: var(--trinetra-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Quick Suggestions */
+.quick-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+.quick-suggestions p {
+    width: 100%;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-color, #333);
+    margin-bottom: 1rem;
+}
+
+.quick-suggestions button {
+    padding: 0.6rem 1.2rem;
+    background: var(--trinetra-gradient);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.quick-suggestions button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 140, 0, 0.4);
+    background: var(--trinetra-gradient-reverse);
+}
+
+.quick-suggestions button:active {
+    transform: translateY(0);
+}
+
+/* Chat Messages */
+.message {
+    margin-bottom: 1.5rem;
+    padding: 1rem 1.5rem;
+    border-radius: 18px;
+    max-width: 85%;
+    word-wrap: break-word;
+    position: relative;
+    animation: fadeInUp 0.4s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* User Messages */
+.message.user {
+    background: var(--trinetra-gradient);
+    color: white;
+    margin-left: auto;
+    border-bottom-right-radius: 6px;
+    box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Bot Messages */
+.message.bot {
+    background: var(--bot-message-bg, #ffffff);
+    color: var(--text-color, #333);
+    margin-right: auto;
+    border: 2px solid var(--trinetra-secondary, #FFD700);
+    border-bottom-left-radius: 6px;
+    box-shadow: 0 2px 10px rgba(255, 215, 0, 0.15);
+}
+
+/* Trinetra Badge */
+.trinetra-badge {
+    display: inline-block;
+    background: var(--trinetra-gradient);
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 8px rgba(255, 140, 0, 0.3);
+}
+
+/* Loading Animation */
+.loading-dots {
+    display: inline-block;
+    animation: loadingDots 1.5s infinite;
+}
+
+@keyframes loadingDots {
+    0%, 20% { content: ''; }
+    40% { content: '.'; }
+    60% { content: '..'; }
+    80%, 100% { content: '...'; }
+}
+
+/* Input Container */
+.input-container {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--input-container-bg, #ffffff);
+    border-radius: 15px;
+    border: 2px solid var(--trinetra-primary, #FF8C00);
+    transition: all 0.3s ease;
+}
+
+.input-container:focus-within {
+    border-color: var(--trinetra-secondary, #FFD700);
+    box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+    background: var(--trinetra-light, #FFF8E1);
+}
+
+#userInput {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 10px;
+    background: var(--input-bg, #f8f9fa);
+    color: var(--text-color, #333);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    resize: none;
+    min-height: 20px;
+    max-height: 120px;
+}
+
+#userInput:focus {
+    outline: none;
+    background: var(--trinetra-light, #FFF8E1);
+    box-shadow: 0 2px 8px rgba(255, 140, 0, 0.15);
+}
+
+#userInput::placeholder {
+    color: var(--placeholder-color, #888);
+    font-style: italic;
+}
+
+/* Send Button */
+.send-button {
+    padding: 0.75rem 1.5rem;
+    background: var(--trinetra-gradient);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.send-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 140, 0, 0.4);
+    background: var(--trinetra-gradient-reverse);
+}
+
+.send-button:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.send-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: 0 2px 8px rgba(255, 140, 0, 0.2);
+}
+
+/* Dark Theme Variables */
+[data-theme="dark"] {
+    --card-bg: #1a1a1a;
+    --chat-bg: #252525;
+    --input-container-bg: #1a1a1a;
+    --input-bg: #2d2d2d;
+    --bot-message-bg: #2d2d2d;
+    --text-color: #ffffff;
+    --text-muted: #aaa;
+    --placeholder-color: #666;
+    --trinetra-light: #2d2d2d;
+    
+    /* Maintain Trinetra colors in dark theme */
+    --trinetra-primary: #FF8C00;
+    --trinetra-secondary: #FFD700;
+    --trinetra-accent: #FF6B35;
+    --trinetra-gradient: linear-gradient(135deg, #FF8C00, #FFD700);
+    --trinetra-gradient-reverse: linear-gradient(135deg, #FFD700, #FF8C00);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .chat-container {
+        margin: 1rem;
+        padding: 1rem;
+        border-radius: 15px;
+        min-height: 500px;
+    }
+    
+    .chat-box {
+        padding: 1rem;
+        min-height: 300px;
+        max-height: 400px;
+    }
+    
+    .message {
+        max-width: 95%;
+        padding: 0.8rem 1rem;
+        font-size: 0.95rem;
+    }
+    
+    .quick-suggestions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .quick-suggestions button {
+        width: 100%;
+        max-width: 250px;
+    }
+    
+    .input-container {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .send-button {
+        width: 100%;
+        padding: 1rem;
+    }
+    
+    .empty-chat-message {
+        padding: 2rem 0.5rem;
+    }
+    
+    .empty-chat-message p {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .chat-container {
+        margin: 0.5rem;
+        padding: 0.75rem;
+    }
+    
+    .model-selector {
+        padding: 0.75rem;
+    }
+    
+    .chat-box {
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+    }
+    
+    .message {
+        padding: 0.7rem 0.9rem;
+        font-size: 0.9rem;
+    }
+    
+    #userInput {
+        padding: 0.7rem 0.9rem;
+        font-size: 0.95rem;
+    }
+}
+
+   </style>
+</head>
+<body>
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toast-container">
+        <!-- Toasts will be dynamically added here -->
+    </div>
+
+     <header class="header">
+        <div class="header-main">
+            <div class="logo">
+                <img src="resources/image/black.png" alt="Trinetra Games" class="logo">
+            </div>
+            <!-- Desktop Navigation -->
+            <nav class="main-nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="AiAsk.html" class="nav-link">AskAi</a>
+                <a href="library.html" class="nav-link">Library</a>
+                <a href="wishlist.html" class="nav-link" id="wishlist-link">
+                    Wishlist
+                    <span class="badge" id="wishlist-badge"></span>
+                </a>
+                <a href="cart" class="nav-link active" id="cart-link">
+                    Cart
+                    <span class="badge" id="cart-badge">1</span>
+                </a>
+            </nav>
+            
+            <!-- Desktop Search Box -->
+            <div class="search-box desktop-search">
+                <form id="search-form">
+                    <input
+                        type="text"
+                        placeholder="Search for games..."
+                        id="searchInput"
+                        aria-label="Search for games"
+                        oninput="searchGames()"
+                    >
+                    <button type="submit" aria-label="Search">Search</button>
+                    <div id="searchResults" class="search-results"></div>
+                </form>
+            </div>
+
+            
+            <!-- Desktop Theme Toggle -->
+            <div class="theme-toggle desktop-theme-toggle" id="theme-toggle">
+                <i class="fas fa-sun" id="theme-icon"></i>
+                <span class="theme-toggle-text" id="theme-text">Light</span>
+            </div>
+            
+            
+            <!-- Profile with Dropdown - for Desktop -->
+            <div class="profile-container" id="profile-container">
+                <img src="image/question.png" alt="Profile" class="profile-icon" style="border-radius: 50%;">
+                
+                <!-- Profile Dropdown Menu -->
+                <div class="profile-dropdown" id="profile-dropdown" style="display: none;">
+                    <a th:href="@{/profilepage}" class="dropdown-item" target="_blank">Profile</a>
+                    
+                    <a href="signup" class="dropdown-item">Payment Connection</a>
+                    <div class="dropdown-item logout" id="logout-button">Logout</div>
+                </div>
+            </div>
+            
+            <div class="hamburger-menu" id="hamburger-menu">
+                <div class="humburger-icon" id="hamburger-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation (Includes Search when opened) -->
+        <div class="mobile-nav" id="mobile-nav">
+            <!-- Mobile Profile Section at the top of mobile menu -->
+            <div class="mobile-profile-section">
+                <div class="mobile-profile-container" id="mobile-profile-container">
+                    <img src="profile.jpg" alt="Profile" class="mobile-profile-icon">
+                    <div class="mobile-profile-info">
+                        <div class="mobile-profile-name">User Profile</div>
+                        
+                        <!-- Mobile Profile Dropdown Menu -->
+                        <div class="mobile-profile-dropdown" id="mobile-profile-dropdown" style="display: none;">
+                            <a href="profile.html" class="dropdown-item">My Profile</a>
+                            <a href="settings.html" class="dropdown-item">Settings</a>
+                            <div class="dropdown-item logout" id="mobile-logout-button">Logout</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="index.html" class="nav-link">AskAi</a>
+            <a href="LIBARAY.html" class="nav-link">Library</a>
+            <a href="wishlist.html" class="nav-link" id="mobile-wishlist-link">
+                Wishlist
+                <span class="badge" id="mobile-wishlist-badge"></span>
+            </a>
+            <a href="ADD TO CART1.html" class="nav-link active" id="mobile-cart-link">
+                Cart
+                <span class="badge" id="mobile-cart-badge">1</span>
+            </a>
+            
+            <!-- Mobile Search Box -->
+            <div class="search-box mobile-search">
+                <form id="mobile-search-form">
+                    <input
+                        type="text"
+                        placeholder="Search for games..."
+                        id="mobile-search-input"
+                        aria-label="Search for games"
+                    >
+                    <button type="submit" aria-label="Search">Search</button>
+                </form>
+            </div>
+
+            <!-- Mobile Theme Toggle -->
+            <div class="mobile-theme-toggle">
+                <div class="theme-toggle" id="mobile-theme-toggle">
+                    <i class="fas fa-sun" id="mobile-theme-icon"></i>
+                    <span class="theme-toggle-text" id="mobile-theme-text">Light</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+
+    <div class="chat-container">
+        <!-- Model Selector -->
+        <div class="model-selector">
+            <label for="model-select">Choose AI Model:</label>
+            <select id="model-select">
+                <option value="both">Both Models (DeepSeek + Qwen)</option>
+                <option value="deepseek">DeepSeek Only</option>
+                <option value="qwen">Qwen Only</option>
+                <option value="chatbot">Chat all about Trinetra Games</option>
+            </select>
+        </div>
+        
+        <!-- Chat Box -->
+        <div class="chat-box" id="chatBox">
+            <div class="empty-chat-message">
+                <p>🎮 Welcome to Trinetra Games AI Assistant!</p>
+                <div class="quick-suggestions">
+                    <p><strong>Try asking about:</strong></p>
+                    <button onclick="askQuestion('What is Trinetra Store?')">What is Trinetra Store?</button>
+                    <button onclick="askQuestion('Game prices')">Game Prices</button>
+                    <button onclick="askQuestion('Free games')">Free Games</button>
+                    <button onclick="askQuestion('Popular games')">Popular Games</button>
+                    <button onclick="askQuestion('Who develops games?')">Game Developers</button>
+                    <button onclick="askQuestion('Store features')">Store Features</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Input Container -->
+        <div class="input-container">
+            <input
+                type="text"
+                id="userInput"
+                placeholder="Ask me anything about Trinetra Games..."
+            />
+            <button class="send-button" id="sendButton" onclick="handleSendMessage()">
+                Send
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="nav justify-content-center">
+                        <li class="nav-item"><a class="nav-link" href="About.jsp">About Us</a></li>
+                        <li class="nav-item"><a class="nav-link" href="News.jsp">News</a></li>
+                        <li class="nav-item"><a class="nav-link" href="Contact.jsp">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link" href="Adminlogin">Admin</a></li>
+                    </ul>
+              </ul>
+            <p class="mt-3">
+                Learn more about our mission, vision, and the team behind our company in the <strong>About Us</strong> section. Explore our wide range of products and enjoy a seamless shopping experience in the <strong>Shop</strong> section. We value your feedback, so please share your thoughts and help us improve our services in the <strong>Feedback</strong> section. Read our <strong>Privacy Policy</strong> to understand how we handle your personal data.
+            </p>
+            <div class="container d-flex justify-content-between">
+                <p>&copy; 2024 Trinetra Game Studio</p>
+                <div>
+                    <a href="#" class="mx-2 text-light">Privacy Policy</a>
+                    <a href="#" class="mx-2 text-light">Terms of Service</a>
+                    <a href="#" class="mx-2 text-light">Contact Us</a>
+                </div>
+                <div>
+                    <a href="https://www.facebook.com/aarogya.thapa.947905" class="mx-2 text-light" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://github.com/aarogya23" class="mx-2 text-light" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://www.instagram.com/aarogyathapa2/" class="mx-2 text-light" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/aarogya-thapa-8172962b8/" class="mx-2 text-light" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="navbar.js">  
+    </script>
+    <!-- Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let messages = [];
+        let isLoading = false;
+
+        // Enhanced Trinetra Games knowledge base
+        const trineteraGameReplies = {
+            // Core Store Information
+            'what is trinetra store': 'Trinetra Store is a comprehensive gaming platform developed by Aarogya Thapa, offering a vast collection of games from indie developers to AAA studios. We provide digital game downloads, exclusive titles, early access games, and a community-driven gaming experience with advanced features like cloud saves and achievement tracking.',
+            
+            'trinetra store': 'Welcome to Trinetra Store! 🎮 Your ultimate gaming destination featuring thousands of games, competitive prices, instant downloads, cloud saves, achievement tracking, and exclusive gaming content. Built by passionate gamers, for passionate gamers!',
+            
+            'about trinetra': 'Trinetra is a revolutionary gaming platform created by Aarogya Thapa. We\'re dedicated to bringing the best gaming experiences to players worldwide, supporting both indie developers and major studios while building a strong gaming community.',
+            
+            // Game Developers
+            'who develops games': 'Games on Trinetra Store are developed by a diverse community: Our platform is managed by Aarogya Thapa, and we host games from AAA developers (Ubisoft, EA, Activision), innovative indie studios, solo developers with unique creative visions, and community modders creating amazing content.',
+            
+            'game developers': 'Trinetra Store proudly supports developers of all sizes! From major studios releasing blockbuster titles to indie developers sharing their creative projects. We provide comprehensive developer tools, detailed analytics, fair revenue sharing programs, and marketing support to help creators succeed.',
+            
+            'indie developers': 'Trinetra Store is a haven for indie developers! 🌟 We offer featured sections for indie games, development grants, marketing assistance, fair revenue splits (70/30), and direct community feedback. Discover unique, innovative games from creative independent studios worldwide.',
+            
+            // Game Prices and Economy
+            'game prices': 'Trinetra Store offers competitive pricing across all categories: 💰 Free-to-Play titles, Budget games ($5-15), Indie masterpieces ($10-30), Mid-tier adventures ($20-40), AAA blockbusters ($50-70). Plus regular sales with discounts up to 80% during seasonal events!',
+            
+            'how much do games cost': 'Our pricing structure is designed to be accessible: Free games (F2P, demos, community content), Budget titles ($5-15), Indie gems ($10-30), Premium games ($20-40), AAA releases ($50-70). Check our daily deals and seasonal sales for incredible discounts!',
+            
+            'cheap games': 'Find amazing deals in our Budget section! 💸 Daily deals offer up to 75% off, our Free-to-Play collection is constantly expanding, and seasonal sales provide incredible value. Many award-winning indie games are available under $20 with regular promotions.',
+            
+            'free games': 'Enjoy our extensive Free-to-Play collection! 🎮 Features include battle royales, MMORPGs, puzzle games, indie titles, weekly free games, demos for premium titles, and special free weekend events. No hidden costs, just pure gaming fun!',
+            
+            // Game Library and Categories
+            'what games available': 'Trinetra Store boasts 10,000+ games across every genre! 🎯 Action, Adventure, RPG, Strategy, Simulation, Sports, Racing, Horror, Puzzle, Indie, VR games, early access titles, and exclusive Trinetra originals. Something for every gamer!',
+            
+            'game genres': 'Explore our comprehensive genre collection: Action/Adventure, RPG, Strategy, FPS, Racing, Sports, Simulation, Horror, Puzzle, Platformer, Fighting, MMO, Battle Royale, Indie, VR, and more! Use our advanced filtering system to find your perfect game.',
+            
+            'popular games': 'Trending on Trinetra Store: Latest AAA releases, breakout indie hits, competitive esports titles, and exclusive Trinetra originals. Check our "Most Popular," "Trending Now," and "Staff Picks" sections for the hottest games!',
+            
+            'new games': 'Stay updated with our "New Releases" section! 🆕 We add fresh content daily, including day-one releases, early access titles, indie debuts, and exclusive launches. Never miss the latest gaming experiences!',
+            
+            // Store Features and Technology
+            'store features': 'Trinetra Store delivers cutting-edge features: ⚡ Lightning-fast downloads, cloud saves across devices, comprehensive achievement system, social features, game reviews, streaming integration, VR support, controller compatibility, and offline mode for supported games.',
+            
+            'download games': 'Experience instant gaming with our high-speed global server network! 🚀 Games install automatically, update seamlessly in the background, and sync across all your devices with cloud saves. Average download time: 15-30 minutes for most games.',
+            
+            'cloud saves': 'Never lose your progress! ☁️ Our cloud save system automatically backs up your game data across all devices. Play on PC, continue on mobile, or switch between devices seamlessly. Your achievements and progress are always safe.',
+            
+            'achievements': 'Unlock and showcase your gaming prowess! 🏆 Our achievement system tracks your progress across all games, allows you to compare with friends, and rewards dedicated players with exclusive badges and rewards.',
+            
+            // Customer Support and Policies
+            'refund policy': 'Customer satisfaction guaranteed! 💯 Get full refunds within 14 days of purchase if you\'ve played less than 2 hours. Automatic refunds for technical issues, pre-orders can be cancelled anytime before release, and our support team is here to help 24/7.',
+            
+            'customer support': 'Our dedicated support team is available 24/7 to help with any issues! 🎧 Contact us through live chat, email, or our comprehensive help center. We typically respond within 1 hour and resolve most issues immediately.',
+            
+            'payment methods': 'We accept all major payment methods for your convenience: 💳 Credit/debit cards, PayPal, digital wallets, Trinetra gift cards, cryptocurrency, and regional payment options. All transactions are secure with 256-bit encryption.',
+            
+            // Community and Social Features
+            'gaming community': 'Join our thriving community of 50+ million gamers! 🌍 Participate in game forums, developer Q&As, user reviews, friend lists, achievement sharing, streaming integration, community events, tournaments, and beta testing programs.',
+            
+            'multiplayer games': 'Connect and compete with our multiplayer collection! 🎮 Co-op adventures, competitive esports, MMORPGs, battle royales, party games, built-in voice chat, easy friend invites, and cross-platform play support.',
+            
+            'social features': 'Stay connected with fellow gamers! 👥 Add friends, join groups, share achievements, create and join tournaments, participate in community challenges, and showcase your gaming library.',
+            
+            // Technical and Platform Support
+            'system requirements': 'Trinetra Store supports a wide range of systems! 💻 Each game\'s store page shows minimum and recommended specs. We support Windows 10/11, macOS, Linux, with mobile and cloud gaming options for premium members.',
+            
+            'platforms supported': 'Game anywhere with Trinetra Store! 🌐 Available on Windows PC, Mac, Linux, iOS, Android, and through our cloud gaming service. Cross-platform saves, achievements, and friend lists across all devices.',
+            
+            'mobile gaming': 'Take Trinetra on the go! 📱 Access mobile versions of select games, companion apps for PC games, remote game streaming, and our full mobile store with touch-optimized interface and mobile-exclusive titles.',
+            
+            // Sales and Promotions
+            'game sales': 'Save big with our regular sales events! 🎉 Weekly deals (up to 50% off), seasonal mega-sales (up to 80% off), flash sales, publisher weekends, exclusive member discounts, and daily deals. Enable notifications to never miss a bargain!',
+            
+            'discounts': 'Multiple ways to save on Trinetra Store! 💰 Loyalty rewards program, bundle deals, early bird pricing, student discounts, volume discounts, seasonal sales, flash deals, and exclusive member pricing.',
+            
+            'seasonal sales': 'Our legendary seasonal sales are gaming events! 🎊 Summer Sale, Winter Sale, Spring Cleaning, and Fall Festival - each offering massive discounts, exclusive bundles, and limited-time offers you won\'t find anywhere else.',
+            
+            // Developer and Publisher Relations
+            'submit game': 'Ready to share your game with the world? 🚀 Developers can submit games through our streamlined Developer Portal. We review submissions within 7-14 days. Requirements include complete game build, marketing assets, age rating, and developer verification.',
+            
+            'developer program': 'Join our developer-friendly program! 🛠️ Benefits include competitive revenue sharing (70/30 split), comprehensive marketing support, detailed analytics tools, access to beta testing community, featured placement opportunities, and dedicated developer support.',
+            
+            'publisher support': 'We work closely with publishers of all sizes! 📈 From indie publishers to major studios, we provide marketing support, analytics insights, promotional opportunities, and direct access to our global gaming community.',
+            
+            // Security and Account Management
+            'account security': 'Your security is our priority! 🔒 Advanced two-factor authentication, encrypted payment processing, comprehensive privacy controls, suspicious activity monitoring, and our 24/7 security team keeping your account safe.',
+            
+            'privacy': 'We respect your privacy! 🛡️ Transparent privacy policy, minimal data collection, no selling of personal information, secure data storage, and full control over your privacy settings. Your gaming data stays yours.',
+            
+            // Future and Innovation
+            'future updates': 'Trinetra Store is constantly evolving! 🔮 Upcoming features include enhanced VR support, AI-powered game recommendations, advanced social features, expanded cloud gaming, and innovative tools for developers and players.',
+            
+            'vr support': 'Experience the future of gaming! 🥽 Trinetra Store supports major VR headsets including Oculus, HTC Vive, PlayStation VR, and more. Discover immersive VR experiences, from action adventures to creative applications.',
+            
+            'ai features': 'Powered by advanced AI technology! 🤖 Smart game recommendations, intelligent customer support, automated content moderation, personalized gaming experiences, and AI-assisted game discovery to find your next favorite game.',
+            
+            // Special Programs
+            'beta testing': 'Get early access to upcoming games! 🎮 Join our beta testing program to try games before release, provide feedback to developers, influence game development, and get exclusive beta tester rewards.',
+            
+            'loyalty program': 'Earn rewards for your gaming passion! ⭐ Our loyalty program offers points for purchases, exclusive discounts, early access to sales, special member pricing, and unique rewards for dedicated Trinetra Store users.',
+            
+            'gift cards': 'Perfect for any gamer! 🎁 Trinetra Store gift cards available in multiple denominations, never expire, can be used for games and in-game content, and make ideal gifts for birthdays, holidays, or any gaming occasion.'
+        };
+
+        // Enhanced keyword matching function
+        function findTrinetraReply(message) {
+            const lowerMessage = message.toLowerCase().trim();
+            
+            // Direct exact matches
+            if (trineteraGameReplies[lowerMessage]) {
+                return trineteraGameReplies[lowerMessage];
+            }
+            
+            // Advanced keyword matching with scoring
+            let bestMatch = null;
+            let bestScore = 0;
+            
+            for (const [key, reply] of Object.entries(trineteraGameReplies)) {
+                const keyWords = key.split(' ');
+                const messageWords = lowerMessage.split(' ');
+                
+                let score = 0;
+                
+                // Exact phrase matching (high score)
+                if (lowerMessage.includes(key)) {
+                    score += 10;
+                }
+                
+                // Individual word matching
+                keyWords.forEach(keyword => {
+                    messageWords.forEach(messageWord => {
+                        if (messageWord.includes(keyword) || keyword.includes(messageWord)) {
+                            score += 1;
+                        }
+                        if (messageWord === keyword) {
+                            score += 2;
+                        }
+                    });
+                });
+                
+                // Length bonus for longer matches
+                if (keyWords.length > 1) {
+                    score += keyWords.length * 0.5;
+                }
+                
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestMatch = reply;
+                }
+            }
+            
+            // Minimum score threshold
+            if (bestScore >= 2) {
+                return bestMatch;
+            }
+            
+            // Context-aware fallback responses
+            if (lowerMessage.includes('price') || lowerMessage.includes('cost') || lowerMessage.includes('money')) {
+                return trineteraGameReplies['game prices'];
+            }
+            if (lowerMessage.includes('free')) {
+                return trineteraGameReplies['free games'];
+            }
+            if (lowerMessage.includes('developer')) {
+                return trineteraGameReplies['game developers'];
+            }
+            if (lowerMessage.includes('download') || lowerMessage.includes('install')) {
+                return trineteraGameReplies['download games'];
+            }
+            if (lowerMessage.includes('support') || lowerMessage.includes('help')) {
+                return trineteraGameReplies['customer support'];
+            }
+            if (lowerMessage.includes('refund') || lowerMessage.includes('return')) {
+                return trineteraGameReplies['refund policy'];
+            }
+            if (lowerMessage.includes('sale') || lowerMessage.includes('discount')) {
+                return trineteraGameReplies['game sales'];
+            }
+            if (lowerMessage.includes('community') || lowerMessage.includes('social')) {
+                return trineteraGameReplies['gaming community'];
+            }
+            
+            return null;
+        }
+
+        // Quick question function
+        function askQuestion(question) {
+            document.getElementById('userInput').value = question;
+            handleSendMessage();
+        }
+
+        // Auto-scroll to bottom
+        function scrollToBottom() {
+            const chatBox = document.getElementById('chatBox');
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // API functions (unchanged)
+        async function fetchDeepSeekResponse(message) {
+            try {
+                const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+                    method: "POST",
+                    headers: {
+                        "Authorization": "Bearer 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",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        model: "deepseek/deepseek-r1-0528:free",
+                        messages: [{ role: 'user', content: message }]
+                    })
+                });
+                
+                const data = await response.json();
+                return data.choices[0]?.message?.content || 'No response from DeepSeek';
+            } catch (error) {
+                console.error('DeepSeek API call failed:', error);
+                return 'DeepSeek API temporarily unavailable';
+            }
+        }
+
+        async function fetchQwenResponse(message) {
+            try {
+                const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+                    method: "POST",
+                    headers: {
+                        "Authorization": "Bearer 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",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        model: "qwen/qwen3-8b:free",
+                        messages: [{ role: "user", content: message }]
+                    })
+                });
+                
+                const data = await response.json();
+                return data.choices[0]?.message?.content || "No response from Qwen";
+            } catch (error) {
+                console.error("Qwen API call failed:", error);
+                return "Qwen API temporarily unavailable";
+            }
+        }
+
+        // Message management
+        function addMessage(role, content) {
+            messages.push({ role, content });
+            renderMessages();
+            scrollToBottom();
+        }
+
+        function renderMessages() {
+            const chatBox = document.getElementById('chatBox');
+            
+            if (messages.length === 0) {
+                chatBox.innerHTML = `
+                    <div class="empty-chat-message">
+                        <p>🎮 Welcome to Trinetra Games AI Assistant!</p>
+                        <div class="quick-suggestions">
+                            <p><strong>Try asking about:</strong></p>
+                            <button onclick="askQuestion('What is Trinetra Store?')">What is Trinetra Store?</button>
+                            <button onclick="askQuestion('Game prices')">Game Prices</button>
+                            <button onclick="askQuestion('Free games')">Free Games</button>
+                            <button onclick="askQuestion('Popular games')">Popular Games</button>
+                            <button onclick="askQuestion('Who develops games?')">Game Developers</button>
+                            <button onclick="askQuestion('Store features')">Store Features</button>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            chatBox.innerHTML = messages.map(msg => `
+                <div class="message ${msg.role}">
+                    <span>${msg.content}</span>
+                </div>
+            `).join('');
+        }
+
+        // Main message handling
+        async function handleSendMessage() {
+            const input = document.getElementById('userInput');
+            const sendButton = document.getElementById('sendButton');
+            const modelSelect = document.getElementById('model-select');
+            
+            const userMessage = input.value.trim();
+            if (!userMessage || isLoading) return;
+            
+            addMessage('user', userMessage);
+            input.value = '';
+            
+            const selectedModel = modelSelect.value;
+            
+            // Trinetra Games only mode
+            if (selectedModel === 'chatbot') {
+                isLoading = true;
+                sendButton.textContent = 'Thinking...';
+                sendButton.disabled = true;
+                input.disabled = true;
+                modelSelect.disabled = true;
+                
+                // Add loading message
+                addMessage('bot', 'Trinetra Games Assistant is thinking<span class="loading-dots">...</span>');
+                
+                // Simulate thinking time
+                setTimeout(() => {
+                    messages.pop(); // Remove loading message
+                    
+                    const trineteraReply = findTrinetraReply(userMessage);
+                    if (trineteraReply) {
+                        addMessage('bot', `🎮 <span class="trinetra-badge">Trinetra Games</span><br><br>${trineteraReply}`);
+                    } else {
+                        addMessage('bot', `🎮 <span class="trinetra-badge">Trinetra Games</span><br><br>I specialize in helping with Trinetra Games Store questions! I can tell you about our games, prices, features, developers, community, and much more. Try asking about specific topics like "game prices," "store features," or "how to download games."`);
+                    }
+                    
+                    isLoading = false;
+                    sendButton.textContent = 'Send';
+                    sendButton.disabled = false;
+                    input.disabled = false;
+                    modelSelect.disabled = false;
+                    input.focus();
+                }, 2000);
+                
+                return;
+            }
+            
+            // Other AI models
+            isLoading = true;
+            sendButton.textContent = 'Sending...';
+            sendButton.disabled = true;
+            input.disabled = true;
+            modelSelect.disabled = true;
+            
+            // Add loading indicators
+            if (selectedModel === 'deepseek' || selectedModel === 'both') {
+                addMessage('bot', 'DeepSeek is thinking<span class="loading-dots">...</span>');
+            }
+            if (selectedModel === 'qwen' || selectedModel === 'both') {
+                addMessage('bot', 'Qwen is thinking<span class="loading-dots">...</span>');
+            }
+            
+            // Fetch responses
+            try {
+                if (selectedModel === 'deepseek' || selectedModel === 'both') {
+                    const deepSeekResponse = await fetchDeepSeekResponse(userMessage);
+                    messages.pop(); // Remove loading message
+                    addMessage('bot', `🤖 DeepSeek: ${deepSeekResponse}`);
+                }
+                
+                if (selectedModel === 'qwen' || selectedModel === 'both') {
+                    const qwenResponse = await fetchQwenResponse(userMessage);
+                    if (selectedModel === 'both') messages.pop();
+                    else if (selectedModel === 'qwen') messages.pop();
+                    addMessage('bot', `🧠 Qwen: ${qwenResponse}`);
+                }
+            } catch (error) {
+                console.error('Error fetching responses:', error);
+                addMessage('bot', 'Sorry, there was an error processing your request. Please try again.');
+            }
+            
+            isLoading = false;
+            sendButton.textContent = 'Send';
+            sendButton.disabled = false;
+            input.disabled = false;
+            modelSelect.disabled = false;
+            input.focus();
+        }
+
+        // Event listeners
+        document.getElementById('userInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !isLoading) {
+                handleSendMessage();
+            }
+        });
+
+        // Initialize
+        document.getElementById('userInput').focus();
+        renderMessages();
+    </script>
+<script async type='module' src='https://interfaces.zapier.com/assets/web-components/zapier-interfaces/zapier-interfaces.esm.js'></script>
+
+<script src="" th:src="@{js/themecontroller.js}"></script>
+<script src="" th:src="@{js/navbar.js}"></script>
+<script src="" th:src="@{js/search.js}"></script>
+</body>
+</html>
