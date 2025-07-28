@@ -154,7 +154,7 @@ function addEventListeners() {
             
             // Redirect to payment page after a short delay
             setTimeout(() => {
-                window.location.href = 'payment.html'; // Replace with your payment page URL
+                window.location.href = 'payment'; // Replace with your payment page URL
             }, 1000);
         });
     }
