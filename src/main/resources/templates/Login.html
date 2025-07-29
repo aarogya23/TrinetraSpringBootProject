@@ -518,8 +518,10 @@
                 <img src="/image/black.png" alt="Trinetra Games Logo" class="logo-white">
                 <img src="/image/white.png" alt="Trinetra Games Logo" class="logo-dark">
             </div>
+            
             <h1>Welcome Back</h1>
-            <p class="subtitle">Sign in to your Trinetra Games account</p>
+            <p class="subtitle">Sign in to your Trinetra Games account</p><br>
+            <p  style= "color:red" th:text="${error}"></p>
         </div>
 
         <form id="loginForm" method="POST" action="/login">

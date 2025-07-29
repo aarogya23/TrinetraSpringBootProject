@@ -21,6 +21,13 @@ public class LoginController {
         return "Login"; // JSP or HTML view name
     }
     
+    @GetMapping("/home")
+    public String homePage() {
+    	
+        return "Home"; // JSP or HTML view name
+    }
+    
+    
     @PostMapping("/login")
     public String loginPagePost(@RequestParam String username, 
                                @RequestParam String password, 

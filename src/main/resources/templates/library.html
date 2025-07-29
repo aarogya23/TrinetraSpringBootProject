@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Library - Trinetra Games</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link  href="/css/Index.css" rel="stylesheet">
+    <link href="/css/librarydark.css" rel="stylesheet">
+    <style>
+
+    
+   @media (max-width: 576px) {
+    .card-img-top {
+        max-height: 345px;
+    }
+    #eafc{
+            max-height: 171px;
+    }
+
+    .scroll-container {
+     overflow-x: auto;
+     -webkit-overflow-scrolling: touch;
+    }
+
+    .scroll-container .row {
+     flex-wrap: nowrap;
+    }
+
+    .scroll-container .col-10 {
+        flex: 0 0 auto;
+    }
+
+    }
+    .theme-toggle {
+        background: var(--toggle-bg, #333);
+        border: 2px solid var(--toggle-border, #555);
+        border-radius: 50px;
+        padding: 6px 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        margin-left: 15px;
+    }
+
+    .theme-toggle:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .theme-toggle i {
+        font-size: 16px;
+        color: var(--toggle-icon-color, #fff);
+        transition: all 0.3s ease;
+    }
+
+    .theme-toggle-text {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--toggle-text-color, #fff);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* Mobile theme toggle styling */
+    @media (max-width: 768px) {
+        .theme-toggle {
+            margin-left: 0;
+            margin-top: 10px;
+            justify-content: center;
+        }
+        
+        .mobile-theme-toggle {
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+            border-top: 1px solid var(--border-color, #333);
+            margin-top: 10px;
+        }
+    }
+
+    /* Hide desktop theme toggle on mobile */
+    @media (max-width: 768px) {
+        .desktop-theme-toggle {
+            display: none !important;
+        }
+    }
+
+    /* Hide mobile theme toggle on desktop */
+    @media (min-width: 769px) {
+        .mobile-theme-toggle {
+            display: none !important;
+        }
+    }
+
+
+/* Delete confirmation modal styles */
+.delete-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+}
+
+.delete-modal.show {
+    display: flex;
+}
+
+.delete-modal-content {
+    background: var(--bg-color, #fff);
+    color: var(--text-color, #333);
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.delete-modal h3 {
+    color: #fb011a;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+
+.delete-modal p {
+    margin-bottom: 25px;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.delete-modal .btn-group {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.delete-modal .btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-danger {
+    background: #ff0019;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #ff0019;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #5a6268;
+    transform: translateY(-2px);
+}
+
+/* Delete button styles */
+.btn-delete {
+    background: #ff0019;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: 5px;
+}
+
+.btn-delete:hover {
+    background: #eb061d;
+    transform: scale(1.05);
+}
+
+.btn-delete i {
+    font-size: 14px;
+}
+
+/* Toast notification styles */
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 3000;
+    background: #28a745;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    animation: toastSlideIn 0.3s ease-out;
+}
+
+.toast.error {
+    background: #f6041c;
+}
+
+.toast.info {
+    background: #17a2b8;
+}
+
+@keyframes toastSlideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toast-container">
+        <!-- Toasts will be dynamically added here -->
+    </div>
+
+     <header class="header">
+        <div class="header-main">
+            <div class="logo">
+                <img src="art.png" alt="Trinetra Games" class="logo">
+            </div>
+            <!-- Desktop Navigation -->
+            <nav class="main-nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="AiAsk.html" class="nav-link">AskAi</a>
+                <a href="library.html" class="nav-link">Library</a>
+                <a href="wishlist.html" class="nav-link" id="wishlist-link">
+                    Wishlist
+                    <span class="badge" id="wishlist-badge"></span>
+                </a>
+                <a href="cart.html" class="nav-link active" id="cart-link">
+                    Cart
+                    <span class="badge" id="cart-badge">1</span>
+                </a>
+            </nav>
+            
+            <!-- Desktop Theme Toggle -->
+            <div class="theme-toggle desktop-theme-toggle" id="theme-toggle" style="border-radius: 30px;">
+                <i class="fas fa-sun" id="theme-icon"></i>
+                <span class="theme-toggle-text" id="theme-text">Light</span>
+            </div>
+            
+            <!-- Desktop Search Box -->
+            <div class="search-box desktop-search">
+                <form id="search-form">
+                    <input
+                        type="text"
+                        placeholder="Search for games..."
+                        id="searchInput"
+                        aria-label="Search for games"
+                        oninput="searchGames()"
+                    >
+                    <button type="submit" aria-label="Search">Search</button>
+                    <div id="searchResults" class="search-results"></div>
+                </form>
+            </div>
+            
+            <!-- Profile with Dropdown - for Desktop -->
+            <div class="profile-container" id="profile-container">
+                <img src="profile.png" alt="Profile" class="profile-icon" style="border-radius: 50%;">
+                
+                <!-- Profile Dropdown Menu -->
+                <div class="profile-dropdown" id="profile-dropdown" style="display: none;">
+                    <a href="profile.html" class="dropdown-item">My Profile</a>
+                    <a href="settings.html" class="dropdown-item">Settings</a>
+                    <div class="dropdown-item logout" id="logout-button">Logout</div>
+                </div>
+            </div>
+            
+            <div class="hamburger-menu" id="hamburger-menu">
+                <div class="humburger-icon" id="hamburger-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation (Includes Search when opened) -->
+        <div class="mobile-nav" id="mobile-nav">
+            <!-- Mobile Profile Section at the top of mobile menu -->
+            <div class="mobile-profile-section">
+                <div class="mobile-profile-container" id="mobile-profile-container">
+                    <img src="profile.jpg" alt="Profile" class="mobile-profile-icon">
+                    <div class="mobile-profile-info">
+                        <div class="mobile-profile-name">User Profile</div>
+                        
+                        <!-- Mobile Profile Dropdown Menu -->
+                        <div class="mobile-profile-dropdown" id="mobile-profile-dropdown" style="display: none;">
+                            <a href="profile.html" class="dropdown-item">My Profile</a>
+                            <a href="settings.html" class="dropdown-item">Settings</a>
+                            <div class="dropdown-item logout" id="mobile-logout-button">Logout</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="index.html" class="nav-link">AskAi</a>
+            <a href="LIBARAY.html" class="nav-link">Library</a>
+            <a href="wishlist.html" class="nav-link" id="mobile-wishlist-link">
+                Wishlist
+                <span class="badge" id="mobile-wishlist-badge"></span>
+            </a>
+            <a href="ADD TO CART1.html" class="nav-link active" id="mobile-cart-link">
+                Cart
+                <span class="badge" id="mobile-cart-badge">1</span>
+            </a>
+            
+            <!-- Mobile Search Box -->
+            <div class="search-box mobile-search">
+                <form id="mobile-search-form">
+                    <input
+                        type="text"
+                        placeholder="Search for games..."
+                        id="mobile-search-input"
+                        aria-label="Search for games"
+                    >
+                    <button type="submit" aria-label="Search">Search</button>
+                </form>
+            </div>
+
+            <!-- Mobile Theme Toggle -->
+            <div class="mobile-theme-toggle">
+                <div class="theme-toggle" id="mobile-theme-toggle">
+                    <i class="fas fa-sun" id="mobile-theme-icon"></i>
+                    <span class="theme-toggle-text" id="mobile-theme-text">Light</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <main class="library-container">
+        <!-- Library Header -->
+        <div class="library-header">
+            <div>
+                <h1 class="library-title">My Library</h1>
+                <p>Your purchased games and content</p>
+            </div>
+            <div class="library-stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="total-games">0</div>
+                    <div>Games</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="ready-games">0</div>
+                    <div>Ready</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="total-playtime">0h</div>
+                    <div>Playtime</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Library Controls -->
+        <div class="library-controls">
+            <div class="view-controls">
+                <button class="view-btn active" data-view="grid">
+                    <i class="fas fa-th"></i> Grid
+                </button>
+                <button class="view-btn" data-view="list">
+                    <i class="fas fa-list"></i> List
+                </button>
+            </div>
+            
+            <div class="filter-dropdown">
+                <select id="status-filter">
+                    <option value="all">All Games</option>
+                    <option value="ready">Ready to Play</option>
+                    <option value="downloading">Downloading</option>
+                    <option value="updating">Updating</option>
+                </select>
+            </div>
+            
+            <div class="library-search">
+                <form id="search-form">
+                    <input
+                        type="text"
+                        placeholder="Search for games..."
+                        id="search-input"
+                        aria-label="Search for games"
+                    >
+                    
+                </form>
+            </div>
+        </div>
+        
+        <!-- Empty Library State -->
+        <div class="empty-library" id="empty-library" style="display: none;">
+            <i class="fas fa-gamepad"></i>
+            <h3>Your library is empty</h3>
+            <p>Purchase games to add them to your library</p>
+            <a href="TrinetraGamePage.html" class="btn btn-primary">
+                <i class="fas fa-shopping-cart"></i>
+                Browse Games
+            </a>
+        </div>
+        
+        <!-- Games Grid View -->
+        <div class="games-grid" id="games-grid">
+            <!-- Games will be dynamically inserted here -->
+        </div>
+        
+        <!-- Games List View -->
+        <div class="games-list" id="games-list">
+            <!-- List view items will be dynamically inserted here -->
+        </div>
+    </main>
+
+    <script>
+        // Global variable to track the game to be deleted
+        let gameToDelete = null;
+
+        // Wait for DOM to fully load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadLibrary();
+            setupEventListeners();
+            updateStats();
+            setupDeleteModal();
+        });
+        
+        // Load library from localStorage
+        function loadLibrary() {
+            const library = JSON.parse(localStorage.getItem('gameLibrary')) || [];
+            
+            if (library.length === 0) {
+                document.getElementById('empty-library').style.display = 'block';
+                document.getElementById('games-grid').style.display = 'none';
+                return;
+            }
+            
+            document.getElementById('empty-library').style.display = 'none';
+            document.getElementById('games-grid').style.display = 'grid';
+            
+            displayGames(library);
+        }
+        
+        // Display games in both grid and list views
+        function displayGames(games) {
+            const gamesGrid = document.getElementById('games-grid');
+            const gamesList = document.getElementById('games-list');
+            
+            // Clear existing content
+            gamesGrid.innerHTML = '';
+            gamesList.innerHTML = '';
+            
+            games.forEach(game => {
+                // Create grid view card
+                const gridCard = createGameCard(game);
+                gamesGrid.appendChild(gridCard);
+                
+                // Create list view item
+                const listItem = createGameListItem(game);
+                gamesList.appendChild(listItem);
+            });
+        }
+        
+        // Create game card for grid view
+        function createGameCard(game) {
+            const card = document.createElement('div');
+            card.className = 'game-card';
+            
+            const statusClass = game.status === 'Ready to Play' ? 'status-ready' : 
+                              game.status === 'Downloading' ? 'status-downloading' : 'status-updating';
+            
+            const purchaseDate = new Date(game.purchaseDate).toLocaleDateString();
+            
+            card.innerHTML = `
+                <div style="position: relative;">
+                    <img src="${game.image}" alt="${game.name}" class="game-image">
+                    <div class="game-status-overlay ${statusClass}">${game.status}</div>
+                </div>
+                
+                <div class="game-info">
+                    <h3 class="game-title">${game.name}</h3>
+                    
+                    <div class="game-details">
+                        <span>Last played: ${game.lastPlayed || 'Never'}</span>
+                        <span>${game.playTime}</span>
+                    </div>
+                    
+                    <div class="purchase-info">
+                        Purchased: ${purchaseDate} | Order: ${game.orderId}
+                    </div>
+                    
+                    <div class="secret-code-section">
+                        <div class="secret-code-header">
+                            <div class="secret-code-title">
+                                <i class="fas fa-key"></i>
+                                Activation Code
+                            </div>
+                            <button class="toggle-code-btn" onclick="toggleCode('${game.name}')">
+                                <i class="fas fa-eye" id="eye-${game.name.replace(/\s+/g, '')}"></i>
+                            </button>
+                        </div>
+                        <div class="secret-code code-hidden" id="code-${game.name.replace(/\s+/g, '')}">
+                            ${game.secretCode}
+                            <button class="copy-code-btn" onclick="copyToClipboard('${game.secretCode}')">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="game-actions">
+                        <button class="btn btn-primary" onclick="playGame('${game.name}')">
+                            <i class="fas fa-play"></i>
+                            ${game.status === 'Ready to Play' ? 'Play' : game.status}
+                        </button>
+                        <button class="btn btn-secondary" onclick="gameOptions('${game.name}')">
+                            <i class="fas fa-cog"></i>
+                        </button>
+                        <button class="btn-delete" onclick="showDeleteConfirmation('${game.name}')" title="Delete Game">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            return card;
+        }
+        
+        // Create game list item for list view
+        function createGameListItem(game) {
+            const item = document.createElement('div');
+            item.className = 'game-list-item';
+            
+            const purchaseDate = new Date(game.purchaseDate).toLocaleDateString();
+            
+            item.innerHTML = `
+                <img src="${game.image}" alt="${game.name}" class="list-game-image">
+                
+                <div class="list-game-info">
+                    <h4 class="list-game-title">${game.name}</h4>
+                    <div class="list-game-meta">
+                        ${game.status} • Last played: ${game.lastPlayed || 'Never'} • ${game.playTime} • Purchased: ${purchaseDate}
+                    </div>
+                </div>
+                
+                <div class="list-game-actions">
+                    <button class="btn btn-primary" onclick="playGame('${game.name}')">
+                        <i class="fas fa-play"></i>
+                        ${game.status === 'Ready to Play' ? 'Play' : game.status}
+                    </button>
+                    <button class="btn btn-secondary" onclick="gameOptions('${game.name}')">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                    <button class="btn-delete" onclick="showDeleteConfirmation('${game.name}')" title="Delete Game">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `;
+            
+            return item;
+        }
+        
+        // Show delete confirmation modal
+        function showDeleteConfirmation(gameName) {
+            gameToDelete = gameName;
+            const modal = document.getElementById('delete-modal');
+            const message = document.getElementById('delete-message');
+            
+            message.innerHTML = `Are you sure you want to delete <strong>"${gameName}"</strong> from your library?<br><br>
+                                <small style="color: #dc3545;">This action cannot be undone.</small>`;
+            
+            modal.classList.add('show');
+        }
+        
+        // Hide delete confirmation modal
+        function hideDeleteConfirmation() {
+            const modal = document.getElementById('delete-modal');
+            modal.classList.remove('show');
+            gameToDelete = null;
+        }
+        
+        // Delete game from library
+        function deleteGame() {
+            if (!gameToDelete) return;
+            
+            const library = JSON.parse(localStorage.getItem('gameLibrary')) || [];
+            const updatedLibrary = library.filter(game => game.name !== gameToDelete);
+            
+            localStorage.setItem('gameLibrary', JSON.stringify(updatedLibrary));
+            
+            showToast(`"${gameToDelete}" has been deleted from your library.`, 'success');
+            
+            // Refresh the display
+            loadLibrary();
+            updateStats();
+            
+            // Hide modal
+            hideDeleteConfirmation();
+        }
+        
+        // Setup delete modal event listeners
+        function setupDeleteModal() {
+            const modal = document.getElementById('delete-modal');
+            const confirmBtn = document.getElementById('confirm-delete');
+            const cancelBtn = document.getElementById('cancel-delete');
+            
+            confirmBtn.addEventListener('click', deleteGame);
+            cancelBtn.addEventListener('click', hideDeleteConfirmation);
+            
+            // Close modal when clicking outside
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    hideDeleteConfirmation();
+                }
+            });
+            
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modal.classList.contains('show')) {
+                    hideDeleteConfirmation();
+                }
+            });
+        }
+        
+        // Update library statistics
+        function updateStats() {
+            const library = JSON.parse(localStorage.getItem('gameLibrary')) || [];
+            
+            const totalGames = library.length;
+            const readyGames = library.filter(game => game.status === 'Ready to Play').length;
+            
+            // Calculate total playtime (simplified)
+            let totalMinutes = 0;
+            library.forEach(game => {
+                const playTime = game.playTime || '0 hours';
+                const hours = parseInt(playTime.split(' ')[0]) || 0;
+                totalMinutes += hours * 60;
+            });
+            
+            const totalHours = Math.floor(totalMinutes / 60);
+            
+            document.getElementById('total-games').textContent = totalGames;
+            document.getElementById('ready-games').textContent = readyGames;
+            document.getElementById('total-playtime').textContent = totalHours + 'h';
+        }
+        
+        // Show toast notification
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                ${message}
+            `;
+            
+            document.body.appendChild(toast);
+            
+            // Remove toast after 3 seconds
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+        
+        // Toggle secret code visibility
+        function toggleCode(gameName) {
+            const codeElement = document.getElementById(`code-${gameName.replace(/\s+/g, '')}`);
+            const eyeIcon = document.getElementById(`eye-${gameName.replace(/\s+/g, '')}`);
+            
+            if (codeElement.classList.contains('code-hidden')) {
+                codeElement.classList.remove('code-hidden');
+                eyeIcon.className = 'fas fa-eye-slash';
+            } else {
+                codeElement.classList.add('code-hidden');
+                eyeIcon.className = 'fas fa-eye';
+            }
+        }
+        
+        // Copy code to clipboard
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                showToast('Code copied to clipboard!', 'success');
+            }).catch(function(err) {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showToast('Code copied to clipboard!', 'success');
+            });
+        }
+        
+        // Play game function (simulate)
+        function playGame(gameName) {
+            showToast(`Starting ${gameName}...`, 'success');
+            
+            // Update last played date
+            const library = JSON.parse(localStorage.getItem('gameLibrary')) || [];
+            const game = library.find(g => g.name === gameName);
+            
+            if (game) {
+                game.lastPlayed = new Date().toLocaleDateString();
+                localStorage.setItem('gameLibrary', JSON.stringify(library));
+                
+                // Refresh the display
+                setTimeout(() => {
+                    loadLibrary();
+                }, 1000);
+            }
+        }
+        
+        // Game options function
+        function gameOptions(gameName) {
+            showToast(`Opening options for ${gameName}`, 'info');
+        }
+        
+        // Setup event listeners
+        function setupEventListeners() {
+            // View toggle buttons
+            const viewButtons = document.querySelectorAll('.view-btn');
+            viewButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    viewButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const view = this.getAttribute('data-view');
+                    toggleView(view);
+                });
+            });
+            
+            // Status filter
+            document.getElementById('status-filter').addEventListener('change', function() {
+                filterGames(this.value);
+            });
+            
+            // Search functionality
+            document.getElementById('search-input').addEventListener('input', function() {
+                searchGames(this.value);
+            });
+            
+            // Profile dropdown toggle
+            const profileIcon = document.querySelector('.profile-icon');
+            const profileDropdown = document.querySelector('.profile-dropdown');
+            
+            if (profileIcon && profileDropdown) {
+                profileIcon.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    profileDropdown.style.display = profileDropdown.style.display === 'none' ? 'block' : 'none';
+                });
+                
+                document.addEventListener('click', function() {
+                    profileDropdown.style.display = 'none';
+                });
+            }
+            
+            // Mobile menu toggle
+            const hamburgerIcon = document.querySelector('.hamburger-icon');
+            const mobileNav = document.querySelector('.mobile-nav');
+            
+            if (hamburgerIcon && mobileNav) {
+                hamburgerIcon.addEventListener('click', function() {
+                    mobileNav.classList.toggle('active');
+                });
+            }
+        }
+        
+        // Toggle between grid and list view
+        function toggleView(view) {
+            const gamesGrid = document.getElementById('games-grid');
+            const gamesList = document.getElementById('games-list');
+            
+            if (view === 'list') {
+                gamesGrid.style.display = 'none';
+                gamesList.style.display = 'block';
+                gamesList.classList.add('active');
+            } else {
+                gamesGrid.style.display = 'grid';
+                gamesList.style.display = 'none';
+                gamesList.classList.remove('active');
+            }
+        }
+
+        // Placeholder functions for filtering and searching (implement as needed)
+        function filterGames(status) {
+            const library = JSON.parse(localStorage.getItem('gameLibrary')) || [];
+            let filteredGames = library;
+            
+            if (status !== 'all') {
+                const statusMap = {
+                    'ready': 'Ready to Play',
+                    'downloading': 'Downloading',
+                    'updating': 'Updating'
+                };
+                filteredGames = library.filter(game => game.status === statusMap[status]);
+            }
+            
+            displayGames(filteredGames);
+        }
+        
+        function searchGames(searchTerm) {
+            const library = JSON.parse(localStorage.getItem('gameLibrary')) || [];
+            const filteredGames = library.filter(game => 
+                game.name.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            
+            displayGames(filteredGames);
+        }
+    </script>
+    <script src="" th:src="@{js/librarythemecontrol.js}"></script>
+    </body>
+</html>
