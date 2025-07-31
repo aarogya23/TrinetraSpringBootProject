@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Admin Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .stats-bar {
+            background: #f8f9fa;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+
+        .controls {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .search-box {
+            flex: 1;
+            max-width: 300px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid #dee2e6;
+            border-radius: 25px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .refresh-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .refresh-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .table-container {
+            padding: 30px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+        }
+
+        th {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 18px 15px;
+            text-align: left;
+            font-weight: 500;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #f1f3f4;
+            font-size: 14px;
+            color: #2c3e50;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+            transform: scale(1.01);
+            transition: all 0.2s ease;
+        }
+
+        .payment-method {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .method-credit {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .method-debit {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+
+        .method-paypal {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .method-cash {
+            background: #e8f5e8;
+            color: #388e3c;
+        }
+
+        .amount {
+            font-weight: bold;
+            font-size: 16px;
+            color: #27ae60;
+        }
+
+        .game-names {
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 50px;
+            color: #6c757d;
+            font-size: 18px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #667eea;
+            font-size: 18px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .stats-bar {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box {
+                max-width: none;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 10px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Payment Admin Dashboard</h1>
+            <p>Manage and monitor all payment transactions</p>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-number" id="totalPayments">0</div>
+                <div class="stat-label">Total Payments</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="totalAmount">Rs 0</div>
+                <div class="stat-label">Total Amount</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="avgAmount">Rs 0</div>
+                <div class="stat-label">Average Amount</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search by name, username, or game...">
+            </div>
+            <button class="refresh-btn" onclick="loadPayments()">
+                <span id="refreshText">Refresh Data</span>
+            </button>
+        </div>
+
+        <div class="table-container">
+            <div id="loadingMessage" class="loading">Loading payment data...</div>
+            <table id="paymentTable" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>Username</th>
+                        <th>Payment Method</th>
+                        <th>Amount</th>
+                        <th>Game Names</th>
+                    </tr>
+                </thead>
+                <tbody id="paymentTableBody">
+                    <!-- Payment data will be inserted here -->
+                </tbody>
+            </table>
+            <div id="noDataMessage" class="no-data" style="display: none;">
+                No payment data available
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let allPayments = [];
+        let filteredPayments = [];
+
+        document.addEventListener('DOMContentLoaded', function () {
+            loadPayments();
+            setupSearch();
+        });
+
+        async function loadPayments() {
+            const refreshBtn = document.getElementById('refreshText');
+            const loadingMessage = document.getElementById('loadingMessage');
+            const paymentTable = document.getElementById('paymentTable');
+            const noDataMessage = document.getElementById('noDataMessage');
+
+            try {
+                refreshBtn.textContent = 'Loading...';
+                loadingMessage.style.display = 'block';
+                paymentTable.style.display = 'none';
+                noDataMessage.style.display = 'none';
+
+                const response = await fetch('/api/paymentapi');
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch payment data');
+                }
+
+                allPayments = await response.json();
+                filteredPayments = allPayments;
+
+                displayPayments(filteredPayments);
+                updateStats(filteredPayments);
+
+                loadingMessage.style.display = 'none';
+
+                if (allPayments.length > 0) {
+                    paymentTable.style.display = 'table';
+                } else {
+                    noDataMessage.style.display = 'block';
+                }
+
+            } catch (error) {
+                console.error('Error loading payments:', error);
+                loadingMessage.innerHTML = 'Error loading payment data. Please try again.';
+            } finally {
+                refreshBtn.textContent = 'Refresh Data';
+            }
+        }
+
+        function displayPayments(payments) {
+            const tbody = document.getElementById('paymentTableBody');
+            tbody.innerHTML = '';
+
+            payments.forEach(payment => {
+                const row = document.createElement('tr');
+                const methodClass = getMethodClass(payment.paymentMethod);
+
+                row.innerHTML = `
+                    <td>${payment.fullname || 'N/A'}</td>
+                    <td>${payment.username || 'N/A'}</td>
+                    <td><span class="payment-method ${methodClass}">${payment.paymentMethod || 'N/A'}</span></td>
+                    <td class="amount">Rs ${parseFloat(payment.paymentAmount || 0).toFixed(2)}</td>
+                    <td class="game-names" title="${payment.gameNames || 'N/A'}">${payment.gameNames || 'N/A'}</td>
+                `;
+
+                tbody.appendChild(row);
+            });
+        }
+
+        function getMethodClass(method) {
+            if (!method) return 'method-cash';
+            const methodLower = method.toLowerCase();
+            if (methodLower.includes('credit')) return 'method-credit';
+            if (methodLower.includes('debit')) return 'method-debit';
+            if (methodLower.includes('paypal')) return 'method-paypal';
+            return 'method-cash';
+        }
+
+        function updateStats(payments) {
+            const totalPayments = payments.length;
+            const totalAmount = payments.reduce((sum, payment) => sum + parseFloat(payment.paymentAmount || 0), 0);
+            const avgAmount = totalPayments > 0 ? totalAmount / totalPayments : 0;
+
+            document.getElementById('totalPayments').textContent = totalPayments;
+            document.getElementById('totalAmount').textContent = `Rs ${totalAmount.toFixed(2)}`;
+            document.getElementById('avgAmount').textContent = `Rs ${avgAmount.toFixed(2)}`;
+        }
+
+        function setupSearch() {
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', function (e) {
+                const searchTerm = e.target.value.toLowerCase();
+
+                filteredPayments = searchTerm === ''
+                    ? allPayments
+                    : allPayments.filter(payment =>
+                        (payment.fullname && payment.fullname.toLowerCase().includes(searchTerm)) ||
+                        (payment.username && payment.username.toLowerCase().includes(searchTerm)) ||
+                        (payment.gameNames && payment.gameNames.toLowerCase().includes(searchTerm)) ||
+                        (payment.paymentMethod && payment.paymentMethod.toLowerCase().includes(searchTerm))
+                    );
+
+                displayPayments(filteredPayments);
+                updateStats(filteredPayments);
+            });
+        }
+    </script>
+</body>
+</html>
