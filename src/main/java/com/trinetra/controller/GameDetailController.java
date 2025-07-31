@@ -11,6 +11,14 @@ public class GameDetailController {
 	    	
 	        return "eafc25"; // JSP or HTML view name
 	    }
+	 
+	 @GetMapping("/assassinCreed")
+	    public String assassinCreedMapping() {
+	    	
+	        return "AssassinCreedShadow.html"; // JSP or HTML view name
+	    }
+	 
+	 
 
 	 @GetMapping("/cart")
 	 public String cartpageMapping() {

@@ -1,21 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment - Trinetra Games</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <link href="Index.css" rel="stylesheet">
-    <style>
- 
-    
-   @media (max-width: 576px) {
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment - Trinetra Games</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="Index.css" rel="stylesheet">
+  <style>
+    @media (max-width: 576px) {
     .card-img-top {
         max-height: 345px;
     }
@@ -231,370 +225,268 @@
         </div>
     </header>
     
-    <main class="container payment-container">
-        <div class="payment-header">
-            <br>
-            <h1>Checkout</h1>
+<main class="container payment-container">
+  <div class="payment-header">
+    <br>
+    <h1>Checkout</h1>
+  </div>
+
+  <div class="row">
+    <!-- Order Summary -->
+    <div class="col-lg-5 mb-4">
+      <div class="order-summary">
+        <h2 class="summary-title">Order Summary</h2>
+        <div class="order-items" id="order-items"></div>
+        <div class="summary-details">
+          <div class="d-flex justify-content-between py-2">
+            <span>Subtotal</span>
+            <span id="subtotal">Rs0.00</span>
+          </div>
+          <div class="d-flex justify-content-between py-2">
+            <span>Tax (18% GST)</span>
+            <span id="tax">Rs0.00</span>
+          </div>
         </div>
-        
-        <div class="row">
-            <!-- Order Summary Section -->
-            <div class="col-lg-5 mb-4">
-                <div class="order-summary">
-                    <h2 class="summary-title">Order Summary</h2>
-                    
-                    <div class="order-items" id="order-items">
-                        <!-- Order items will be dynamically inserted here -->
-                    </div>
-                    
-                    <div class="summary-details">
-                        <div class="d-flex justify-content-between py-2">
-                            <span>Subtotal</span>
-                            <span id="subtotal">Rs0.00</span>
-                        </div>
-                        <div class="d-flex justify-content-between py-2">
-                            <span>Tax (18% GST)</span>
-                            <span id="tax">Rs0.00</span>
-                        </div>
-                    </div>
-                    
-                    <div class="order-total">
-                        <span>Total</span>
-                        <span id="total-amount">Rs0.00</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Payment Form Section -->
-<div class="col-lg-7">
-    <div class="payment-form">
-        <h2 class="form-title">Payment Details</h2>
-
-        <form id="payment-form">
-            <!-- Basic Information -->
-            <div class="form-section">
-                <h3 class="section-title">Billing Information</h3>
-
-                <div class="input-group">
-                    <label for="fullname">Full Name</label>
-                    <input type="text" id="fullname" name="fullname" required>
-                </div>
-
-                <div class="input-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-            </div>
-
-            <!-- Payment Method Selection -->
-            <div class="form-section">
-                <h3 class="section-title">Payment Method</h3>
-
-                <div class="payment-methods">
-                    <div class="payment-method active" data-method="netbanking">
-                        <i class="fas fa-university"></i>
-                        <div class="payment-method-title">Net Banking</div>
-                    </div>
-
-                    <div class="payment-method" data-method="esewa">
-                        <img src="esewa.png" alt="eSewa" style="width: 54px;">
-                        <div class="payment-method-title" style="margin-top: 2px;">eSewa</div>
-                    </div>
-
-                    <div class="payment-method" data-method="khalti">
-                        <img src="khalti.png" alt="Khalti" style="width: 54px;">
-                        <div class="payment-method-title">Khalti</div>
-                    </div>
-
-                    <div class="payment-method" data-method="mobilebanking">
-                        <i class="fas fa-mobile"></i>
-                        <div class="payment-method-title">Mobile Banking</div>
-                    </div>
-                </div>
-
-                <!-- Net Banking Form -->
-                <div class="payment-form-section" id="netbanking-form">
-                    <div class="input-group">
-                        <label for="bank">Select Bank</label>
-                        <select id="bank" name="bank">
-                            <option value="">-- Select your bank --</option>
-                            <option value="sbi">State Bank of India</option>
-                            <option value="hdfc">HDFC Bank</option>
-                            <option value="icici">ICICI Bank</option>
-                            <option value="axis">Axis Bank</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- eSewa Form -->
-                <div class="payment-form-section" id="esewa-form" style="display: none;">
-                    <div class="input-group">
-                        <label for="esewa-id">eSewa ID</label>
-                        <input type="text" id="esewa-id" name="esewa-id" placeholder="98XXXXXXXX">
-                    </div>
-                </div>
-
-                <!-- Khalti Form -->
-                <div class="payment-form-section" id="khalti-form" style="display: none;">
-                    <div class="input-group">
-                        <label for="khalti-id">Khalti ID</label>
-                        <input type="text" id="khalti-id" name="khalti-id" placeholder="98XXXXXXXX">
-                    </div>
-                </div>
-
-                <!-- Mobile Banking Form -->
-                <div class="payment-form-section" id="mobilebanking-form" style="display: none;">
-                    <div class="input-group">
-                        <label for="mobile-bank">Bank Name</label>
-                        <input type="text" id="mobile-bank" name="mobile-bank" placeholder="e.g. NIC Asia, NMB">
-                    </div>
-
-                    <div class="input-group">
-                        <label for="mobile-account">Account Number</label>
-                        <input type="text" id="mobile-account" name="mobile-account" placeholder="XXXXXXXXXX">
-                    </div>
-                </div>
-            </div>
-
-            <button type="submit" class="btn btn-primary" id="place-order-btn">
-                <i class="fas fa-lock"></i> Pay <span id="pay-amount">Rs0.00</span>
-            </button>
-        </form>
+        <div class="order-total">
+          <span>Total</span>
+          <span id="total-amount">Rs0.00</span>
+        </div>
+      </div>
     </div>
-</div>
 
-        </div>
-    </main>
-    
-    <script>
-        // Wait for DOM to fully load
-        document.addEventListener('DOMContentLoaded', function() {
-            // Load checkout data from localStorage
-            loadCheckoutData();
-            
-            // Set up event listeners
-            setupEventListeners();
+    <!-- Payment Form -->
+    <div class="col-lg-7">
+      <div class="payment-form">
+        <h2 class="form-title">Payment Details</h2>
+        <form id="payment-form" action="/paymentbro" method="POST">
+          <!-- Billing Info -->
+          <div class="form-section">
+            <h3 class="section-title">Billing Information</h3>
+            <div class="input-group">
+              <label for="fullname">Full Name</label>
+              <input type="text" id="fullname" name="fullname" required>
+            </div>
+            <div class="input-group">
+              <label for="username">Username</label>
+              <input type="text" id="username" name="username" required>
+            </div>
+            <div class="input-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" required>
+            </div>
+          </div>
+
+          <!-- Payment Method -->
+          <div class="form-section">
+            <h3 class="section-title">Payment Method</h3>
+            <div class="payment-methods">
+              <div class="payment-method active" data-method="netbanking">
+                <i class="fas fa-university"></i>
+                <div class="payment-method-title">Net Banking</div>
+              </div>
+              <div class="payment-method" data-method="esewa">
+                <img src="esewa.png" alt="eSewa" style="width: 54px;">
+                <div class="payment-method-title">eSewa</div>
+              </div>
+              <div class="payment-method" data-method="khalti">
+                <img src="khalti.png" alt="Khalti" style="width: 54px;">
+                <div class="payment-method-title">Khalti</div>
+              </div>
+              <div class="payment-method" data-method="mobilebanking">
+                <i class="fas fa-mobile"></i>
+                <div class="payment-method-title">Mobile Banking</div>
+              </div>
+            </div>
+
+            <!-- Payment Forms -->
+            <div class="payment-form-section" id="netbanking-form">
+              <div class="input-group">
+                <label for="bank">Select Bank</label>
+                <select id="bank" name="bank">
+                  <option value="">-- Select your bank --</option>
+                  <option value="sbi">State Bank of India</option>
+                  <option value="hdfc">HDFC Bank</option>
+                  <option value="icici">ICICI Bank</option>
+                  <option value="axis">Axis Bank</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="payment-form-section" id="esewa-form" style="display: none;">
+              <div class="input-group">
+                <label for="esewa-id">eSewa ID</label>
+                <input type="text" id="esewa-id" name="esewa-id" placeholder="98XXXXXXXX">
+              </div>
+            </div>
+
+            <div class="payment-form-section" id="khalti-form" style="display: none;">
+              <div class="input-group">
+                <label for="khalti-id">Khalti ID</label>
+                <input type="text" id="khalti-id" name="khalti-id" placeholder="98XXXXXXXX">
+              </div>
+            </div>
+
+            <div class="payment-form-section" id="mobilebanking-form" style="display: none;">
+              <div class="input-group">
+                <label for="mobile-bank">Bank Name</label>
+                <input type="text" id="mobile-bank" name="mobile-bank" placeholder="e.g. NIC Asia, NMB">
+              </div>
+              <div class="input-group">
+                <label for="mobile-account">Account Number</label>
+                <input type="text" id="mobile-account" name="mobile-account" placeholder="XXXXXXXXXX">
+              </div>
+            </div>
+          </div>
+
+          <!-- Hidden fields for game names and total amount -->
+          <input type="hidden" name="gameNames" id="gameNames">
+          <input type="hidden" name="paymentAmount" id="paymentAmount">
+
+          <input type="submit" value="Signup" id="place-order-btn">
+        </form>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Scripts -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    loadCheckoutData();
+    setupEventListeners();
+  });
+
+  function loadCheckoutData() {
+    const checkoutData = JSON.parse(localStorage.getItem('checkoutData')) || { items: [] };
+    const orderItemsContainer = document.getElementById('order-items');
+
+    if (checkoutData.items.length === 0) {
+      showToast('No items in checkout. Redirecting to cart...', 'error');
+      setTimeout(() => {
+        window.location.href = 'cart.html';
+      }, 2000);
+      return;
+    }
+
+    let subtotal = 0;
+    orderItemsContainer.innerHTML = '';
+
+    checkoutData.items.forEach(item => {
+      const priceValue = parseFloat(item.price.replace(/[^0-9]/g, ''));
+      const itemTotal = priceValue * item.quantity;
+      subtotal += itemTotal;
+
+      const itemElement = document.createElement('div');
+      itemElement.className = 'order-item';
+      itemElement.innerHTML = `
+        <img src="${item.image}" alt="${item.name}" class="cart-item-image" style="width:70px; height:50px">
+        <div class="item-name">${item.name}</div>
+        <div class="item-quantity">x${item.quantity}</div>
+        <div class="item-price">Rs${itemTotal.toFixed(2)}</div>
+      `;
+      orderItemsContainer.appendChild(itemElement);
+    });
+
+    const tax = subtotal * 0.18;
+    const total = subtotal + tax;
+
+    document.getElementById('subtotal').textContent = `Rs${subtotal.toFixed(2)}`;
+    document.getElementById('tax').textContent = `Rs${tax.toFixed(2)}`;
+    document.getElementById('total-amount').textContent = `Rs${total.toFixed(2)}`;
+  }
+
+  function setupEventListeners() {
+    const paymentMethods = document.querySelectorAll('.payment-method');
+    paymentMethods.forEach(method => {
+      method.addEventListener('click', function () {
+        paymentMethods.forEach(m => m.classList.remove('active'));
+        this.classList.add('active');
+
+        document.querySelectorAll('.payment-form-section').forEach(section => {
+          section.style.display = 'none';
         });
-        
-        // Load checkout data from localStorage
-        function loadCheckoutData() {
-            const checkoutData = JSON.parse(localStorage.getItem('checkoutData')) || { items: [] };
-            const orderItemsContainer = document.getElementById('order-items');
-            
-            // Check if there are items in the checkout
-            if (checkoutData.items.length === 0) {
-                // No items, redirect back to cart
-                showToast('No items in checkout. Redirecting to cart...', 'error');
-                setTimeout(() => {
-                    window.location.href = 'cart.html';
-                }, 2000);
-                return;
-            }
-            
-            // Initialize price variables
-            let subtotal = 0;
-            
-            // Clear container
-            orderItemsContainer.innerHTML = '';
-            
-            // Loop through items and add to order summary
-            checkoutData.items.forEach(item => {
-                // Extract price (assumes format like "Rs1999")
-                const priceValue = parseFloat(item.price.replace(/[^0-9]/g, ''));
-                const itemTotal = priceValue * item.quantity;
-                
-                // Add to subtotal
-                subtotal += itemTotal;
-                
-                // Create order item element
-                const itemElement = document.createElement('div');
-                itemElement.className = 'order-item';
-                itemElement.innerHTML = `
-                <img src="${item.image}" alt="${item.name}" class="cart-item-image" style="width:70px; height:50px">
-                    <div class="item-name">${item.name}</div>
-                    <div class="item-quantity">x${item.quantity}</div>
-                    <div class="item-price">Rs${itemTotal.toFixed(2)}</div>
-                `;
-                
-                orderItemsContainer.appendChild(itemElement);
-            });
-            
-            // Calculate tax and total
-            const tax = subtotal * 0.18; // 18% GST
-            const total = subtotal + tax;
-            
-            // Update summary values
-            document.getElementById('subtotal').textContent = `Rs${subtotal.toFixed(2)}`;
-            document.getElementById('tax').textContent = `Rs${tax.toFixed(2)}`;
-            document.getElementById('total-amount').textContent = `Rs${total.toFixed(2)}`;
-            document.getElementById('pay-amount').textContent = `Rs${total.toFixed(2)}`;
-        }
-        
-        // Set up event listeners
-        function setupEventListeners() {
-            // Payment method selection
-            const paymentMethods = document.querySelectorAll('.payment-method');
-            paymentMethods.forEach(method => {
-                method.addEventListener('click', function() {
-                    // Remove active class from all methods
-                    paymentMethods.forEach(m => m.classList.remove('active'));
-                    
-                    // Add active class to clicked method
-                    this.classList.add('active');
-                    
-                    // Hide all form sections
-                    document.getElementById('card-form').style.display = 'none';
-                    document.getElementById('upi-form').style.display = 'none';
-                    document.getElementById('netbanking-form').style.display = 'none';
-                    
-                    // Show selected form section
-                    const methodType = this.getAttribute('data-method');
-                    document.getElementById(`${methodType}-form`).style.display = 'block';
-                });
-            });
-            
-            // Card number formatting (add spaces every 4 digits)
-            const cardNumberInput = document.getElementById('card-number');
-            if (cardNumberInput) {
-                cardNumberInput.addEventListener('input', function(e) {
-                    // Remove all non-digits
-                    let value = this.value.replace(/\D/g, '');
-                    
-                    // Add a space after every 4 digits
-                    value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
-                    
-                    // Update the input value
-                    this.value = value;
-                });
-            }
-            
-            // Expiry date formatting (MM/YY)
-            const expiryInput = document.getElementById('expiry');
-            if (expiryInput) {
-                expiryInput.addEventListener('input', function(e) {
-                    // Remove all non-digits
-                    let value = this.value.replace(/\D/g, '');
-                    
-                    // Add a slash after the first 2 digits
-                    if (value.length > 2) {
-                        value = value.substring(0, 2) + '/' + value.substring(2);
-                    }
-                    
-                    // Update the input value
-                    this.value = value;
-                });
-            }
-            
-            // Form submission
-            const paymentForm = document.getElementById('payment-form');
-            if (paymentForm) {
-                paymentForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    // Show processing message
-                    showToast('Processing payment...', 'info');
-                    
-                    // Disable submit button to prevent multiple submissions
-                    document.getElementById('place-order-btn').disabled = true;
-                    
-                    // Simulate payment processing (in a real app, this would be an API call)
-                    setTimeout(() => {
-                        // Show success message
-                        showToast('Payment successful! Redirecting to order confirmation...', 'success');
-                        
-                        // Store order in order history
-                        saveOrderToHistory();
-                        
-                        // Clear cart 
-                        localStorage.setItem('cart', JSON.stringify([]));
-                        
-                        // Redirect to confirmation page after a delay
-                        setTimeout(() => {
-                            window.location.href = 'orderConfirmation';
-                        }, 2000);
-                    }, 2000);
-                });
-            }
-        }
-        
-        // Save order to order history
-        function saveOrderToHistory() {
-            // Get checkout data
-            const checkoutData = JSON.parse(localStorage.getItem('checkoutData')) || { items: [] };
-            
-            // Get existing order history or initialize empty array
-            const orderHistory = JSON.parse(localStorage.getItem('orderHistory')) || [];
-            
-            // Create new order object
-            const order = {
-                id: generateOrderId(),
-                date: new Date().toISOString(),
-                items: checkoutData.items,
-                status: 'Confirmed',
-                total: calculateTotal(checkoutData.items)
-            };
-            
-            // Add to order history
-            orderHistory.push(order);
-            
-            // Save to localStorage
-            localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
-        }
-        
-        // Generate a unique order ID
-        function generateOrderId() {
-            return 'ORD' + Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
-        }
-        
-        // Calculate total price of order
-        function calculateTotal(items) {
-            let subtotal = 0;
-            
-            // Calculate subtotal
-            items.forEach(item => {
-                const priceValue = parseFloat(item.price.replace(/[^0-9]/g, ''));
-                subtotal += priceValue * item.quantity;
-            });
-            
-            // Add tax
-            const tax = subtotal * 0.18;
-            const total = subtotal + tax;
-            
-            return total.toFixed(2);
-        }
-        
-        // Show toast notification
-        function showToast(message, type = 'success') {
-            const toastContainer = document.getElementById('toast-container');
-            
-            // Create toast element
-            const toast = document.createElement('div');
-            toast.className = 'toast';
-            toast.innerHTML = `
-                <div class="toast-content">
-                    <i class="fas ${type === 'error' ? 'fa-times-circle error' : type === 'info' ? 'fa-info-circle' : 'fa-check-circle'}"></i>
-                    <span>${message}</span>
-                </div>
-            `;
-            
-            // Add toast to container
-            toastContainer.appendChild(toast);
-            
-            // Show toast
-            setTimeout(() => {
-                toast.classList.add('show');
-            }, 100);
-            
-            // Remove toast after 3 seconds
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => {
-                    toastContainer.removeChild(toast);
-                }, 300);
-            }, 3000);
-        }
-    </script>
-   <script src=""  th:src="@{js/paymentlightdark.js}"></script>
 
+        const methodType = this.getAttribute('data-method');
+        document.getElementById(`${methodType}-form`).style.display = 'block';
+      });
+    });
+
+    // ✅ Handle form submission
+    const paymentForm = document.getElementById('payment-form');
+    if (paymentForm) {
+      paymentForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const checkoutData = JSON.parse(localStorage.getItem('checkoutData')) || { items: [] };
+        const gameNames = checkoutData.items.map(item => item.name).join(', ');
+        const totalAmount = calculateTotal(checkoutData.items);
+
+        document.getElementById('gameNames').value = gameNames;
+        document.getElementById('paymentAmount').value = totalAmount;
+
+        showToast('Processing payment...', 'info');
+        document.getElementById('place-order-btn').disabled = true;
+
+        setTimeout(() => {
+          showToast('Payment successful! Redirecting to order confirmation...', 'success');
+          saveOrderToHistory();
+          localStorage.setItem('cart', JSON.stringify([]));
+          setTimeout(() => {
+            paymentForm.submit(); // ✅ Actually submit the form now
+          }, 1500);
+        }, 1500);
+      });
+    }
+  }
+
+  function saveOrderToHistory() {
+    const checkoutData = JSON.parse(localStorage.getItem('checkoutData')) || { items: [] };
+    const orderHistory = JSON.parse(localStorage.getItem('orderHistory')) || [];
+    const order = {
+      id: generateOrderId(),
+      date: new Date().toISOString(),
+      items: checkoutData.items,
+      status: 'Confirmed',
+      total: calculateTotal(checkoutData.items)
+    };
+    orderHistory.push(order);
+    localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
+  }
+
+  function generateOrderId() {
+    return 'ORD' + Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
+  }
+
+  function calculateTotal(items) {
+    let subtotal = 0;
+    items.forEach(item => {
+      const priceValue = parseFloat(item.price.replace(/[^0-9]/g, ''));
+      subtotal += priceValue * item.quantity;
+    });
+    const tax = subtotal * 0.18;
+    return (subtotal + tax).toFixed(2);
+  }
+
+  function showToast(message, type = 'success') {
+    const toastContainer = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerHTML = `
+      <div class="toast-content">
+        <i class="fas ${type === 'error' ? 'fa-times-circle error' : type === 'info' ? 'fa-info-circle' : 'fa-check-circle'}"></i>
+        <span>${message}</span>
+      </div>
+    `;
+    toastContainer.appendChild(toast);
+    setTimeout(() => toast.classList.add('show'), 100);
+    setTimeout(() => {
+      toast.classList.remove('show');
+      setTimeout(() => toast.remove(), 300);
+    }, 3000);
+  }
+</script>
+
+<!-- Dark/Light Toggle JS (if needed) -->
+<script src="" th:src="@{js/paymentlightdark.js}"></script>
 </body>
 </html>

@@ -10,7 +10,7 @@ public class ConformationController {
 	
 	public String OrderConformation() {
 		
-		return "orderConfirmation";
+		return "Confirmation";
 	}
 
 }

@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation - Trinetra Games</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link  href="Index.css" rel="stylesheet">
+    <link href="darkthemeorderconfirmation.css" rel="stylesheet">
+    <style>
+       
+    
+   @media (max-width: 576px) {
+    .card-img-top {
+        max-height: 345px;
+    }
+    #eafc{
+            max-height: 171px;
+    }
+
+    .scroll-container {
+     overflow-x: auto;
+     -webkit-overflow-scrolling: touch;
+    }
+
+    .scroll-container .row {
+     flex-wrap: nowrap;
+    }
+
+    .scroll-container .col-10 {
+        flex: 0 0 auto;
+    }
+
+    }
+    .theme-toggle {
+        background: var(--toggle-bg, #333);
+        border: 2px solid var(--toggle-border, #555);
+        border-radius: 50px;
+        padding: 6px 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        margin-left: 15px;
+    }
+
+    .theme-toggle:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .theme-toggle i {
+        font-size: 16px;
+        color: var(--toggle-icon-color, #fff);
+        transition: all 0.3s ease;
+    }
+
+    .theme-toggle-text {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--toggle-text-color, #fff);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* Mobile theme toggle styling */
+    @media (max-width: 768px) {
+        .theme-toggle {
+            margin-left: 0;
+            margin-top: 10px;
+            justify-content: center;
+        }
+        
+        .mobile-theme-toggle {
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+            border-top: 1px solid var(--border-color, #333);
+            margin-top: 10px;
+        }
+    }
+
+    /* Hide desktop theme toggle on mobile */
+    @media (max-width: 768px) {
+        .desktop-theme-toggle {
+            display: none !important;
+        }
+    }
+
+    /* Hide mobile theme toggle on desktop */
+    @media (min-width: 769px) {
+        .mobile-theme-toggle {
+            display: none !important;
+        }
+    }
+
+
+.custom-nav-gap .nav-item {
+    margin: 0 10px;
+}
+
+       
+    </style>
+</head>
+<body>
+   <!-- Toast Notification Container -->
+    <div class="toast-container" id="toast-container">
+        <!-- Toasts will be dynamically added here -->
+    </div>
+     
+    
+    
+     <header class="header">
+        <div class="header-main">
+            <div class="logo">
+                <img src="art.png" alt="Trinetra Games" class="logo">
+            </div>
+            <!-- Desktop Navigation -->
+            <nav class="main-nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="index.html" class="nav-link">AskAi</a>
+                <a href="LIBARAY.html" class="nav-link">Library</a>
+                <a href="order-history.html" class="nav-link">History</a>
+                <a href="wishlist.html" class="nav-link" id="wishlist-link">
+                    Wishlist
+                    <span class="badge" id="wishlist-badge"></span>
+                </a>
+                <a href="cart.html" class="nav-link active" id="cart-link">
+                    Cart
+                    <span class="badge" id="cart-badge">1</span>
+                </a>
+            </nav>
+            
+            
+            <!-- Desktop Search Box -->
+            <div class="search-box desktop-search">
+                <form id="search-form">
+                    <input
+                        type="text"
+                        placeholder="Search for games..."
+                        id="search-input"
+                        aria-label="Search for games"
+                    >
+                    <button type="submit" aria-label="Search">Search</button>
+                </form>
+            </div>
+            
+            <!-- Desktop Theme Toggle -->
+            <div class="theme-toggle desktop-theme-toggle" id="theme-toggle">
+                <i class="fas fa-sun" id="theme-icon"></i>
+                <span class="theme-toggle-text" id="theme-text">Light</span>
+            </div>
+            
+            <!-- Profile with Dropdown - for Desktop -->
+            <div class="profile-container" id="profile-container">
+                <img src="profile.png" alt="Profile" class="profile-icon" style="border-radius: 50%;">
+                
+                <!-- Profile Dropdown Menu -->
+                <div class="profile-dropdown" id="profile-dropdown" style="display: none;">
+                    <a href="profilepage" class="dropdown-item" target="_blank">My Profile</a>
+                    <a href="settings.html" class="dropdown-item">Settings</a>
+                    <div class="dropdown-item logout" id="logout-button">Logout</div>
+                </div>
+            </div>
+            
+            <div class="hamburger-menu" id="hamburger-menu">
+                <div class="humburger-icon" id="hamburger-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation (Includes Search when opened) -->
+        <div class="mobile-nav" id="mobile-nav">
+            <!-- Mobile Profile Section at the top of mobile menu -->
+            <div class="mobile-profile-section">
+                <div class="mobile-profile-container" id="mobile-profile-container">
+                    <img src="profile.jpg" alt="Profile" class="mobile-profile-icon">
+                    <div class="mobile-profile-info">
+                        <div class="mobile-profile-name">User Profile</div>
+                        
+                        <!-- Mobile Profile Dropdown Menu -->
+                        <div class="mobile-profile-dropdown" id="mobile-profile-dropdown" style="display: none;">
+                            <a href="profile.html" class="dropdown-item">My Profile</a>
+                            <a href="settings.html" class="dropdown-item">Settings</a>
+                            <div class="dropdown-item logout" id="mobile-logout-button">Logout</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="index.html" class="nav-link">AskAi</a>
+            <a href="LIBARAY.html" class="nav-link">Library</a>
+            <a href="order-history.html" class="nav-link">History</a>
+            <a href="wishlist.html" class="nav-link" id="mobile-wishlist-link">
+                Wishlist
+                <span class="badge" id="mobile-wishlist-badge"></span>
+            </a>
+            <a href="ADD TO CART1.html" class="nav-link active" id="mobile-cart-link">
+                Cart
+                <span class="badge" id="mobile-cart-badge">1</span>
+            </a>
+            
+            <!-- Mobile Search Box -->
+            <div class="search-box mobile-search">
+                <form id="mobile-search-form">
+                    <input
+                        type="text"
+                        placeholder="Search for games..."
+                        id="mobile-search-input"
+                        aria-label="Search for games"
+                    >
+                    <button type="submit" aria-label="Search">Search</button>
+                </form>
+            </div>
+        </div>
+    </header>
+    <main class="confirmation-container">
+        <!-- Success Header -->
+        <div class="success-header">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h1 class="success-title">Payment Successful!</h1>
+            <p class="success-subtitle">Thank you for your purchase. Your order has been confirmed.</p>
+        </div>
+        
+        <!-- Order Details -->
+        <div class="order-details-card">
+            <div class="order-header">
+                <div>
+                    <div class="order-id" id="order-id">Order #ORD123456</div>
+                    <div class="order-date" id="order-date">March 15, 2024</div>
+                </div>
+                <div class="order-status">
+                    <span class="badge bg-success">Confirmed</span>
+                </div>
+            </div>
+            
+            <!-- Products with Secret Codes -->
+            <div id="products-container">
+                <!-- Products will be dynamically inserted here -->
+            </div>
+            
+            <!-- Price Summary -->
+            <div class="price-summary">
+                <div class="price-row">
+                    <span>Subtotal</span>
+                    <span id="subtotal-amount">Rs0.00</span>
+                </div>
+                <div class="price-row">
+                    <span>Tax (18% GST)</span>
+                    <span id="tax-amount">Rs0.00</span>
+                </div>
+                <div class="price-row">
+                    <span>Total Amount</span>
+                    <span id="total-amount">Rs0.00</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <a href="library" class="btn btn-primary">
+                <i class="fas fa-book-open"></i>
+                Go to Library
+            </a>
+            
+            <a href="home" class="btn btn-outline">
+                <i class="fas fa-home"></i>
+                Continue Shopping
+            </a>
+        </div>
+    </main>
+    
+    <script>
+        // Wait for DOM to fully load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadOrderConfirmation();
+            setupEventListeners();
+        });
+        
+        // Generate random secret codes for games
+        function generateSecretCode() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let code = '';
+            for (let i = 0; i < 16; i++) {
+                if (i > 0 && i % 4 === 0) code += '-';
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return code;
+        }
+        
+        // Load order confirmation data
+        function loadOrderConfirmation() {
+            // Get the latest order from order history
+            const orderHistory = JSON.parse(localStorage.getItem('orderHistory')) || [];
+            
+            if (orderHistory.length === 0) {
+                // No orders found, redirect to home
+                window.location.href = 'TrinetraGamePage.html';
+                return;
+            }
+            
+            // Get the most recent order
+            const latestOrder = orderHistory[orderHistory.length - 1];
+            
+            // Update order details
+            document.getElementById('order-id').textContent = `Order #${latestOrder.id}`;
+            document.getElementById('order-date').textContent = new Date(latestOrder.date).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            // Calculate amounts
+            let subtotal = 0;
+            latestOrder.items.forEach(item => {
+                const priceValue = parseFloat(item.price.replace(/[^0-9]/g, ''));
+                subtotal += priceValue * item.quantity;
+            });
+            
+            const tax = subtotal * 0.18;
+            const total = subtotal + tax;
+            
+            // Update price summary
+            document.getElementById('subtotal-amount').textContent = `Rs${subtotal.toFixed(2)}`;
+            document.getElementById('tax-amount').textContent = `Rs${tax.toFixed(2)}`;
+            document.getElementById('total-amount').textContent = `Rs${total.toFixed(2)}`;
+            
+            // Generate products with secret codes
+            const productsContainer = document.getElementById('products-container');
+            productsContainer.innerHTML = '';
+            
+            latestOrder.items.forEach(item => {
+                const secretCode = generateSecretCode();
+                
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `
+                    <div class="product-header">
+                        <img src="${item.image}" alt="${item.name}" class="product-image">
+                        <div class="product-info">
+                            <h4>${item.name}</h4>
+                            <div class="product-price">${item.price} x ${item.quantity}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="secret-code-section">
+                        <div class="secret-code-title">
+                            <i class="fas fa-key"></i>
+                            <strong>Game Activation Code</strong>
+                        </div>
+                        <div class="secret-code">
+                            ${secretCode}
+                            <button class="copy-btn" onclick="copyToClipboard('${secretCode}')">
+                                <i class="fas fa-copy"></i> Copy
+                            </button>
+                        </div>
+                        <small style="color: #999; margin-top: 10px; display: block;">
+                            <i class="fas fa-info-circle"></i> Use this code to activate your game. Keep it safe!
+                        </small>
+                    </div>
+                `;
+                
+                productsContainer.appendChild(productCard);
+                
+                // Add the secret code to the item for library page
+                item.secretCode = secretCode;
+                item.purchaseDate = latestOrder.date;
+                item.orderId = latestOrder.id;
+            });
+            
+            // Update the order in order history with secret codes
+            orderHistory[orderHistory.length - 1] = latestOrder;
+            localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
+            
+            // Add items to library
+            addItemsToLibrary(latestOrder.items);
+        }
+        
+        // Add purchased items to library
+        function addItemsToLibrary(items) {
+            const library = JSON.parse(localStorage.getItem('gameLibrary')) || [];
+            
+            items.forEach(item => {
+                // Check if item already exists in library
+                const existingItem = library.find(libItem => libItem.name === item.name);
+                
+                if (!existingItem) {
+                    // Add new item to library
+                    const libraryItem = {
+                        ...item,
+                        status: 'Ready to Play',
+                        downloadProgress: 100,
+                        lastPlayed: null,
+                        playTime: '0 hours'
+                    };
+                    
+                    library.push(libraryItem);
+                }
+            });
+            
+            // Save updated library
+            localStorage.setItem('gameLibrary', JSON.stringify(library));
+        }
+        
+        // Copy text to clipboard
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                showToast('Code copied to clipboard!', 'success');
+            }).catch(function(err) {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showToast('Code copied to clipboard!', 'success');
+            });
+        }
+        
+        // Setup event listeners
+        function setupEventListeners() {
+            // Profile dropdown toggle
+            const profileIcon = document.querySelector('.profile-icon');
+            const profileDropdown = document.querySelector('.profile-dropdown');
+            
+            if (profileIcon && profileDropdown) {
+                profileIcon.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    profileDropdown.style.display = profileDropdown.style.display === 'none' ? 'block' : 'none';
+                });
+                
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function() {
+                    profileDropdown.style.display = 'none';
+                });
+            }
+            
+            // Mobile menu toggle
+            const hamburgerIcon = document.querySelector('.hamburger-icon');
+            const mobileNav = document.querySelector('.mobile-nav');
+            
+            if (hamburgerIcon && mobileNav) {
+                hamburgerIcon.addEventListener('click', function() {
+                    mobileNav.classList.toggle('active');
+                });
+            }
+        }
+        
+        // Show toast notification
+        function showToast(message, type = 'success') {
+            const toastContainer = document.getElementById('toast-container');
+            
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `
+                <i class="fas ${type === 'error' ? 'fa-times-circle' : 'fa-check-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    if (toastContainer.contains(toast)) {
+                        toastContainer.removeChild(toast);
+                    }
+                }, 300);
+            }, 3000);
+        }
+        
+        // Make copyToClipboard function global
+        window.copyToClipboard = copyToClipboard;
+    </script>
+    <script src="" th:src="@{js/orderconfirmationthemecontrol.js}"></script>
+</body>
+</html>

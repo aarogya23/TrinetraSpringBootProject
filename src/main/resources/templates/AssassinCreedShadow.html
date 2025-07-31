@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assassin Creed Shadow</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="/css/product.css" rel="stylesheet">
+    <link href="Index.css" rel="stylesheet">
+    <style>
+    
+    
+   @media (max-width: 576px) {
+    .card-img-top {
+        max-height: 345px;
+    }
+    #eafc{
+            max-height: 171px;
+    }
+
+    .scroll-container {
+     overflow-x: auto;
+     -webkit-overflow-scrolling: touch;
+    }
+
+    .scroll-container .row {
+     flex-wrap: nowrap;
+    }
+
+    .scroll-container .col-10 {
+        flex: 0 0 auto;
+    }
+
+    }
+    .theme-toggle {
+        background: var(--toggle-bg, #333);
+        border: 2px solid var(--toggle-border, #555);
+        border-radius: 50px;
+        padding: 6px 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        margin-left: 15px;
+    }
+
+    .theme-toggle:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .theme-toggle i {
+        font-size: 16px;
+        color: var(--toggle-icon-color, #fff);
+        transition: all 0.3s ease;
+    }
+
+    .theme-toggle-text {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--toggle-text-color, #fff);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* Mobile theme toggle styling */
+    @media (max-width: 768px) {
+        .theme-toggle {
+            margin-left: 0;
+            margin-top: 10px;
+            justify-content: center;
+        }
+        
+        .mobile-theme-toggle {
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+            border-top: 1px solid var(--border-color, #333);
+            margin-top: 10px;
+        }
+    }
+
+    /* Hide desktop theme toggle on mobile */
+    @media (max-width: 768px) {
+        .desktop-theme-toggle {
+            display: none !important;
+        }
+    }
+
+    /* Hide mobile theme toggle on desktop */
+    @media (min-width: 769px) {
+        .mobile-theme-toggle {
+            display: none !important;
+        }
+    }
+
+   
+    </style>
+</head>
+<body>
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toast-container">
+        <!-- Toasts will be dynamically added here -->
+    </div>
+
+     <header class="header">
+        <div class="header-main">
+            <div class="logo">
+                <img src="resources/image/black.png" alt="Trinetra Games" class="logo">
+            </div>
+            <!-- Desktop Navigation -->
+            <nav class="main-nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="AiAsk.html" class="nav-link">AskAi</a>
+                <a href="library.html" class="nav-link">Library</a>
+                <a href="wishlist.html" class="nav-link" id="wishlist-link">
+                    Wishlist
+                    <span class="badge" id="wishlist-badge"></span>
+                </a>
+                <a href="cart" class="nav-link active" id="cart-link">
+                    Cart
+                    <span class="badge" id="cart-badge">1</span>
+                </a>
+            </nav>
+            
+            <!-- Desktop Search Box -->
+            <!-- Desktop Search Box -->
+            <div class="search-box desktop-search">
+                <form id="search-form">
+                    <input
+                        type="text"
+                        placeholder="Search for games..."
+                        id="searchInput"
+                        aria-label="Search for games"
+                        oninput="searchGames()"
+                    >
+                    <button type="submit" aria-label="Search">Search</button>
+                    <div id="searchResults" class="search-results"></div>
+                </form>
+            </div>
+
+            
+            <!-- Desktop Theme Toggle -->
+            <div class="theme-toggle desktop-theme-toggle" id="theme-toggle">
+                <i class="fas fa-sun" id="theme-icon"></i>
+                <span class="theme-toggle-text" id="theme-text">Light</span>
+            </div>
+            
+            
+            <!-- Profile with Dropdown - for Desktop -->
+            <div class="profile-container" id="profile-container">
+                <img src="image/question.png" alt="Profile" class="profile-icon" style="border-radius: 50%;">
+                
+                <!-- Profile Dropdown Menu -->
+                <div class="profile-dropdown" id="profile-dropdown" style="display: none;">
+                    <a href="login" class="dropdown-item">Login</a>
+                    <a href="signup" class="dropdown-item">Signup</a>
+                    <div class="dropdown-item logout" id="logout-button">Logout</div>
+                </div>
+            </div>
+            
+            <div class="hamburger-menu" id="hamburger-menu">
+                <div class="humburger-icon" id="hamburger-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation (Includes Search when opened) -->
+        <div class="mobile-nav" id="mobile-nav">
+            <!-- Mobile Profile Section at the top of mobile menu -->
+            <div class="mobile-profile-section">
+                <div class="mobile-profile-container" id="mobile-profile-container">
+                    <img src="profile.jpg" alt="Profile" class="mobile-profile-icon">
+                    <div class="mobile-profile-info">
+                        <div class="mobile-profile-name">User Profile</div>
+                        
+                        <!-- Mobile Profile Dropdown Menu -->
+                        <div class="mobile-profile-dropdown" id="mobile-profile-dropdown" style="display: none;">
+                            <a href="profile.html" class="dropdown-item">My Profile</a>
+                            <a href="settings.html" class="dropdown-item">Settings</a>
+                            <div class="dropdown-item logout" id="mobile-logout-button">Logout</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="index.html" class="nav-link">AskAi</a>
+            <a href="LIBARAY.html" class="nav-link">Library</a>
+            <a href="wishlist.html" class="nav-link" id="mobile-wishlist-link">
+                Wishlist
+                <span class="badge" id="mobile-wishlist-badge"></span>
+            </a>
+            <a href="ADD TO CART1.html" class="nav-link active" id="mobile-cart-link">
+                Cart
+                <span class="badge" id="mobile-cart-badge">1</span>
+            </a>
+            
+            <!-- Mobile Search Box -->
+            <div class="search-box mobile-search">
+                <form id="mobile-search-form">
+                    <input
+                        type="text"
+                        placeholder="Search for games..."
+                        id="mobile-search-input"
+                        aria-label="Search for games"
+                    >
+                    <button type="submit" aria-label="Search">Search</button>
+                </form>
+            </div>
+
+            <!-- Mobile Theme Toggle -->
+            <div class="mobile-theme-toggle">
+                <div class="theme-toggle" id="mobile-theme-toggle">
+                    <i class="fas fa-sun" id="mobile-theme-icon"></i>
+                    <span class="theme-toggle-text" id="mobile-theme-text">Light</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Breadcrumb Navigation -->
+        <div class="container mt-3">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Games</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Assassin Creed Shadow</li>
+                </ol>
+            </nav>
+        </div>
+
+        <!-- Product Detail Section -->
+        <section class="product-detail container">
+            <div class="row">
+                <!-- Product Gallery -->
+                <div class="col-lg-6">
+                    <div class="product-gallery">
+                        <img src="/image/shadow.avif" alt="Call of Duty: Modern Warfare 3" class="product-main-image" id="main-product-image">
+                         <video class="product-main-video" id="main-product-video" controls style="display: none; width: 573px;">
+                            <source src="" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="product-thumbnails">
+                            <img src="/image/shadow.avif" alt="Call of Duty: Modern Warfare 3 - Main" class="thumbnail active" onclick="changeImage('/image/shadow.avif')">
+                            
+                            <img src="/image/creed2.jpg" alt="Call of Duty: Modern Warfare 3 - Multiplayer" class="thumbnail" onclick="changeImage('/image/creed2.jpg')">
+                            <img src="/image/creed3.jpg" alt="Call of Duty: Modern Warfare 3 - Zombies" class="thumbnail" onclick="changeImage('/image/creed3.jpg')">
+                            <img src="/image/creed4.jpg" alt="Call of Duty: Modern Warfare 3 - Zombies" class="thumbnail" onclick="changeImage('/image/creed4.jpg')">
+                            <img src="/image/creed5.jpg" alt="Call of Duty: Modern Warfare 3 - Zombies" class="thumbnail" onclick="changeImage('/image/creed5.jpg')">
+                            <img src="/image/creed6.jpg" alt="EA FC 25 - Trailer" class="thumbnail" onclick="changeVideo('eafc.mp4')">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Information -->
+                <!-- Product Information -->
+                <div class="col-lg-6">
+                    <div class="product-info">
+                        <h1>Assassin Creed Shadow</h1>
+                        
+                        <div class="product-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-star"></i>
+                                <span>3.5/5 (150 reviews)</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-gamepad"></i>
+                                <span>Historical Tactical Game</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-user-shield"></i>
+                                <span>Ubisoft</span>
+                            </div>
+                        </div>
+                        
+                        <p>Experience an epic action-adventure story set in feudal Japan! Become a lethal shinobi assassin and powerful legendary samurai as you explore a beautiful open world in a time of chaos.</p>
+                        
+                        <div class="price-container">
+                            <span class="current-price">Rs2500</span>
+                            <span class="old-price">Rs5000</span>
+                            <span class="discount">-50%</span>
+                        </div>
+                        
+                        <div class="action-buttons">
+                            <button class="action-btn buy-now-btn" id="buy-now-btn">
+                                <i class="fas fa-bolt"></i>
+                                Buy Now
+                            </button>
+                            <button class="action-btn add-to-cart-btn" id="add-to-cart-btn">
+                                <i class="fas fa-shopping-cart"></i>
+                                Add to Cart
+                            </button>
+                            <button class="action-btn wishlist-btn" id="wishlist-btn">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="additional-info">
+                            <p><strong>Availability:</strong> In Stock</p>
+                            <p><strong>Platform:</strong> PC, PlayStation 5, Xbox Series</p>
+                            <p><strong>Release Date:</strong> November 10, 2025</p>
+                            <p><strong>ESRB Rating:</strong> Mature 18+</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <!-- Product Details Tabs -->
+            <div class="product-details">
+                <div class="detail-tabs">
+                    <div class="tab-item active" data-tab="description">Description</div>
+                    <div class="tab-item" data-tab="specifications">Specifications</div>
+                    <div class="tab-item" data-tab="requirements">System Requirements</div>
+                    <div class="tab-item" data-tab="reviews">Reviews</div>
+                </div>
+                
+                <div class="tab-content active" id="description-tab">
+                    <h3>Game Description</h3>
+                    <p>EA Sports FC 25 is a 2025 football simulation video game developed and published by EA Sports. It is the latest installment in the EA Sports FC series, following EA Sports FC 24, and continues the legacy of the long-running FIFA franchise. Featuring enhanced gameplay mechanics, updated team rosters, and deeper career and Ultimate Team modes, EA FC 25 delivers the most authentic and immersive football experience to date. With improved graphics, dynamic animations, and real-world football innovations, it sets a new standard for the beautiful game in virtual form.</p>
+                    
+                    <h4>Career Mode</h4>
+                    <p>EA Sports FC 25 expands the Career Mode experience with more immersive management features, dynamic storylines, and deeper player development. Whether you’re managing a top-tier club or rising through the ranks as a young star, your choices shape your path to greatness on and off the pitch.</p>
+
+                    <h4>Ultimate Team</h4>
+                    <p>Build your dream squad in Ultimate Team with new Evolutions, refined chemistry, and fresh ICONs and Heroes. FC 25 introduces more customization options and seasonal challenges, allowing players to create a team that reflects their playstyle and vision.</p>
+
+                    <h4>Clubs & Volta</h4>
+                    <p>Clubs mode returns with cross-play support, expanded progression, and new customization features to represent your club your way. In Volta, street football reaches new heights with vibrant environments, creative flair, and fast-paced gameplay that captures the spirit of the global game.</p>
+                    </div>
+
+                <div class="tab-content" id="specifications-tab">
+                    <h3>Game Specifications</h3>
+                    
+                    <div class="spec-item">
+                        <div class="spec-label">Publisher</div>
+                        <div class="spec-value">Activision</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Developer</div>
+                        <div class="spec-value">Sledgehammer Games</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Genre</div>
+                        <div class="spec-value">First-Person Shooter, Action</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Platforms</div>
+                        <div class="spec-value">PC, PlayStation 5, PlayStation 4, Xbox Series X/S, Xbox One</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Release Date</div>
+                        <div class="spec-value">November 10, 2023</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Game Modes</div>
+                        <div class="spec-value">Single-player Campaign, Multiplayer, Co-op Zombies</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Multiplayer Modes</div>
+                        <div class="spec-value">Team Deathmatch, Domination, Hardpoint, Search and Destroy, Free-for-All, and more</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Online Players</div>
+                        <div class="spec-value">2-32 players</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">File Size</div>
+                        <div class="spec-value">Approximately 140GB (varies by platform)</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Age Rating</div>
+                        <div class="spec-value">ESRB: Mature 17+, PEGI: 18</div>
+                    </div>
+                </div>
+                
+                
+
+                <div class="tab-content" id="requirements-tab">
+                    <h3>System Requirements</h3>
+                    <ul>
+                        <li><strong>OS:</strong> Windows 10 64-bit</li>
+                        <li><strong>Processor:</strong> Intel Core i5-6600 or AMD Ryzen 5 1400</li>
+                        <li><strong>Memory:</strong> 12 GB RAM</li>
+                        <li><strong>Graphics:</strong> NVIDIA GeForce GTX 960 / GTX 1650 or AMD Radeon RX 470</li>
+                        <li><strong>DirectX:</strong> Version 12</li>
+                        <li><strong>Storage:</strong> 150 GB available space</li>
+                        <li><strong>Additional Notes:</strong> SSD Recommended</li>
+                    </ul>
+                </div>
+
+                <div class="tab-content" id="reviews-tab">
+                    <h3>Player Reviews</h3>
+                    <div class="review">
+                        <p><strong>Ramesh T.:</strong> “The best CoD in recent years. Campaign is intense and Zombies is so much fun with friends!”</p>
+                    </div>
+                    <div class="review">
+                        <p><strong>Sita K.:</strong> “Graphics and gunplay are top-notch. Totally worth the price!”</p>
+                    </div>
+                    <div class="review">
+                        <p><strong>Arjun B.:</strong> “Solid multiplayer experience. Loving the classic maps and fast-paced action.”</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- JavaScript for interactivity -->
+    <!-- JavaScript for interactivity -->
+    <script>
+
+    function changeImage(imageSrc) {
+        const image = document.getElementById('main-product-image');
+        const video = document.getElementById('main-product-video');
+        
+        image.src = imageSrc;
+        image.style.display = 'block';
+        video.style.display = 'none';
+
+        const thumbnails = document.querySelectorAll('.thumbnail');
+        thumbnails.forEach(thumb => thumb.classList.remove('active'));
+        event.target.classList.add('active');
+    }
+
+    function changeVideo(videoSrc) {
+        const image = document.getElementById('main-product-image');
+        const video = document.getElementById('main-product-video');
+        
+        video.querySelector('source').src = videoSrc;
+        video.load();
+
+        image.style.display = 'none';
+        video.style.display = 'block';
+
+        const thumbnails = document.querySelectorAll('.thumbnail');
+        thumbnails.forEach(thumb => thumb.classList.remove('active'));
+        event.target.classList.add('active');
+    }
+
+    // Tab switch logic
+    const tabItems = document.querySelectorAll('.tab-item');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabItems.forEach(item => {
+        item.addEventListener('click', () => {
+            tabItems.forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+
+            const selectedTab = item.getAttribute('data-tab');
+
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+                if (content.id === `${selectedTab}-tab`) {
+                    content.classList.add('active');
+                }
+            });
+        });
+    });
+
+
+
+
+
+        // Profile Dropdown (Desktop)
+        document.getElementById('profile-container').addEventListener('click', () => {
+            const dropdown = document.getElementById('profile-dropdown');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        });
+
+        // Profile Dropdown (Mobile)
+        document.getElementById('mobile-profile-container').addEventListener('click', () => {
+            const mobileDropdown = document.getElementById('mobile-profile-dropdown');
+            mobileDropdown.style.display = mobileDropdown.style.display === 'block' ? 'none' : 'block';
+        });
+
+        // Hamburger Menu Toggle
+        document.getElementById('hamburger-icon').addEventListener('click', () => {
+            const mobileNav = document.getElementById('mobile-nav');
+            mobileNav.classList.toggle('open');
+        }); 
+    </script>
+    <script src="" th:src="@{js/Addtocart.js}"></script>
+    <script src="" th:src="@{js/darklight.js}"></script>
+    <script src="" th:src="@{js/search.js}"></script>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
