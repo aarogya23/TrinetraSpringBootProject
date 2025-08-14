@@ -1,7 +1,8 @@
 body {
     background-color: #121212;
     color: #ffffff;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+   
 }
 .card {
     background-color: #1e1e1e;

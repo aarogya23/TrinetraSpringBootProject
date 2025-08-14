@@ -1,48 +1,154 @@
 package com.trinetra.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Base64;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.trinetra.model.UserClass;
 import com.trinetra.repository.UserRepository;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class LoginController {
-    
+
     @Autowired
     private UserRepository uRepo;
-    
+
     @GetMapping("/login")
     public String loginPage() {
-    	
-        return "Login"; // JSP or HTML view name
+        return "Login";
     }
-    
+
+  
+
     @GetMapping("/home")
-    public String homePage() {
-    	
-        return "Home"; // JSP or HTML view name
+    public String homePage(HttpSession session, Model model) {
+        String username = (String) session.getAttribute("activeUser");
+
+        if (username != null) {
+            UserClass user = uRepo.findByUsername(username);
+            if (user != null) {
+                model.addAttribute("user", user); // send user to Home page
+            }
+        }
+
+        return "Home";
     }
+
+
     
-    
+    //first lets add session
     @PostMapping("/login")
-    public String loginPagePost(@RequestParam String username, 
-                               @RequestParam String password, 
-                               Model model) {
-        
-        // Find user by username
-        UserClass user = uRepo.findByUsername(username);
-        
-        if (user != null && user.getPassword().equals(password)) {
-            // Login successful
-            return "Home"; // Redirect to dashboard or home page
+    public String loginPagePost(@ModelAttribute UserClass uc, Model model, HttpSession session) {
+
+        String username = uc.getUsername();
+        String password = uc.getPassword();
+
+        boolean result = uRepo.existsByUsernameAndPassword(username, password);
+
+        if (result) {
+        	
+        	session.setAttribute("activeUser", username);
+        	
+        	//set session timeout 
+        	
+        	session.setMaxInactiveInterval(300);
+           
+            return "Home";
         } else {
-            // Login failed
             model.addAttribute("error", "Invalid username or password");
-            return "Login"; // Return to login page with error
+            return "Login";
         }
     }
+    
+    //adding logout functionality too
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+    	session.invalidate();
+    	return "Login";
+    }
+
+    // for profile
+    @GetMapping("profile")
+    public String profilePage(HttpSession session, Model model)
+    {
+    	String username = (String) session.getAttribute("activeUser");
+    	
+    	if(username == null) {
+    		model.addAttribute("error","User not found in databases");
+    		return "Login";
+    		
+    	}
+    	
+    	//fetching the user data from the database if found then
+    	
+    	UserClass user = uRepo.findByUsername(username);
+    	
+    	if(user == null) {
+    		model.addAttribute("error","user not found bro");
+    		return "Home";
+    	}
+    	
+    	model.addAttribute("user", user);
+    	return "profile";
+    }
+    
+    
+    @PostMapping("/uploadProfileImage")
+    public String uploadProfileImage(@RequestParam("image") MultipartFile file, HttpSession session) {
+        String username = (String) session.getAttribute("activeUser");
+        if (username == null) {
+            return "login";
+        }
+
+        UserClass user = uRepo.findByUsername(username);
+        if (user == null) {
+            return "profile";
+        }
+
+        try {
+            // Directory to save uploaded images
+            String uploadDir = "src/main/resources/static/profile/users/";
+            Files.createDirectories(Paths.get(uploadDir));
+
+            // Delete previous image if it exists
+            String existingImage = user.getProfileImage();
+            if (existingImage != null && !existingImage.isEmpty()) {
+                Path oldImagePath = Paths.get("src/main/resources/static" + existingImage);
+                if (Files.exists(oldImagePath)) {
+                    Files.delete(oldImagePath);
+                }
+            }
+
+            // Create a unique file name
+            String fileName = username + "_" + System.currentTimeMillis() + "_" + file.getOriginalFilename();
+            Path filePath = Paths.get(uploadDir + fileName);
+
+            // Save the new file
+            Files.write(filePath, file.getBytes());
+
+            // Update user's profile image path in the database
+            user.setProfileImage("/images/users/" + fileName);
+            uRepo.save(user);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return "profile";  // redirect to refresh and reflect the new image
+    }
+   
 }

@@ -122,7 +122,7 @@
             <!-- Desktop Navigation -->
             <nav class="main-nav">
                 <a href="index.html" class="nav-link">Home</a>
-                <a href="AiAsk.html" class="nav-link">AskAi</a>
+                <a href="aiask" class="nav-link">AskAi</a>
                 <a href="library.html" class="nav-link">Library</a>
                 <a href="wishlist.html" class="nav-link" id="wishlist-link">
                     Wishlist
@@ -163,10 +163,10 @@
                 
                 <!-- Profile Dropdown Menu -->
                 <div class="profile-dropdown" id="profile-dropdown" style="display: none;">
-                    <a th:href="@{/profilepage}" class="dropdown-item" target="_blank">Profile</a>
+                    <a href="profile" class="dropdown-item" target="_blank">Profile</a>
                     
-                    <a href="signup" class="dropdown-item">Payment Connection</a>
-                    <div class="dropdown-item logout" id="logout-button">Logout</div>
+                    <a href="logout" class="dropdown-item">Log out</a>
+                    
                 </div>
             </div>
             
@@ -183,16 +183,16 @@
         <div class="mobile-nav" id="mobile-nav">
             <!-- Mobile Profile Section at the top of mobile menu -->
             <div class="mobile-profile-section">
-                <div class="mobile-profile-container" id="mobile-profile-container">
-                    <img src="profile.jpg" alt="Profile" class="mobile-profile-icon">
+                <div class="mobile-profile-container" id="mobile-profile-container" >
+                    <img src = "image/profile.png" alt="Profile" class="mobile-profile-icon">
                     <div class="mobile-profile-info">
                         <div class="mobile-profile-name">User Profile</div>
                         
                         <!-- Mobile Profile Dropdown Menu -->
                         <div class="mobile-profile-dropdown" id="mobile-profile-dropdown" style="display: none;">
-                            <a href="profile.html" class="dropdown-item">My Profile</a>
-                            <a href="settings.html" class="dropdown-item">Settings</a>
-                            <div class="dropdown-item logout" id="mobile-logout-button">Logout</div>
+                            <a href="profile" class="dropdown-item">My Profile</a>
+                            
+                            <a href="logout" class="dropdown-item">Log out</a>
                         </div>
                     </div>
                 </div>
@@ -787,7 +787,7 @@
 					<ul class="nav justify-content-center custom-nav-gap">
     <li class="nav-item"><a class="nav-link" href="About.jsp">About Us</a></li>
     <li class="nav-item"><a class="nav-link" href="News.jsp">News</a></li>
-    <li class="nav-item"><a class="nav-link" href="Contact.jsp">Contact</a></li>
+    <li class="nav-item"><a class="nav-link" href="contact">Contact</a></li>
     <li class="nav-item"><a class="nav-link" href="adminLogin">Admin</a></li>
 </ul>
                                  

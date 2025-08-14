@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f3f3;
+            padding: 40px;
+        }
+
+        .profile-container {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ccc;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .info {
+            margin: 20px 0;
+        }
+
+        .info strong {
+            display: inline-block;
+            width: 100px;
+        }
+
+        .logout {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .logout a {
+            text-decoration: none;
+            color: white;
+            background: #007BFF;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+
+        .logout a:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="profile-container">
+    <h2>User Profile</h2>
+
+    <div class="info">
+        <p><strong>Username:</strong> <span th:text="${user.username}">username</span></p>
+        <p><strong>Full Name:</strong> <span th:text="${user.fullName}">Full Name</span></p>
+        <p><strong>Email:</strong> <span th:text="${user.email}">Email</span></p>
+    </div>
+
+    <div class="logout">
+        <a th:href="@{/logout}">Logout</a>
+    </div>
+</div>
+
+</body>
+</html>

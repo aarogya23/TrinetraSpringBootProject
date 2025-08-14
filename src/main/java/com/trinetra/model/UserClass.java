@@ -1,10 +1,13 @@
 package com.trinetra.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 
 @Entity
 public class UserClass {
@@ -17,8 +20,21 @@ public class UserClass {
     private String email;
     private String password;
     private String country;
+    private String profileImage;
 
-    // Getters and Setters
+   
+
+	
+
+	public String getProfileImage() {
+		return profileImage;
+	}
+
+	public void setProfileImage(String profileImage) {
+		this.profileImage = profileImage;
+	}
+
+	// Getters and Setters
     public long getId() {
         return id;
     }
@@ -58,4 +74,8 @@ public class UserClass {
     public void setCountry(String country) {
         this.country = country;
     }
+
+
+
+	
 }

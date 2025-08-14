@@ -27,10 +27,10 @@ public class Payment {
     private String bank;
 
     // eSewa
-    private String esewaId;
+    private String esewa_id;
 
     // Khalti
-    private String khaltiId;
+    private String khalti_id;
 
     // Mobile Banking
     private String mobileBank;
@@ -73,17 +73,18 @@ public class Payment {
 	public void setBank(String bank) {
 		this.bank = bank;
 	}
-	public String getEsewaId() {
-		return esewaId;
+
+	public String getEsewa_id() {
+		return esewa_id;
 	}
-	public void setEsewaId(String esewaId) {
-		this.esewaId = esewaId;
+	public void setEsewa_id(String esewa_id) {
+		this.esewa_id = esewa_id;
 	}
-	public String getKhaltiId() {
-		return khaltiId;
+	public String getKhalti_id() {
+		return khalti_id;
 	}
-	public void setKhaltiId(String khaltiId) {
-		this.khaltiId = khaltiId;
+	public void setKhalti_id(String khalti_id) {
+		this.khalti_id = khalti_id;
 	}
 	public String getMobileBank() {
 		return mobileBank;

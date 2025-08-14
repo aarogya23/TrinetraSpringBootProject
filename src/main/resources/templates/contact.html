@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Trinetra Games</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+   <link  href="" th:href="@{/css/Index.css}" rel="stylesheet">
+   <style>
+
+    
+   @media (max-width: 576px) {
+    .card-img-top {
+        max-height: 345px;
+    }
+    #eafc{
+            max-height: 171px;
+    }
+
+    .scroll-container {
+     overflow-x: auto;
+     -webkit-overflow-scrolling: touch;
+    }
+
+    .scroll-container .row {
+     flex-wrap: nowrap;
+    }
+
+    .scroll-container .col-10 {
+        flex: 0 0 auto;
+    }
+
+    }
+    .theme-toggle {
+        background: var(--toggle-bg, #333);
+        border: 2px solid var(--toggle-border, #555);
+        border-radius: 50px;
+        padding: 6px 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        margin-left: 15px;
+    }
+
+    .theme-toggle:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .theme-toggle i {
+        font-size: 16px;
+        color: var(--toggle-icon-color, #fff);
+        transition: all 0.3s ease;
+    }
+
+    .theme-toggle-text {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--toggle-text-color, #fff);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* Mobile theme toggle styling */
+    @media (max-width: 768px) {
+        .theme-toggle {
+            margin-left: 0;
+            margin-top: 10px;
+            justify-content: center;
+        }
+        
+        .mobile-theme-toggle {
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+            border-top: 1px solid var(--border-color, #333);
+            margin-top: 10px;
+        }
+    }
+
+    /* Hide desktop theme toggle on mobile */
+    @media (max-width: 768px) {
+        .desktop-theme-toggle {
+            display: none !important;
+        }
+    }
+
+    /* Hide mobile theme toggle on desktop */
+    @media (min-width: 769px) {
+        .mobile-theme-toggle {
+            display: none !important;
+        }
+    }
+
+.custom-nav-gap .nav-item {
+    margin: 0 10px;
+}
+   
+        :root {
+            --primary-color: #ff8c00;
+            --secondary-color: #ffd700;
+            --accent-color: #ff6b6b;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --dark-color: #343a40;
+            --light-color: #f8f9fa;
+            
+            /* Light theme */
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --text-muted: #666666;
+            --border-color: #e0e0e0;
+            --card-bg: #ffffff;
+            --input-bg: #f8f9fa;
+            --input-border: #ddd;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --toggle-bg: #333;
+            --toggle-border: #555;
+            --toggle-icon-color: #fff;
+            --toggle-text-color: #fff;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+            --text-muted: #aaaaaa;
+            --border-color: #404040;
+            --card-bg: #2d2d2d;
+            --input-bg: #3d3d3d;
+            --input-border: #555;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        
+        
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 71, 87, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
+        }
+
+        /* Search Box */
+        .search-box {
+            position: relative;
+            margin: 0 1rem;
+        }
+
+        .desktop-search {
+            display: block;
+        }
+
+        .mobile-search {
+            display: none;
+            margin: 1rem 0;
+        }
+
+        .search-box form {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .search-box form:focus-within {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.2);
+        }
+
+        .search-box input {
+            background: transparent;
+            border: none;
+            padding: 0.75rem 1.25rem;
+            color: white;
+            width: 250px;
+            font-size: 0.95rem;
+        }
+
+        .search-box input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .search-box input:focus {
+            outline: none;
+        }
+
+        .search-box button {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-box button:hover {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            transform: scale(1.05);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            background: var(--toggle-bg, #333);
+            border: 2px solid var(--toggle-border, #555);
+            border-radius: 50px;
+            padding: 6px 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            margin-left: 15px;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .theme-toggle i {
+            font-size: 16px;
+            color: var(--toggle-icon-color, #fff);
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle-text {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--toggle-text-color, #fff);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Profile Container */
+        .profile-container {
+            position: relative;
+            margin-left: 1rem;
+        }
+
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .profile-icon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3);
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            box-shadow: 0 8px 30px var(--shadow);
+            min-width: 200px;
+            z-index: 1000;
+            margin-top: 0.5rem;
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item:hover {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        /* Hamburger Menu */
+        .hamburger-menu {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .humburger-icon {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .humburger-icon span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        .hamburger-menu:hover .humburger-icon span {
+            background: var(--primary-color);
+        }
+
+        /* Mobile Navigation */
+        .mobile-nav {
+            display: none;
+            flex-direction: column;
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            padding: 1rem;
+            border-top: 1px solid #333;
+        }
+
+        .mobile-nav .nav-link {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 0.5rem;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .mobile-nav .nav-link:last-child {
+            border-bottom: none;
+        }
+
+        /* Mobile Profile Section */
+        .mobile-profile-section {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 1rem;
+        }
+
+        .mobile-profile-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+        }
+
+        .mobile-profile-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-color);
+        }
+
+        .mobile-profile-info {
+            flex: 1;
+        }
+
+        .mobile-profile-name {
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Mobile Theme Toggle */
+        .mobile-theme-toggle {
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 10px;
+        }
+
+        /* Hide/Show elements based on screen size */
+        @media (max-width: 768px) {
+            .main-nav,
+            .desktop-search,
+            .profile-container,
+            .desktop-theme-toggle {
+                display: none;
+            }
+
+            .hamburger-menu {
+                display: flex;
+            }
+
+            .mobile-search {
+                display: block;
+            }
+
+            .header-main {
+                padding: 1rem;
+            }
+
+            .search-box input {
+                width: 100%;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-theme-toggle {
+                display: none !important;
+            }
+        }
+
+        /* Page Title Section */
+        .page-title {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-title::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .page-title h1 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .page-title p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 5rem 0;
+            background: var(--bg-color);
+        }
+
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .contact-info {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .contact-info h2 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: var(--input-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px var(--shadow);
+            border-color: var(--primary-color);
+        }
+
+        .contact-item i {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-right: 1rem;
+            width: 40px;
+            text-align: center;
+        }
+
+        .contact-item-content h3 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: var(--text-color);
+        }
+
+        .contact-item-content p {
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .contact-item-content a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-item-content a:hover {
+            color: var(--secondary-color);
+        }
+
+        /* Contact Form */
+        .contact-form {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .contact-form h2 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--input-border);
+            border-radius: 10px;
+            background: var(--input-bg);
+            color: var(--text-color);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.1);
+        }
+
+        .form-control::placeholder {
+            color: var(--text-muted);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 140, 0, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Quick Contact Cards */
+        .quick-contact {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .quick-contact-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quick-contact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 140, 0, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .quick-contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px var(--shadow);
+            border-color: var(--primary-color);
+        }
+
+        .quick-contact-card:hover::before {
+            left: 100%;
+        }
+
+        .quick-contact-card i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .quick-contact-card h3 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .quick-contact-card p {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .quick-contact-btn {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .quick-contact-btn:hover {
+            background: var(--secondary-color);
+            color: white;
+            transform: scale(1.05);
+        }--input-bg);
+            color: var(--text-color);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
+
+        .form-control::placeholder {
+            color: var(--text-muted);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Quick Contact Cards */
+        .quick-contact {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .quick-contact-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quick-contact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 123, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .quick-contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px var(--shadow);
+        }
+
+        .quick-contact-card:hover::before {
+            left: 100%;
+        }
+
+        .quick-contact-card i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .quick-contact-card h3 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .quick-contact-card p {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .quick-contact-btn {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .quick-contact-btn:hover {
+            background: var(--secondary-color);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background: var(--input-bg);
+            padding: 3rem 0;
+            margin-top: 3rem;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .faq-section h2 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+        }
+
+        .faq-item {
+            background: var(--card-bg);
+            margin-bottom: 1rem;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .faq-question {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: var(--input-bg);
+        }
+
+        .faq-question h3 {
+            font-weight: 600;
+            color: var(--text-color);
+            margin: 0;
+        }
+
+        .faq-question i {
+            color: var(--primary-color);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--text-muted);
+            display: none;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--dark-color), #2c3e50);
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 3rem;
+        }
+
+        footer .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+        }
+
+        footer .nav-link:hover {
+            color: white;
+            background: var(--primary-color);
+            border-radius: 5px;
+        }
+
+        footer p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: white;
+        }
+
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 9999;
+        }
+
+        .toast {
+            background: var(--success-color);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .toast.error {
+            background: var(--danger-color);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-main {
+                padding: 1rem;
+            }
+
+            .main-nav {
+                display: none;
+            }
+
+            .hamburger-menu {
+                display: flex;
+            }
+
+            .mobile-nav {
+                display: flex;
+            }
+
+            .page-title h1 {
+                font-size: 2.5rem;
+            }
+
+            .page-title p {
+                font-size: 1rem;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .contact-info,
+            .contact-form {
+                padding: 1.5rem;
+            }
+
+            .quick-contact {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-container {
+                padding: 0 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                padding: 2rem 0;
+            }
+
+            .page-title h1 {
+                font-size: 2rem;
+            }
+
+            .contact-section {
+                padding: 3rem 0;
+            }
+
+            .contact-info,
+            .contact-form {
+                padding: 1rem;
+            }
+
+            .contact-item {
+                padding: 0.75rem;
+            }
+
+            .quick-contact-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toast-container">
+        <!-- Toasts will be dynamically added here -->
+    </div>
+
+     <header class="header">
+        <div class="header-main">
+            <div class="logo">
+                <img src="resources/image/black.png" alt="Trinetra Games" class="logo">
+            </div>
+            <!-- Desktop Navigation -->
+            <nav class="main-nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="aiask" class="nav-link">AskAi</a>
+                <a href="library.html" class="nav-link">Library</a>
+                <a href="wishlist.html" class="nav-link" id="wishlist-link">
+                    Wishlist
+                    <span class="badge" id="wishlist-badge"></span>
+                </a>
+                <a href="cart" class="nav-link active" id="cart-link">
+                    Cart
+                    <span class="badge" id="cart-badge">1</span>
+                </a>
+            </nav>
+            
+            <!-- Desktop Search Box -->
+            <div class="search-box desktop-search">
+                <form id="search-form">
+                    <input
+                        type="text"
+                        placeholder="Search for games..."
+                        id="searchInput"
+                        aria-label="Search for games"
+                        oninput="searchGames()"
+                    >
+                    <button type="submit" aria-label="Search">Search</button>
+                    <div id="searchResults" class="search-results"></div>
+                </form>
+            </div>
+
+            
+            <!-- Desktop Theme Toggle -->
+            <div class="theme-toggle desktop-theme-toggle" id="theme-toggle">
+                <i class="fas fa-sun" id="theme-icon"></i>
+                <span class="theme-toggle-text" id="theme-text">Light</span>
+            </div>
+            
+            
+            <!-- Profile with Dropdown - for Desktop -->
+            <div class="profile-container" id="profile-container">
+                <img src="image/profile.png" alt="Profile" class="profile-icon" style="border-radius: 50%;">
+                
+                <!-- Profile Dropdown Menu -->
+                <div class="profile-dropdown" id="profile-dropdown" style="display: none;">
+                    <a th:href="@{/profilepage}" class="dropdown-item" target="_blank">Profile</a>
+                    
+                    <a href="signup" class="dropdown-item">Payment Connection</a>
+                    <div class="dropdown-item logout" id="logout-button">Logout</div>
+                </div>
+            </div>
+            
+            <div class="hamburger-menu" id="hamburger-menu">
+                <div class="humburger-icon" id="hamburger-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation (Includes Search when opened) -->
+        <div class="mobile-nav" id="mobile-nav">
+            <!-- Mobile Profile Section at the top of mobile menu -->
+            <div class="mobile-profile-section">
+                <div class="mobile-profile-container" id="mobile-profile-container">
+                    <img src="profile.jpg" alt="Profile" class="mobile-profile-icon">
+                    <div class="mobile-profile-info">
+                        <div class="mobile-profile-name">User Profile</div>
+                        
+                        <!-- Mobile Profile Dropdown Menu -->
+                        <div class="mobile-profile-dropdown" id="mobile-profile-dropdown" style="display: none;">
+                            <a href="profile.html" class="dropdown-item">My Profile</a>
+                            <a href="settings.html" class="dropdown-item">Settings</a>
+                            <div class="dropdown-item logout" id="mobile-logout-button">Logout</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="index.html" class="nav-link">AskAi</a>
+            <a href="LIBARAY.html" class="nav-link">Library</a>
+            <a href="wishlist.html" class="nav-link" id="mobile-wishlist-link">
+                Wishlist
+                <span class="badge" id="mobile-wishlist-badge"></span>
+            </a>
+            <a href="ADD TO CART1.html" class="nav-link active" id="mobile-cart-link">
+                Cart
+                <span class="badge" id="mobile-cart-badge">1</span>
+            </a>
+            
+            <!-- Mobile Search Box -->
+            <div class="search-box mobile-search">
+                <form id="mobile-search-form">
+                    <input
+                        type="text"
+                        placeholder="Search for games..."
+                        id="mobile-search-input"
+                        aria-label="Search for games"
+                    >
+                    <button type="submit" aria-label="Search">Search</button>
+                </form>
+            </div>
+
+            <!-- Mobile Theme Toggle -->
+            <div class="mobile-theme-toggle">
+                <div class="theme-toggle" id="mobile-theme-toggle">
+                    <i class="fas fa-sun" id="mobile-theme-icon"></i>
+                    <span class="theme-toggle-text" id="mobile-theme-text">Light</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+
+    <!-- Page Title -->
+    <section class="page-title">
+        <div class="container">
+            <h1>Contact Us</h1>
+            <p>Get in touch with the Trinetra Games team. We're here to help with any questions, support needs, or feedback you might have.</p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <div class="contact-container">
+            <!-- Quick Contact Cards -->
+            <div class="quick-contact">
+                <div class="quick-contact-card">
+                    <i class="fas fa-headset"></i>
+                    <h3>24/7 Support</h3>
+                    <p>Need immediate help? Our support team is available around the clock to assist you.</p>
+                    <a href="#contact-form" class="quick-contact-btn">Get Support</a>
+                </div>
+                <div class="quick-contact-card">
+                    <i class="fas fa-envelope"></i>
+                    <h3>Email Us</h3>
+                    <p>Send us a detailed message and we'll get back to you within 24 hours.</p>
+                    <a href="mailto:support@trinetra.games" class="quick-contact-btn">Send Email</a>
+                </div>
+                <div class="quick-contact-card">
+                    <i class="fas fa-comments"></i>
+                    <h3>Live Chat</h3>
+                    <p>Chat with our team instantly for quick answers to your questions.</p>
+                    <a href="#" class="quick-contact-btn" onclick="openLiveChat()">Start Chat</a>
+                </div>
+            </div>
+
+            <!-- Main Contact Grid -->
+            <div class="contact-grid">
+                <!-- Contact Information -->
+                <div class="contact-info">
+                    <h2>Get In Touch</h2>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div class="contact-item-content">
+                            <h3>Address</h3>
+                            <p>Trinetra Games Studio<br>
+                            Gaming District, Tech Valley<br>
+                            Nepal, Bagmati Province</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div class="contact-item-content">
+                            <h3>Phone</h3>
+                            <p><a href="tel:+977-1-234-5678">+977-1-234-5678</a><br>
+                            <small>Mon-Fri: 9:00 AM - 6:00 PM NPT</small></p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div class="contact-item-content">
+                            <h3>Email</h3>
+                            <p><a href="mailto:support@trinetra.games">support@trinetra.games</a><br>
+                            <a href="mailto:info@trinetra.games">info@trinetra.games</a></p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <div class="contact-item-content">
+                            <h3>Support Hours</h3>
+                            <p>24/7 Live Chat & Email<br>
+                            Phone: Mon-Fri 9 AM - 6 PM NPT</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <i class="fas fa-share-alt"></i>
+                        <div class="contact-item-content">
+                            <h3>Follow Us</h3>
+                            <p>
+                                <a href="https://www.facebook.com/aarogya.thapa.947905" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                                <a href="https://github.com/aarogya23" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="https://www.instagram.com/aarogyathapa2/" target="_blank"><i class="fab fa-instagram"></i></a>
+                                <a href="https://www.linkedin.com/in/aarogya-thapa-8172962b8/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="contact-form" id="contact-form">
+                    <h2>Send Us a Message</h2>
+                    <form id="contactForm" onsubmit="handleFormSubmit(event)">
+                        <div class="form-group">
+                            <label for="name">Your Name *</label>
+                            <input type="text" id="name" name="name" class="form-control" placeholder="Enter your full name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" class="form-control" placeholder="your.email@example.com" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">Subject *</label>
+                            <select id="subject" name="subject" class="form-control" required>
+                                <option value="">Select a topic</option>
+                                <option value="technical-support">Technical Support</option>
+                                <option value="account-issues">Account Issues</option>
+                                <option value="payment-billing">Payment & Billing</option>
+                                <option value="game-questions">Game Questions</option>
+                                <option value="bug-report">Bug Report</option>
+                                <option value="feature-request">Feature Request</option>
+                                <option value="partnership">Partnership Inquiry</option>
+                                <option value="press-media">Press & Media</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="priority">Priority Level</label>
+                            <select id="priority" name="priority" class="form-control">
+                                <option value="low">Low - General inquiry</option>
+                                <option value="medium" selected>Medium - Standard request</option>
+                                <option value="high">High - Urgent issue</option>
+                                <option value="critical">Critical - Service affecting</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Message *</label>
+                            <textarea id="message" name="message" class="form-control" placeholder="Please describe your question or issue in detail..." rows="6" required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="newsletter" name="newsletter" style="margin-right: 8px;">
+                                Subscribe to our newsletter for updates and special offers
+                            </label>
+                        </div>
+
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-paper-plane"></i> Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="faq-container">
+            <h2>Frequently Asked Questions</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <h3>How do I get technical support?</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>You can get technical support through multiple channels: use our 24/7 live chat, submit a support ticket through the contact form, email us at support@trinetra.games, or call our support hotline during business hours.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <h3>What are your support hours?</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Our live chat and email support are available 24/7. Phone support is available Monday through Friday, 9:00 AM to 6:00 PM Nepal Time. We typically respond to emails within 24 hours.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <h3>How can I report a bug or technical issue?</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>To report bugs, please use the contact form above and select "Bug Report" as the subject. Include detailed information about the issue, your system specifications, and steps to reproduce the problem for faster resolution.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <h3>Can I suggest new features or games?</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Absolutely! We love hearing from our community. Use the contact form and select "Feature Request" to share your ideas. We review all suggestions and consider them for future updates.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <h3>How do I contact media or press relations?</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>For media inquiries, interviews, or press releases, please select "Press & Media" in the contact form or email us directly at press@trinetra.games. We'll connect you with our media relations team.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <h3>Are you looking for business partnerships?</h3>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes! We're always interested in exploring partnerships with developers, publishers, and other gaming companies. Select "Partnership Inquiry" in the contact form or email partnerships@trinetra.games.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="nav justify-content-center">
+                        <li class="nav-item"><a class="nav-link" href="About.jsp">About Us</a></li>
+                        <li class="nav-item"><a class="nav-link" href="News.jsp">News</a></li>
+                        <li class="nav-item"><a class="nav-link" href="Contact.jsp">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link" href="Adminlogin">Admin</a></li>
+                    </ul>
+                    <p class="mt-3">
+                        Learn more about our mission, vision, and the team behind our company in the <strong>About Us</strong> section. Explore our wide range of products and enjoy a seamless shopping experience in the <strong>Shop</strong> section. We value your feedback, so please share your thoughts and help us improve our services in the <strong>Feedback</strong> section. Read our <strong>Privacy Policy</strong> to understand how we handle your personal data.
+                    </p>
+                    <div class="container d-flex justify-content-between">
+                        <p>&copy; 2024 Trinetra Game Studio</p>
+                        <div>
+                            <a href="#" class="mx-2 text-light">Privacy Policy</a>
+                            <a href="#" class="mx-2 text-light">Terms of Service</a>
+                            <a href="#" class="mx-2 text-light">Contact Us</a>
+                        </div>
+                        <div>
+                            <a href="https://www.facebook.com/aarogya.thapa.947905" class="mx-2 text-light" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://github.com/aarogya23" class="mx-2 text-light" target="_blank"><i class="fab fa-github"></i></a>
+                            <a href="https://www.instagram.com/aarogyathapa2/" class="mx-2 text-light" target="_blank"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.linkedin.com/in/aarogya-thapa-8172962b8/" class="mx-2 text-light" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+   
+    <script src="" th:src="@{js/themecontroller.js}"></script>
+<script src="" th:src="@{js/navbar.js}"></script>
+<script src="" th:src="@{js/search.js}"></script>
+</body>
+</html>
