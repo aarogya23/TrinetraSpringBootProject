@@ -1,0 +1,35 @@
+<section class="container my-5">
+    <h2 class="text-center">Browse Games by Category</h2>
+
+    <div th:each="entry : ${gamesByCategory}">
+        <h3 th:text="${entry.key}" class="mt-4"></h3> <!-- Category name -->
+
+        <!-- Mobile View: Horizontal Scroll -->
+        <div class="d-md-none overflow-auto">
+            <div class="d-flex flex-nowrap gap-3" th:each="game : ${entry.value}">
+                <div class="card h-100" style="min-width: 250px;">
+                    <img th:src="'data:image/png;base64,' + ${game.image}" 
+                         class="card-img-top" th:alt="${game.gamename}" />
+                    <div class="card-body">
+                        <h5 th:text="${game.gamename}"></h5>
+                        <p th:text="'Rs ' + ${game.gameprice}"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Desktop/Tablet View: Grid Layout -->
+        <div class="row d-none d-md-flex">
+            <div class="col-md-4 mb-3" th:each="game : ${entry.value}">
+                <div class="card h-100">
+                    <img th:src="'data:image/png;base64,' + ${game.image}" 
+                         class="card-img-top" th:alt="${game.gamename}" />
+                    <div class="card-body">
+                        <h5 th:text="${game.gamename}"></h5>
+                        <p th:text="'Rs ' + ${game.gameprice}"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

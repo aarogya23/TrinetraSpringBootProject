@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
+        <h1 class="text-2xl font-bold mb-4 text-center">Chatbot</h1>
+        <div id="chatbox" class="h-96 overflow-y-auto border p-4 mb-4 rounded bg-gray-50"></div>
+        <div class="flex">
+            <input type="text" id="userInput" class="flex-1 p-2 border rounded-l focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Type your message..." />
+            <button onclick="sendMessage()" class="bg-blue-500 text-white p-2 rounded-r hover:bg-blue-600">Send</button>
+        </div>
+    </div>
+
+    <script>
+        async function sendMessage() {
+            const userInput = document.getElementById('userInput').value;
+            if (!userInput.trim()) return;
+
+            // Display user message
+            const chatbox = document.getElementById('chatbox');
+            chatbox.innerHTML += `<div class="text-right mb-2"><span class="bg-blue-100 p-2 rounded inline-block">You: ${userInput}</span></div>`;
+            chatbox.scrollTop = chatbox.scrollHeight;
+            document.getElementById('userInput').value = '';
+
+            // Send request to Spring Boot backend
+            try {
+                const response = await fetch('http://localhost:8081/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain' },
+                    body: userInput
+                });
+                const botMessage = await response.text();
+
+                // Display bot response
+                chatbox.innerHTML += `<div class="text-left mb-2"><span class="bg-gray-200 p-2 rounded inline-block">Bot: ${botMessage}</span></div>`;
+                chatbox.scrollTop = chatbox.scrollHeight;
+            } catch (error) {
+                chatbox.innerHTML += `<div class="text-left mb-2 text-red-500">Error: Could not reach the server</div>`;
+                chatbox.scrollTop = chatbox.scrollHeight;
+            }
+        }
+
+        // Allow sending message with Enter key
+        document.getElementById('userInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+    </script>
+</body>
+</html>

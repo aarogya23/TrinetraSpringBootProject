@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.trinetra.model.UserClass;
+import com.trinetra.repository.AdminRepository;
 import com.trinetra.repository.UserRepository;
 
 import jakarta.servlet.http.HttpSession;
@@ -26,6 +27,9 @@ public class LoginController {
 
     @Autowired
     private UserRepository uRepo;
+    
+    @Autowired
+    private AdminRepository arepo;
 
     @GetMapping("/login")
     public String loginPage() {
@@ -57,9 +61,11 @@ public class LoginController {
         String username = uc.getUsername();
         String password = uc.getPassword();
 
-        boolean result = uRepo.existsByUsernameAndPassword(username, password);
+        boolean Userresult = uRepo.existsByUsernameAndPassword(username, password);
 
-        if (result) {
+        
+        boolean Adminresult = arepo.existsByUsernameAndPassword(username, password);
+        if (Userresult) {
         	
         	session.setAttribute("activeUser", username);
         	
@@ -68,7 +74,18 @@ public class LoginController {
         	session.setMaxInactiveInterval(300);
            
             return "Home";
-        } else {
+        }
+        else if(Adminresult){
+        	
+        	session.setAttribute("activeAdmin", username);
+        	
+        	//set session timeout
+        	session.setMaxInactiveInterval(300);
+        	
+        	return "Dashboard";
+        	
+        }
+        else {
             model.addAttribute("error", "Invalid username or password");
             return "Login";
         }
