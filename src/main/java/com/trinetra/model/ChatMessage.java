@@ -10,48 +10,32 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "chat_messages")
 public class ChatMessage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(name = "user_question", columnDefinition = "TEXT")
-    private String userQuestion;
-    
-    @Column(name = "ai_response", columnDefinition = "TEXT")
-    private String aiResponse;
-    
-    @Column(name = "model_used")
-    private String modelUsed;
-    
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private String question;
+    private String answer;
+    private LocalDateTime createdAt = LocalDateTime.now();
     
     // Constructors
-    public ChatMessage() {
-        this.createdAt = LocalDateTime.now();
-    }
+    public ChatMessage() {}
     
-    public ChatMessage(String userQuestion, String aiResponse, String modelUsed) {
-        this();
-        this.userQuestion = userQuestion;
-        this.aiResponse = aiResponse;
-        this.modelUsed = modelUsed;
+    public ChatMessage(String question, String answer) {
+        this.question = question;
+        this.answer = answer;
     }
     
     // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     
-    public String getUserQuestion() { return userQuestion; }
-    public void setUserQuestion(String userQuestion) { this.userQuestion = userQuestion; }
+    public String getQuestion() { return question; }
+    public void setQuestion(String question) { this.question = question; }
     
-    public String getAiResponse() { return aiResponse; }
-    public void setAiResponse(String aiResponse) { this.aiResponse = aiResponse; }
-    
-    public String getModelUsed() { return modelUsed; }
-    public void setModelUsed(String modelUsed) { this.modelUsed = modelUsed; }
+    public String getAnswer() { return answer; }
+    public void setAnswer(String answer) { this.answer = answer; }
     
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }

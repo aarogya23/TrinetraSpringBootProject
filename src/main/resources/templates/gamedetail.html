@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trinetra Games</title>
+    <title th:text="${game.gamename}">Game Detail - Trinetra Games</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome Icons -->
@@ -11,7 +11,7 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
-    <link  href="" th:href="@{/css/Index.css}" rel="stylesheet">
+    <link href="" th:href="@{/css/Index.css}" rel="stylesheet">
    <style>
     @media (max-width: 576px) {
         .card-img-top {
@@ -193,6 +193,149 @@
     [data-theme="dark"] .search-item-price {
         color: #a0aec0;
     }
+
+    /* Game Detail Specific Styles */
+    .game-detail-container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .game-main-image {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .game-info-card {
+        background: linear-gradient(135deg, var(--card-bg, #fff) 0%, var(--card-bg-secondary, #f8f9fa) 100%);
+        border-radius: 20px;
+        padding: 2rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        border: 1px solid var(--border-color, #e0e0e0);
+    }
+
+    .game-title {
+        font-family: 'Rajdhani', sans-serif;
+        font-weight: 700;
+        font-size: 2.5rem;
+        color: var(--primary-color, #2c3e50);
+        margin-bottom: 1rem;
+        background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .game-price {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #e74c3c;
+        margin-bottom: 1.5rem;
+    }
+
+    .game-description {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: var(--text-color, #555);
+        margin-bottom: 2rem;
+    }
+
+    .game-meta {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .meta-item {
+        padding: 1rem;
+        background: var(--meta-bg, #f8f9fa);
+        border-radius: 10px;
+        border-left: 4px solid #667eea;
+    }
+
+    .meta-label {
+        font-weight: 600;
+        color: var(--primary-color, #2c3e50);
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .meta-value {
+        font-size: 1.1rem;
+        color: var(--text-color, #555);
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    .btn-primary-custom {
+        background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        border-radius: 50px;
+        padding: 12px 30px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary-custom:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-outline-custom {
+        border: 2px solid #667eea;
+        color: #667eea;
+        background: transparent;
+        border-radius: 50px;
+        padding: 10px 30px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-outline-custom:hover {
+        background: #667eea;
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .back-button {
+        margin-bottom: 2rem;
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+        .game-title {
+            font-size: 2rem;
+        }
+        
+        .game-main-image {
+            height: 300px;
+        }
+        
+        .game-info-card {
+            padding: 1.5rem;
+        }
+        
+        .action-buttons {
+            flex-direction: column;
+        }
+        
+        .game-meta {
+            grid-template-columns: 1fr;
+        }
+    }
    </style>
 </head>
 <body>
@@ -201,7 +344,7 @@
         <!-- Toasts will be dynamically added here -->
     </div>
 
-     <header class="header">
+    <header class="header">
         <div class="header-main">
             <div class="logo">
                 <img src="resources/image/black.png" alt="Trinetra Games" class="logo">
@@ -215,7 +358,7 @@
                     Wishlist
                     <span class="badge" id="wishlist-badge"></span>
                 </a>
-                <a href="cart" class="nav-link active" id="cart-link">
+                <a href="cart" class="nav-link" id="cart-link">
                     Cart
                     <span class="badge" id="cart-badge">1</span>
                 </a>
@@ -236,13 +379,11 @@
                 </form>
             </div>
 
-            
             <!-- Desktop Theme Toggle -->
             <div class="theme-toggle desktop-theme-toggle" id="theme-toggle">
                 <i class="fas fa-sun" id="theme-icon"></i>
                 <span class="theme-toggle-text" id="theme-text">Light</span>
             </div>
-            
             
             <!-- Profile with Dropdown - for Desktop -->
             <div class="profile-container" id="profile-container">
@@ -285,13 +426,13 @@
             </div>
 
             <a href="index.html" class="nav-link">Home</a>
-            <a href="modelchat" class="nav-link">AskAi</a>
+            <a href="index.html" class="nav-link">AskAi</a>
             <a href="LIBARAY.html" class="nav-link">Library</a>
             <a href="wishlist.html" class="nav-link" id="mobile-wishlist-link">
                 Wishlist
                 <span class="badge" id="mobile-wishlist-badge"></span>
             </a>
-            <a href="ADD TO CART1.html" class="nav-link active" id="mobile-cart-link">
+            <a href="ADD TO CART1.html" class="nav-link" id="mobile-cart-link">
                 Cart
                 <span class="badge" id="mobile-cart-badge">1</span>
             </a>
@@ -320,93 +461,88 @@
             </div>
         </div>
     </header>
-    
 
     <main>
-        <!-- Hero Carousel -->
-        <section class="hero container">
-            <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
-
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
-            </div>
-
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <a href="user">
-                            <img src="/image/Shadow.avif" class="d-block w-100" alt="Shadow Game" loading="lazy">
-                        </a>
-                    </div>
-                    <div class="carousel-item">
-                        <a href="horizon-game.html">
-                            <img src="/image/horizon.avif" class="d-block w-100" alt="Horizon Game" loading="lazy">
-                        </a>
-                    </div>
-                    <div class="carousel-item">
-                        <a href="hellblade-game.html">
-                            <img src="/image/Hellblade.jpg" class="d-block w-100" alt="Hellblade Game" loading="lazy">
-                        </a>
-                    </div>
-                    <div class="carousel-item">
-                        <a href="avatar-game.html">
-                            <img src="/image/AVATAR.jpeg" class="d-block w-100" alt="Avatar Game" loading="lazy">
-                        </a>
-                    </div>
+        <!-- Game Detail Section -->
+        <section class="container my-5">
+            <div class="game-detail-container">
+                <!-- Back Button -->
+                <div class="back-button">
+                    <a href="javascript:history.back()" class="btn btn-outline-custom">
+                        <i class="fas fa-arrow-left me-2"></i>Back to Games
+                    </a>
                 </div>
 
-                <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
-            </div>
-        </section>
+                <div class="row">
+                    <!-- Game Image -->
+                    <div class="col-lg-6 mb-4">
+                        <img th:src="'data:image/png;base64,' + ${game.image}" 
+                             class="game-main-image" 
+                             th:alt="${game.gamename}"
+                             loading="lazy">
+                    </div>
 
-   <!-- Browse Games by Category -->
-        <section class="container my-5">
-            
-            <div th:each="entry : ${gamesByCategory}">
-                <h2 th:text="${entry.key}" class=" mt-4 section-title text-center"></h2>
-                <!-- Mobile Scrollable Layout -->
-                <div class="d-md-none overflow-auto">
-                    <div class="d-flex flex-nowrap gap-3">
-                        <div class="card h-100 position-relative" style="min-width: 250px;" th:each="game : ${entry.value}">
-                            <a th:href="${game.link}" class="game-link">
-                                <div class="love-icon"><i class="far fa-heart"></i></div>
-                                <img th:src="'data:image/png;base64,' + ${game.image}" class="card-img-top" th:alt="${game.gamename}" style="height: 300px;" loading="lazy">
-                                <div class="card-body d-flex justify-content-between align-items-center">
-                                    <p class="card-text" th:text="${game.gamename}"></p>
-                                    <p class="card-price" th:text="'Rs ' + ${game.gameprice}"></p>
+                    <!-- Game Information -->
+                    <div class="col-lg-6">
+                        <div class="game-info-card">
+                            <h1 class="game-title" th:text="${game.gamename}">Game Title</h1>
+                            
+                            <div class="game-price" th:text="'Rs ' + ${game.gameprice}">Rs 2999</div>
+                            
+                            <!-- Game Description with fallback -->
+                            <div class="game-description">
+                                <span th:if="${game.description != null and !game.description.isEmpty()}" th:text="${game.description}"></span>
+                                <span th:if="${game.description == null or game.description.isEmpty()}">
+                                    Experience the ultimate football simulation with realistic gameplay, stunning graphics, and immersive career modes. Take control of your favorite teams and players in this action-packed sports adventure.
+                                </span>
+                            </div>
+
+                            <!-- Game Metadata with fallbacks -->
+                            <div class="game-meta">
+                                <div class="meta-item">
+                                    <div class="meta-label">Developer</div>
+                                    <div class="meta-value">
+                                        <span th:if="${game.developer != null and !game.developer.isEmpty()}" th:text="${game.developer}"></span>
+                                        <span th:if="${game.developer == null or game.developer.isEmpty()}">EA Sports</span>
+                                    </div>
                                 </div>
-                            </a>
+                                <div class="meta-item">
+                                    <div class="meta-label">Publisher</div>
+                                    <div class="meta-value">
+                                        <span th:if="${game.publisher != null and !game.publisher.isEmpty()}" th:text="${game.publisher}"></span>
+                                        <span th:if="${game.publisher == null or game.publisher.isEmpty()}">Electronic Arts</span>
+                                    </div>
+                                </div>
+                                <div class="meta-item">
+                                    <div class="meta-label">Age Rating</div>
+                                    <div class="meta-value">
+                                        <span th:if="${game.ageRating != null and !game.ageRating.isEmpty()}" th:text="${game.ageRating}"></span>
+                                        <span th:if="${game.ageRating == null or game.ageRating.isEmpty()}">E for Everyone</span>
+                                    </div>
+                                </div>
+                                <div class="meta-item" th:if="${game.gamecategory != null}">
+                                    <div class="meta-label">Category</div>
+                                    <div class="meta-value">
+                                        <span th:if="${game.gamecategory != null and !game.gamecategory.isEmpty()}" th:text="${game.gamecategory}"></span>
+                                        <span th:if="${game.gamecategory == null or game.gamecategory.isEmpty()}">Sports</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="action-buttons">
+                                <button class="btn btn-primary-custom" id="addToCartBtn">
+                                    <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+                                </button>
+                                <button class="btn btn-outline-custom" id="addToWishlistBtn">
+                                    <i class="far fa-heart me-2"></i>Add to Wishlist
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <!-- Desktop Grid Layout -->
-                <div class="row d-none d-md-flex">
-                    <div class="col-md-6 col-lg-4 mb-4" th:each="game : ${entry.value}">
-                        <a th:href="${game.link}" class="game-link">
-                            <div class="card h-100 position-relative">
-                                <div class="love-icon"><i class="far fa-heart"></i></div>
-                                <img th:src="'data:image/png;base64,' + ${game.image}" class="card-img-top" th:alt="${game.gamename}" style="height: 250px;" loading="lazy">
-                                <div class="card-body d-flex justify-content-between align-items-center">
-                                    <p class="card-text" th:text="${game.gamename}"></p>
-                                    <p class="card-price" th:text="'Rs ' + ${game.gameprice}"></p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
             </div>
         </section>
-
-       
     </main>
 
     <!-- Footer -->
@@ -443,8 +579,6 @@
         </div>
     </footer>
 
-    
-
     <script src="navbar.js"></script>
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -452,5 +586,28 @@
     <script async type='module' src='https://interfaces.zapier.com/assets/web-components/zapier-interfaces/zapier-interfaces.esm.js'></script>
     <script src="" th:src="@{js/themecontroller.js}"></script>
     <script src="" th:src="@{js/navbar.js}"></script>
+
+    <script>
+        // Add to Cart functionality
+        document.getElementById('addToCartBtn').addEventListener('click', function() {
+            // Add your cart logic here
+            alert('Game added to cart!');
+        });
+
+        // Add to Wishlist functionality
+        document.getElementById('addToWishlistBtn').addEventListener('click', function() {
+            // Add your wishlist logic here
+            const heartIcon = this.querySelector('i');
+            if (heartIcon.classList.contains('far')) {
+                heartIcon.classList.remove('far');
+                heartIcon.classList.add('fas');
+                this.innerHTML = '<i class="fas fa-heart me-2"></i>Added to Wishlist';
+            } else {
+                heartIcon.classList.remove('fas');
+                heartIcon.classList.add('far');
+                this.innerHTML = '<i class="far fa-heart me-2"></i>Add to Wishlist';
+            }
+        });
+    </script>
 </body>
 </html>

@@ -122,7 +122,7 @@
             <!-- Desktop Navigation -->
             <nav class="main-nav">
                 <a href="index.html" class="nav-link active">Home</a>
-                <a href="testmap" class="nav-link">AskAi</a>
+                <a href="modelchat" class="nav-link">AskAi</a>
                 <a href="library.html" class="nav-link">Library</a>
                 <a href="wishlist.html" class="nav-link" id="wishlist-link">
                     Wishlist
@@ -280,502 +280,47 @@
             </div>
         </section>
 
-        <!-- Spring Sale Spotlight -->
+         <!-- Browse Games by Category -->
         <section class="container my-5">
-    <h2 class="section-title text-center">Spring Sale Spotlight</h2>
-
-    <!-- Scrollable wrapper on small screens -->
-    <div class="d-md-none overflow-auto">
-        <div class="d-flex flex-nowrap gap-3">
-
-            <!-- Game Card 1 -->
-            <div class="card h-100 position-relative" style="min-width: 250px;">
-                <a href="eafc25" class="game-link">
-                    <div class="love-icon">
-                        <i class="far fa-heart"></i>
-                    </div>
-                    <img src="/image/eafc25.jpg" class="card-img-top" id="eafc" alt="EA FC 24" style="height: 250px;">
-                    <div class="card-body d-flex justify-content-between align-items-center">
-                        <p class="card-text">EA FC 24</p>
-                        <p class="card-price">Rs2400</p>
-                    </div>
-                </a>
-            </div>
-
-            <!-- Game Card 2 -->
-            <div class="card h-100 position-relative" style="min-width: 250px;">
-                <a href="callofduty" class="game-link">
-                    <div class="love-icon">
-                        <i class="far fa-heart"></i>
-                    </div>
-                    <img src="/image/modern1234.png" class="card-img-top" alt="Call of Duty MW3">
-                    <div class="card-body d-flex justify-content-between align-items-center">
-                        <p class="card-text">Call of Duty MW3</p>
-                        <p class="card-price">Rs1999</p>
-                    </div>
-                </a>
-            </div>
-
-            <!-- Game Card 3 -->
-            <div class="card h-100 position-relative" style="min-width: 250px;">
-                <a href="#" class="game-link">
-                    <div class="love-icon">
-                        <i class="far fa-heart"></i>
-                    </div>
-                    <img src="/image/gta5.png" class="card-img-top" alt="Grand Theft Auto 5">
-                    <div class="card-body d-flex justify-content-between align-items-center">
-                        <p class="card-text">Grand Theft Auto 5</p>
-                        <p class="card-price">Rs1000</p>
-                    </div>
-                </a>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- Grid layout for medium and larger screens -->
-    <div class="row d-none d-md-flex">
-        <div class="col-md-6 col-lg-4">
-            <a href="eafc25" class="game-link">
-                <div class="card h-100 position-relative">
-                    <div class="love-icon">
-                        <i class="far fa-heart"></i>
-                    </div>
-                    <img src="" th:src="@{image/eafc25.jpg}" class="card-img-top" alt="EA FC 24" style="height: 250px;">
-                    <div class="card-body d-flex justify-content-between align-items-center">
-                        <p class="card-text">EA FC 24</p>
-                        <p class="card-price">Rs2400</p>
+            
+            <div th:each="entry : ${gamesByCategory}">
+                <h2 th:text="${entry.key}" class=" mt-4 section-title text-center"></h2>
+                <!-- Mobile Scrollable Layout -->
+                <div class="d-md-none overflow-auto">
+                    <div class="d-flex flex-nowrap gap-3">
+                        <div class="card h-100 position-relative" style="min-width: 250px;" th:each="game : ${entry.value}">
+                            <a th:href="${game.link}" class="game-link">
+                            
+                                <div class="love-icon"><i class="far fa-heart"></i></div>
+                                <img th:src="'data:image/png;base64,' + ${game.image}" class="card-img-top" th:alt="${game.gamename}" style="height: 300px;" loading="lazy">
+                                <div class="card-body d-flex justify-content-between align-items-center">
+                                    <p class="card-text" th:text="${game.gamename}"></p>
+                                    <p class="card-price" th:text="'Rs ' + ${game.gameprice}"></p>
+                                </div>
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </a>
-        </div>
-        <div class="col-md-6 col-lg-4">
-            <a href="login" class="game-link">
-                <div class="card h-100 position-relative">
-                    <div class="love-icon">
-                        <i class="far fa-heart"></i>
-                    </div>
-                    <img src="" th:src="@{image/modern1234.png}" class="card-img-top" alt="Call of Duty MW3">
-                    <div class="card-body d-flex justify-content-between align-items-center">
-                        <p class="card-text">Call of Duty MW3</p>
-                        <p class="card-price">Rs1999</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-md-6 col-lg-4">
-            <a href="#" class="game-link">
-                <div class="card h-100 position-relative">
-                    <div class="love-icon">
-                        <i class="far fa-heart"></i>
-                    </div>
-                    <img src="" th:src="@{image/gta5.png}" class="card-img-top" alt="Grand Theft Auto 5">
-                    <div class="card-body d-flex justify-content-between align-items-center">
-                        <p class="card-text">Grand Theft Auto 5</p>
-                        <p class="card-price">Rs1000</p>
+                <!-- Desktop Grid Layout -->
+                <div class="row d-none d-md-flex">
+                    <div class="col-md-6 col-lg-4 mb-4" th:each="game : ${entry.value}">
+                       <a th:href="${game.link}" class="game-link">
+                            <div class="card h-100 position-relative">
+                                <div class="love-icon"><i class="far fa-heart"></i></div>
+                                <img th:src="'data:image/png;base64,' + ${game.image}" class="card-img-top" th:alt="${game.gamename}" style="height: 250px;" loading="lazy">
+                                <div class="card-body d-flex justify-content-between align-items-center">
+                                    <p class="card-text" th:text="${game.gamename}"></p>
+                                    <p class="card-price" th:text="'Rs ' + ${game.gameprice}"></p>
+                                </div>
+                            </div>
+                        </a>
                     </div>
                 </div>
-            </a>
-        </div>
-    </div>
-</section>
-
-        
-        <!-- Free Games -->
-        <section class="container my-5">
-    <h2 class="section-title text-center">Free Games</h2>
-
-    <!-- Scrollable layout for small screens -->
-    <div class="d-md-none overflow-auto">
-        <div class="d-flex flex-nowrap gap-3">
-
-            <!-- Game Card 1 -->
-            <div class="card h-100" style="min-width: 250px;">
-                <img src="" th:src="@{image/pubg.avif}"  class="card-img-top" alt="PUBG Battlegrounds">
-                <div class="card-body d-flex justify-content-between align-items-center">
-                    <p class="card-text">PUBG Battlegrounds</p>
-                    <p class="card-price">Free</p>
-                </div>
             </div>
-
-            <!-- Game Card 2 -->
-            <div class="card h-100" style="min-width: 250px;">
-                <img src="apex.avif" class="card-img-top" alt="Apex Legends">
-                <div class="card-body d-flex justify-content-between align-items-center">
-                    <p class="card-text">Apex Legends</p>
-                    <p class="card-price">Free</p>
-                </div>
-            </div>
-
-            <!-- Game Card 3 -->
-            <div class="card h-100" style="min-width: 250px;">
-                <img src="EGS_VALORANT.avif" class="card-img-top" alt="Valorant">
-                <div class="card-body d-flex justify-content-between align-items-center">
-                    <p class="card-text">Valorant</p>
-                    <p class="card-price">Free</p>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- Grid layout for medium and larger screens -->
-    <div class="row d-none d-md-flex">
-        <div class="col-md-6 col-lg-4">
-            <div class="card h-100">
-                <img src=""  th:src="@{image/pubg.avif}" class="card-img-top" alt="PUBG Battlegrounds">
-                <div class="card-body d-flex justify-content-between align-items-center">
-                    <p class="card-text">PUBG Battlegrounds</p>
-                    <p class="card-price">Free</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-            <div class="card h-100">
-                <img src="" th:src="@{image/apex.avif}" class="card-img-top" alt="Apex Legends">
-                <div class="card-body d-flex justify-content-between align-items-center">
-                    <p class="card-text">Apex Legends</p>
-                    <p class="card-price">Free</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-            <div class="card h-100">
-                <img src="" th:src="@{image/EGS_VALORANT.avif}" class="card-img-top" alt="Valorant">
-                <div class="card-body d-flex justify-content-between align-items-center">
-                    <p class="card-text">Valorant</p>
-                    <p class="card-price">Free</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-        <!-- Trending Games -->
-      
-
-  <section class="container my-5">
-  <h2 class="section-title text-center">Trending Games</h2>
-
-  <!-- Grid view for desktop/tablet -->
-  <div class="row d-none d-md-flex">
-    <!-- Original 6 games + 5 new ones -->
-    <!-- 1 -->
-    <div class="col-md-6 col-lg-4 mb-4">
-      <a href="#" class="game-link">
-        <div class="card h-100 position-relative">
-          <div class="love-icon"><i class="far fa-heart"></i></div>
-          <img src="/image/far cry.png" class="card-img-top" alt="Far Cry 6" />
-          <div class="card-body d-flex justify-content-between align-items-center">
-            <p class="card-text">Far Cry 6</p>
-            <p class="card-price">Rs2400</p>
-          </div>
-        </div>
-      </a>
-    </div>
-    <!-- 2 -->
-    <div class="col-md-6 col-lg-4 mb-4">
-      <a href="#" class="game-link">
-        <div class="card h-100 position-relative">
-          <div class="love-icon"><i class="far fa-heart"></i></div>
-          <img src="/image/ghost.png" class="card-img-top" alt="Ghost of Tsushima" />
-          <div class="card-body d-flex justify-content-between align-items-center">
-            <p class="card-text">Ghost of Tsushima</p>
-            <p class="card-price">Rs1999</p>
-          </div>
-        </div>
-      </a>
-    </div>
-    <!-- 3 -->
-    <div class="col-md-6 col-lg-4 mb-4">
-      <a href="#" class="game-link">
-        <div class="card h-100 position-relative">
-          <div class="love-icon"><i class="far fa-heart"></i></div>
-          <img src="/image/Days gone.png" class="card-img-top" alt="Days Gone" />
-          <div class="card-body d-flex justify-content-between align-items-center">
-            <p class="card-text">Days Gone</p>
-            <p class="card-price">Rs1000</p>
-          </div>
-        </div>
-      </a>
-    </div>
-    <!-- 4 -->
-    <div class="col-md-6 col-lg-4 mb-4">
-      <a href="#" class="game-link">
-        <div class="card h-100 position-relative">
-          <div class="love-icon"><i class="far fa-heart"></i></div>
-          <img src="/image/Cyberpunk.png" class="card-img-top" alt="Cyberpunk 2077" />
-          <div class="card-body d-flex justify-content-between align-items-center">
-            <p class="card-text">Cyberpunk 2077</p>
-            <p class="card-price">Rs1000</p>
-          </div>
-        </div>
-      </a>
-    </div>
-    <!-- 5 -->
-    <div class="col-md-6 col-lg-4 mb-4">
-      <a href="#" class="game-link">
-        <div class="card h-100 position-relative">
-          <div class="love-icon"><i class="far fa-heart"></i></div>
-          <img src="/image/The last of us.png" class="card-img-top" alt="The Last of Us" />
-          <div class="card-body d-flex justify-content-between align-items-center">
-            <p class="card-text">The Last of Us</p>
-            <p class="card-price">Rs1000</p>
-          </div>
-        </div>
-      </a>
-    </div>
-    <!-- 6 -->
-    <div class="col-md-6 col-lg-4 mb-4">
-      <a href="#" class="game-link">
-        <div class="card h-100 position-relative">
-          <div class="love-icon"><i class="far fa-heart"></i></div>
-          <img src="/image/hog.png" class="card-img-top" alt="Hogwarts Legacy" />
-          <div class="card-body d-flex justify-content-between align-items-center">
-            <p class="card-text">Hogwarts Legacy</p>
-            <p class="card-price">Rs1499</p>
-          </div>
-        </div>
-      </a>
-    </div>
-    <!-- 7 -->
-    <div class="col-md-6 col-lg-4 mb-4">
-      <a href="#" class="game-link">
-        <div class="card h-100 position-relative">
-          <div class="love-icon"><i class="far fa-heart"></i></div>
-          <img src="/image/elderring.jpg" class="card-img-top" alt="Elden Ring" style="height: 250px;"/>
-          <div class="card-body d-flex justify-content-between align-items-center">
-            <p class="card-text">Elden Ring</p>
-            <p class="card-price">Rs2100</p>
-          </div>
-        </div>
-      </a>
-    </div>
-    <!-- 8 -->
-    <div class="col-md-6 col-lg-4 mb-4">
-      <a href="#" class="game-link">
-        <div class="card h-100 position-relative">
-          <div class="love-icon"><i class="far fa-heart"></i></div>
-          <img src="/image/red.avif" class="card-img-top" alt="Red Dead Redemption 2" style="height: 250px;"/>
-          <div class="card-body d-flex justify-content-between align-items-center">
-            <p class="card-text">Red Dead Redemption 2</p>
-            <p class="card-price">Rs1800</p>
-          </div>
-        </div>
-      </a>
-    </div>
-    
-    <!-- 11 -->
-     <div class="col-md-6 col-lg-4 mb-4">
-      <a href="#" class="game-link">
-        <div class="card h-100 position-relative">
-          <div class="love-icon"><i class="far fa-heart"></i></div>
-          <img src="/image/call-of-duty-vanguard-is-officially-3-years-old-today-v0-1v28e565g0zd1.webp" class="card-img-top" alt="Red Dead Redemption 2" style="height: 250px;"/>
-          <div class="card-body d-flex justify-content-between align-items-center">
-            <p class="card-text">Call of Duty Vanguard</p>
-            <p class="card-price">Rs1800</p>
-          </div>
-        </div>
-      </a>
-    </div>
-    
-
-  <!-- Horizontal scroll for mobile only -->
-  <div class="scroll-container d-block d-md-none">
-    <div class="row flex-nowrap">
-      <!-- Repeat same 11 cards in horizontal style -->
-      <!-- Just change from col-10 to col-9 or col-10 to adjust width -->
-      <!-- Example: -->
-      <div class="col-10 me-3">
-        <a href="#" class="game-link">
-          <div class="card h-100 position-relative">
-            <div class="love-icon"><i class="far fa-heart"></i></div>
-            <img src="far cry.png" class="card-img-top" alt="Far Cry 6" />
-            <div class="card-body d-flex justify-content-between align-items-center">
-              <p class="card-text">Far Cry 6</p>
-              <p class="card-price">Rs2400</p>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <div class="col-10 me-3">
-        <a href="#" class="game-link">
-          <div class="card h-100 position-relative">
-            <div class="love-icon"><i class="far fa-heart"></i></div>
-            <img src="ghost.png" class="card-img-top" alt="Far Cry 6" />
-            <div class="card-body d-flex justify-content-between align-items-center">
-              <p class="card-text">Ghost of Tsushima</p>
-              <p class="card-price">Rs1999</p>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <div class="col-10 me-3">
-        <a href="#" class="game-link">
-          <div class="card h-100 position-relative">
-            <div class="love-icon"><i class="far fa-heart"></i></div>
-            <img src="Days gone.png" class="card-img-top" alt="Far Cry 6" />
-            <div class="card-body d-flex justify-content-between align-items-center">
-              <p class="card-text">Days Gone</p>
-              <p class="card-price">Rs1000</p>
-            </div>
-          </div>
-        </a>
-      </div>
-
-
-      <div class="col-10 me-3">
-        <a href="#" class="game-link">
-          <div class="card h-100 position-relative">
-            <div class="love-icon"><i class="far fa-heart"></i></div>
-            <img src="cyberpunk2077.jpg" class="card-img-top" alt="Far Cry 6" />
-            <div class="card-body d-flex justify-content-between align-items-center">
-              <p class="card-text">CyberPunk 2077</p>
-              <p class="card-price">Rs1000</p>
-            </div>
-          </div>
-        </a>
-      </div>
-
-
-      <div class="col-10 me-3">
-        <a href="#" class="game-link">
-          <div class="card h-100 position-relative">
-            <div class="love-icon"><i class="far fa-heart"></i></div>
-            <img src="The last of us.png" class="card-img-top" alt="Far Cry 6" />
-            <div class="card-body d-flex justify-content-between align-items-center">
-              <p class="card-text">The last of us</p>
-              <p class="card-price">Rs 1000</p>
-            </div>
-          </div>
-        </a>
-      </div>
-      
-
-      <div class="col-10 me-3">
-        <a href="#" class="game-link">
-          <div class="card h-100 position-relative">
-            <div class="love-icon"><i class="far fa-heart"></i></div>
-            <img src="hogwart - Copy.jpg" class="card-img-top" alt="Far Cry 6" />
-            <div class="card-body d-flex justify-content-between align-items-center">
-              <p class="card-text">Hogwarts legacy</p>
-              <p class="card-price">Rs 1499</p>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      
-      <!-- Repeat similar blocks for other 10 games -->
-    </div>
-  </div>
-
-  <div class="text-center mt-4">
-    <a href="#" class="btn btn-outline-light">View All Trending Games</a>
-  </div>
-</section>
-
-        <!-- Free Games -->
-        <section class="container my-5">
-    <h2 class="section-title text-center">EA Sport Game Collection</h2>
-
-    <!-- Scrollable layout for small screens -->
-    <div class="d-md-none overflow-auto">
-        <div class="d-flex flex-nowrap gap-3">
-
-            <!-- Game Card 1 -->
-            <div class="card h-100" style="min-width: 250px;">
-                <img src="EAFC24.avif" class="card-img-top" alt="PUBG Battlegrounds">
-                <div class="card-body d-flex justify-content-between align-items-center">
-                    <p class="card-text">Eafc 24</p>
-                    <p class="card-price">Rs2400</p>
-                </div>
-            </div>
-
-            <!-- Game Card 2 -->
-            <div class="card h-100" style="min-width: 250px;">
-                <img src="EAFC25.avif" class="card-img-top" alt="Apex Legends">
-                <div class="card-body d-flex justify-content-between align-items-center">
-                    <p class="card-text">Ea fc 25</p>
-                    <p class="card-price">Rs2400</p>
-                </div>
-            </div>
-
-            <!-- Game Card 3 -->
-            <div class="card h-100" style="min-width: 250px;">
-                <img src="EASPORTSMaddenNFL25.avif" class="card-img-top" alt="Valorant">
-                <div class="card-body d-flex justify-content-between align-items-center">
-                    <p class="card-text">NFL25</p>
-                    <p class="card-price">Rs 2300</p>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- Grid layout for medium and larger screens -->
-    <div class="row d-none d-md-flex">
-        <div class="col-md-6 col-lg-4">
-            <div class="card h-100">
-                <img src="EAFC24.avif" class="card-img-top" alt="PUBG Battlegrounds">
-                <div class="card-body d-flex justify-content-between align-items-center">
-                    <p class="card-text">Ea fc 24</p>
-                    <p class="card-price">Rs2400</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-            <div class="card h-100">
-                <img src="EAFC25.avif" class="card-img-top" alt="Apex Legends">
-                <div class="card-body d-flex justify-content-between align-items-center">
-                    <p class="card-text">Eafc 25</p>
-                    <p class="card-price">Rs2400</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-            <div class="card h-100">
-                <img src="EASPORTSMaddenNFL25.avif" class="card-img-top" alt="Valorant">
-                <div class="card-body d-flex justify-content-between align-items-center">
-                    <p class="card-text">NFL25</p>
-                    <p class="card-price">Free</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-            <div class="card h-100">
-                <img src="EGS_EASPORTSWRC24_Codemasters_S2_1200x1600-485f732f94088f59a02d68eebf64c6e5.avif" class="card-img-top" alt="Valorant">
-                <div class="card-body d-flex justify-content-between align-items-center">
-                    <p class="card-text">WRC24</p>
-                    <p class="card-price">RS2300</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-            <div class="card h-100">
-                <img src="EGS_F124_Codemasters_S2_1200x1600-4640c5c849df939a2303ab872d618530.avif" class="card-img-top" alt="Valorant">
-                <div class="card-body d-flex justify-content-between align-items-center">
-                    <p class="card-text">F1 24</p>
-                    <p class="card-price">Rs 3400</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-            <div class="card h-100">
-                <img src="f1-25-1u7mv.avif" class="card-img-top" alt="Valorant">
-                <div class="card-body d-flex justify-content-between align-items-center">
-                    <p class="card-text">F1 25</p>
-                    <p class="card-price">Rs 3200</p>
-                </div>
-            </div>
-        </div>
-        
-    </div>
- 
         </section>
+
+       
+        
     </main>
 
     <!-- Footer -->
