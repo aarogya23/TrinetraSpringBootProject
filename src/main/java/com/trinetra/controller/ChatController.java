@@ -25,7 +25,7 @@ public class ChatController {
     private ChatMessageRepository chatRepository;
 
     // Replace with your actual OpenRouter API key
-    private final String API_KEY = "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";
+    private final String API_KEY = "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";
 
     /**
      * Home page - displays chat interface with message history
@@ -42,18 +42,19 @@ public class ChatController {
      */
     @PostMapping("/ask")
     @ResponseBody
-    public String askQuestion(@RequestParam String question) {
+    public String askQuestion(@RequestParam String question, 
+                              @RequestParam(required = false) String imageUrl) {
         try {
-            // Validate input
-            if (question == null || question.trim().isEmpty()) {
-                return "Please enter a valid question.";
+            if ((question == null || question.trim().isEmpty()) && 
+                (imageUrl == null || imageUrl.trim().isEmpty())) {
+                return "Please enter a valid question or provide an image URL.";
             }
 
             // Call OpenRouter API
-            String answer = callOpenRouterAPI(question.trim());
+            String answer = callOpenRouterAPI(question.trim(), imageUrl);
 
-            // Save to database
-            ChatMessage message = new ChatMessage(question.trim(), answer);
+            // Save to DB
+            ChatMessage message = new ChatMessage(question, answer);
             chatRepository.save(message);
 
             return answer;
@@ -65,46 +66,59 @@ public class ChatController {
     }
 
     /**
-     * Call OpenRouter API to get AI response
+     * Call OpenRouter API (supports text + image input)
      */
-    private String callOpenRouterAPI(String question) {
+    private String callOpenRouterAPI(String question, String imageUrl) {
         RestTemplate restTemplate = new RestTemplate();
 
         try {
-            // Set up headers
+            // Headers
             HttpHeaders headers = new HttpHeaders();
             headers.set("Authorization", "Bearer " + API_KEY);
             headers.set("Content-Type", "application/json");
             headers.set("HTTP-Referer", "http://localhost:8081");
             headers.set("X-Title", "Trinetra Chat App");
 
-            // Create request body
+            // Message content (text + optional image)
+            List<Map<String, Object>> content = new java.util.ArrayList<>();
+
+            if (question != null && !question.isEmpty()) {
+                content.add(Map.of("type", "text", "text", question));
+            }
+            if (imageUrl != null && !imageUrl.isEmpty()) {
+                content.add(Map.of(
+                    "type", "image_url",
+                    "image_url", Map.of("url", imageUrl)
+                ));
+            }
+
+            // Request body
             Map<String, Object> requestBody = new HashMap<>();
-            requestBody.put("model", "deepseek/deepseek-chat-v3-0324:free");
+            requestBody.put("model", "openrouter/horizon-beta"); // same as python example
             requestBody.put("messages", List.of(
-                Map.of("role", "user", "content", question)
+                Map.of("role", "user", "content", content)
             ));
             requestBody.put("max_tokens", 1000);
             requestBody.put("temperature", 0.7);
 
-            // Create HTTP entity
+            // HTTP entity
             HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestBody, headers);
 
-            // Make API call
+            // API call
             Map<String, Object> response = restTemplate.postForObject(
-                "https://openrouter.ai/api/v1/chat/completions", 
-                request, 
+                "https://openrouter.ai/api/v1/chat/completions",
+                request,
                 Map.class
             );
 
-            // Extract and return the answer
+            // Extract answer
             if (response != null && response.containsKey("choices")) {
                 List<Map<String, Object>> choices = (List<Map<String, Object>>) response.get("choices");
                 if (!choices.isEmpty()) {
                     Map<String, Object> choice = choices.get(0);
                     Map<String, Object> message = (Map<String, Object>) choice.get("message");
-                    String content = (String) message.get("content");
-                    return content != null ? content : "I'm sorry, I couldn't generate a response.";
+                    String contentResp = (String) message.get("content");
+                    return contentResp != null ? contentResp : "I couldn't generate a response.";
                 }
             }
 

@@ -92,6 +92,29 @@ public class LoginController {
     @PostMapping("/login")
     public String loginPagePost(@ModelAttribute UserClass uc, Model model, HttpSession session) {
 
+    	
+    	List<Game> allGames = grepo.findAll();
+
+		// Group games by category without using lambda
+		Map<String, List<Game>> gamesByCategory = new HashMap<>();
+		for (Game game : allGames) {
+		    String category = game.getCategory();
+
+		    // Check if category already exists in the map
+		    if (gamesByCategory.containsKey(category)) {
+		        // If exists, add game to the existing list
+		        List<Game> gameList = gamesByCategory.get(category);
+		        gameList.add(game);
+		    } else {
+		        // If not exists, create a new list and put it in the map
+		        List<Game> gameList = new ArrayList<>();
+		        gameList.add(game);
+		        gamesByCategory.put(category, gameList);
+		    }
+		}
+
+        // Add to model
+        model.addAttribute("gamesByCategory", gamesByCategory);
         String username = uc.getUsername();
         String password = uc.getPassword();
 
