@@ -25,7 +25,7 @@ public class ChatController {
     private ChatMessageRepository chatRepository;
 
     // Replace with your actual OpenRouter API key
-    private final String API_KEY = "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";
+    private final String API_KEY = "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";
 
     /**
      * Home page - displays chat interface with message history
@@ -94,7 +94,7 @@ public class ChatController {
 
             // Request body
             Map<String, Object> requestBody = new HashMap<>();
-            requestBody.put("model", "openrouter/horizon-beta"); // same as python example
+            requestBody.put("model", "meta-llama/llama-3.3-70b-instruct:free"); // same as python example
             requestBody.put("messages", List.of(
                 Map.of("role", "user", "content", content)
             ));

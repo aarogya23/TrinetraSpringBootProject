@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="/css/product.css" rel="stylesheet">
+    <link href="/css/Index.css" rel="stylesheet">
+    <style>
+    /* Default (Light) Theme */
+:root {
+    --background-color: #fff;
+    --text-color: #333;
+    --card-bg: #fff;
+    --card-border: #e0e0e0;
+    --card-text: #333;
+    --nav-bg: #f8f9fa;
+    --nav-text: #333;
+    --nav-text-hover: #007bff;
+    --toggle-bg: #333;
+    --toggle-border: #555;
+    --toggle-icon-color: #fff;
+    --toggle-text-color: #fff;
+    --button-bg: #007bff;
+    --button-text: #fff;
+    --button-bg-hover: #0056b3;
+    --breadcrumb-bg: #f8f9fa;
+    --breadcrumb-text: #333;
+}
+
+/* Dark Mode Theme */
+[data-theme="dark"] {
+    --background-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --card-bg: #2c2c2c;
+    --card-border: #444;
+    --card-text: #e0e0e0;
+    --nav-bg: #2c2c2c;
+    --nav-text: #e0e0e0;
+    --nav-text-hover: #4dabf7;
+    --toggle-bg: #e0e0e0;
+    --toggle-border: #aaa;
+    --toggle-icon-color: #333;
+    --toggle-text-color: #333;
+    --button-bg: #4dabf7;
+    --button-text: #1a1a1a;
+    --button-bg-hover: #3391cc;
+    --breadcrumb-bg: #2c2c2c;
+    --breadcrumb-text: #e0e0e0;
+}
+
+/* General Styles */
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Header and Navigation */
+.header {
+    background-color: var(--nav-bg);
+    border-bottom: 1px solid var(--card-border);
+}
+
+.main-nav .nav-link {
+    color: var(--nav-text);
+}
+
+.main-nav .nav-link:hover,
+.main-nav .nav-link.active {
+    color: orange;
+}
+
+.mobile-nav {
+    background-color: var(--nav-bg);
+}
+
+.mobile-nav .nav-link {
+    color: var(--nav-text);
+}
+
+.mobile-nav .nav-link:hover,
+.mobile-nav .nav-link.active {
+    color: var(--nav-text-hover);
+}
+
+.search-box input,
+.search-box button {
+    background-color: var(--card-bg);
+    color: var(--card-text);
+    border: 1px solid var(--card-border);
+}
+
+.search-box input::placeholder {
+    color: var(--card-text);
+    opacity: 0.7;
+}
+
+.search-box button:hover {
+    background-color: var(--button-bg);
+    color: var(--button-text);
+}
+
+/* Theme Toggle */
+.theme-toggle {
+    background: var(--toggle-bg);
+    border: 2px solid var(--toggle-border);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 50px;
+    padding: 6px 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 15px;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.theme-toggle i {
+    font-size: 16px;
+    color: var(--toggle-icon-color);
+    transition: all 0.3s ease;
+}
+
+.theme-toggle-text {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--toggle-text-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    background-color: var(--breadcrumb-bg);
+}
+
+.breadcrumb-item a,
+.breadcrumb-item.active {
+    color: var(--breadcrumb-text);
+}
+
+/* Checkout Section */
+.checkout h1 {
+    color: var(--text-color);
+}
+
+.card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    color: var(--card-text);
+}
+
+.card-header {
+    background-color: var(--card-bg);
+    border-bottom: 1px solid var(--card-border);
+    color: var(--card-text);
+}
+
+.card-body p,
+.card-body h5,
+.card-body h6,
+.card-body strong,
+.card-body span {
+    color: var(--card-text);
+}
+
+.form-control,
+.form-select {
+    background-color: var(--card-bg);
+    color: var(--card-text);
+    border: 1px solid var(--card-border);
+}
+
+.form-control::placeholder {
+    color: var(--card-text);
+    opacity: 0.7;
+}
+
+.form-control:focus,
+.form-select:focus {
+    background-color: var(--card-bg);
+    color: var(--card-text);
+    border-color: var(--button-bg);
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.btn-primary {
+    background-color: var(--button-bg);
+    border-color: var(--button-bg);
+    color: var(--button-text);
+}
+
+.btn-primary:hover {
+    background-color: var(--button-bg-hover);
+    border-color: var(--button-bg-hover);
+}
+
+/* Payment Method Styles */
+.payment-option {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    height: 100%;
+}
+
+.payment-option:hover {
+    border-color: var(--button-bg);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,123,255,0.2);
+}
+
+.payment-option.selected {
+    border-color: var(--button-bg);
+    background-color: var(--card-bg);
+    position: relative;
+}
+
+.payment-option.selected::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    background: linear-gradient(45deg, var(--button-bg), var(--button-bg-hover));
+    border-radius: inherit;
+    z-index: -1;
+}
+
+.payment-details {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.form-check-input:checked + .form-check-label {
+    color: var(--button-bg);
+    font-weight: 600;
+}
+
+.alert-info {
+    background-color: rgba(0, 123, 255, 0.1);
+    border-color: var(--button-bg);
+    color: var(--card-text);
+}
+
+.alert-warning {
+    background-color: rgba(255, 193, 7, 0.1);
+    border-color: #ffc107;
+    color: var(--card-text);
+}
+
+/* Toast Notification */
+.toast {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1050;
+}
+
+.toast-header {
+    background-color: var(--card-bg);
+    color: var(--card-text);
+    border-bottom: 1px solid var(--card-border);
+}
+
+.toast-body {
+    color: var(--card-text);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .theme-toggle {
+        margin-left: 0;
+        margin-top: 10px;
+        justify-content: center;
+    }
+    .mobile-theme-toggle {
+        display: flex;
+        justify-content: center;
+        padding: 10px 0;
+        border-top: 1px solid var(--card-border);
+        margin-top: 10px;
+    }
+    .desktop-theme-toggle {
+        display: none !important;
+    }
+    .payment-option {
+        margin-bottom: 10px;
+    }
+}
+
+@media (min-width: 769px) {
+    .mobile-theme-toggle {
+        display: none !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .card-img-top {
+        max-height: 345px;
+    }
+    .col-md-4, .col-md-6 {
+        margin-bottom: 15px;
+    }
+}
+    </style>
+</head>
+<body>
+    <!-- Toast Notification Container -->
+    <div class="toast-container position-fixed top-0 end-0 p-3" id="toast-container">
+        <div th:if="${message}" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" th:text="${message}"></div>
+        </div>
+    </div>
+
+    <header class="header">
+        <div class="header-main">
+            <div class="logo">
+                <img src="/resources/image/black.png" alt="Trinetra Games" class="logo">
+            </div>
+            <!-- Desktop Navigation -->
+            <nav class="main-nav">
+                <a href="/index.html" class="nav-link">Home</a>
+                <a href="/aiask" class="nav-link">AskAi</a>
+                <a href="/library.html" class="nav-link">Library</a>
+                <a href="/wishlist.html" class="nav-link" id="wishlist-link">
+                    Wishlist
+                    <span class="badge" id="wishlist-badge"></span>
+                </a>
+                <a href="/cart" class="nav-link active" id="cart-link">
+                    Cart
+                    <span class="badge" id="cart-badge" th:text="${cartItemCount}"></span>
+                </a>
+            </nav>
+            <!-- Desktop Search Box -->
+            <div class="search-box desktop-search">
+                <form id="search-form">
+                    <input type="text" placeholder="Search for games..." id="searchInput" aria-label="Search for games" oninput="searchGames()">
+                    <button type="submit" aria-label="Search">Search</button>
+                    <div id="searchResults" class="search-results"></div>
+                </form>
+            </div>
+            <!-- Desktop Theme Toggle -->
+            <div class="theme-toggle desktop-theme-toggle" id="theme-toggle">
+                <i class="fas fa-sun" id="theme-icon"></i>
+                <span class="theme-toggle-text" id="theme-text">Light</span>
+            </div>
+            <!-- Profile with Dropdown - for Desktop -->
+            <div class="profile-container" id="profile-container">
+                <img src="/image/question.png" alt="Profile" class="profile-icon" style="border-radius: 50%;">
+                <div class="profile-dropdown" id="profile-dropdown" style="display: none;">
+                    <a href="/login" class="dropdown-item">Login</a>
+                    <a href="/signup" class="dropdown-item">Signup</a>
+                    <div class="dropdown-item logout" id="logout-button">Logout</div>
+                </div>
+            </div>
+            <div class="hamburger-menu" id="hamburger-menu">
+                <div class="humburger-icon" id="hamburger-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Navigation -->
+        <div class="mobile-nav" id="mobile-nav">
+            <div class="mobile-profile-section">
+                <div class="mobile-profile-container" id="mobile-profile-container">
+                    <img src="/image/question.png" alt="Profile" class="mobile-profile-icon">
+                    <div class="mobile-profile-info">
+                        <div class="mobile-profile-name">User Profile</div>
+                        <div class="mobile-profile-dropdown" id="mobile-profile-dropdown" style="display: none;">
+                            <a href="/login" class="dropdown-item">Login</a>
+                            <a href="/signup" class="dropdown-item">Signup</a>
+                            <div class="dropdown-item logout" id="mobile-logout-button">Logout</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a href="/index.html" class="nav-link">Home</a>
+            <a href="/aiask" class="nav-link">AskAi</a>
+            <a href="/library.html" class="nav-link">Library</a>
+            <a href="/wishlist.html" class="nav-link" id="mobile-wishlist-link">
+                Wishlist
+                <span class="badge" id="mobile-wishlist-badge"></span>
+            </a>
+            <a href="/cart" class="nav-link active" id="mobile-cart-link">
+                Cart
+                <span class="badge" id="mobile-cart-badge" th:text="${cartItemCount}"></span>
+            </a>
+            <div class="search-box mobile-search">
+                <form id="mobile-search-form">
+                    <input type="text" placeholder="Search for games..." id="mobile-search-input" aria-label="Search for games" oninput="searchGamesMobile()">
+                    <button type="submit" aria-label="Search">Search</button>
+                    <div id="mobileSearchResults" class="search-results"></div>
+                </form>
+            </div>
+            <div class="mobile-theme-toggle">
+                <div class="theme-toggle" id="mobile-theme-toggle">
+                    <i class="fas fa-sun" id="mobile-theme-icon"></i>
+                    <span class="theme-toggle-text" id="mobile-theme-text">Light</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Breadcrumb Navigation -->
+        <div class="container mt-3">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index.html">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/cart">Cart</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+                </ol>
+            </nav>
+        </div>
+
+        <!-- Checkout Section -->
+        <section class="checkout container">
+            <h1>Checkout</h1>
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Order Summary</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                <img th:src="'data:image/png;base64,' + ${game.image}" th:alt="${game.gamename}" class="img-fluid me-3" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;">
+                                <div>
+                                    <h5 th:text="${game.gamename}"></h5>
+                                    <p class="mb-0">Price: <span th:text="'Rs ' + ${game.gameprice}"></span></p>
+                                    <p class="mb-0">Quantity: 1</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between">
+                                <strong>Subtotal</strong>
+                                <span th:text="'Rs ' + ${game.gameprice}"></span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <strong>Tax (10%)</strong>
+                                <span th:text="'Rs ' + (${game.gameprice} * 0.1)"></span>
+                            </div>
+                            <div class="d-flex justify-content-between mt-2">
+                                <strong>Total</strong>
+                                <span th:text="'Rs ' + (${game.gameprice} * 1.1)"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Payment Details</h4>
+                        </div>
+                        <div class="card-body">
+                            <form th:action="@{/confirmPurchase}" method="post">
+                                <input type="hidden" name="gameId" th:value="${game.id}">
+                                
+                                <!-- Payment Method Selection -->
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold">Select Payment Method</label>
+                                    <div class="row">
+                                        <div class="col-6 mb-3">
+                                            <div class="card payment-option" onclick="selectPaymentMethod('card')">
+                                                <div class="card-body text-center p-2">
+                                                    <i class="fas fa-credit-card fa-2x mb-2 text-primary"></i>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="paymentMethod" id="card" value="card" checked>
+                                                        <label class="form-check-label small" for="card">Card</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-6 mb-3">
+                                            <div class="card payment-option" onclick="selectPaymentMethod('esewa')">
+                                                <div class="card-body text-center p-2">
+                                                    <div class="mb-2" style="height: 32px; display: flex; align-items: center; justify-content: center;">
+                                                        <span class="fw-bold text-success" style="font-size: 20px;">eSewa</span>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="paymentMethod" id="esewa" value="esewa">
+                                                        <label class="form-check-label small" for="esewa">eSewa</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-6 mb-3">
+                                            <div class="card payment-option" onclick="selectPaymentMethod('khalti')">
+                                                <div class="card-body text-center p-2">
+                                                    <div class="mb-2" style="height: 32px; display: flex; align-items: center; justify-content: center;">
+                                                        <span class="fw-bold text-info" style="font-size: 20px;">Khalti</span>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="paymentMethod" id="khalti" value="khalti">
+                                                        <label class="form-check-label small" for="khalti">Khalti</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-6 mb-3">
+                                            <div class="card payment-option" onclick="selectPaymentMethod('imepay')">
+                                                <div class="card-body text-center p-2">
+                                                    <div class="mb-2" style="height: 32px; display: flex; align-items: center; justify-content: center;">
+                                                        <span class="fw-bold text-warning" style="font-size: 18px;">IME Pay</span>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="paymentMethod" id="imepay" value="imepay">
+                                                        <label class="form-check-label small" for="imepay">IME Pay</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-12 mb-3">
+                                            <div class="card payment-option" onclick="selectPaymentMethod('bank')">
+                                                <div class="card-body text-center p-2">
+                                                    <i class="fas fa-university fa-2x mb-2 text-secondary"></i>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="paymentMethod" id="bank" value="bank">
+                                                        <label class="form-check-label small" for="bank">Bank Transfer</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Card Payment Details -->
+                                <div id="cardDetails" class="payment-details">
+                                    <h6 class="mb-3">Card Details</h6>
+                                    <div class="mb-3">
+                                        <label class="form-label">Card Number</label>
+                                        <input type="text" class="form-control" name="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6 mb-3">
+                                            <label class="form-label">Expiry</label>
+                                            <input type="text" class="form-control" name="expiryDate" placeholder="MM/YY" maxlength="5">
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <label class="form-label">CVV</label>
+                                            <input type="text" class="form-control" name="cvv" placeholder="123" maxlength="4">
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Cardholder Name</label>
+                                        <input type="text" class="form-control" name="cardholderName" placeholder="John Doe">
+                                    </div>
+                                </div>
+
+                                <!-- eSewa Payment Details -->
+                                <div id="esewaDetails" class="payment-details" style="display: none;">
+                                    <h6 class="mb-3">eSewa Payment</h6>
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        You'll be redirected to eSewa for secure payment.
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">eSewa ID/Mobile</label>
+                                        <input type="text" class="form-control" name="esewaId" placeholder="98XXXXXXXX or eSewa ID">
+                                    </div>
+                                </div>
+
+                                <!-- Khalti Payment Details -->
+                                <div id="khaltiDetails" class="payment-details" style="display: none;">
+                                    <h6 class="mb-3">Khalti Payment</h6>
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        You'll be redirected to Khalti for secure payment.
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Mobile Number</label>
+                                        <input type="text" class="form-control" name="khaltiMobile" placeholder="98XXXXXXXX">
+                                    </div>
+                                </div>
+
+                                <!-- IME Pay Details -->
+                                <div id="imepayDetails" class="payment-details" style="display: none;">
+                                    <h6 class="mb-3">IME Pay Payment</h6>
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        You'll be redirected to IME Pay for secure payment.
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Mobile Number</label>
+                                        <input type="text" class="form-control" name="imepayMobile" placeholder="98XXXXXXXX">
+                                    </div>
+                                </div>
+
+                                <!-- Bank Transfer Details -->
+                                <div id="bankDetails" class="payment-details" style="display: none;">
+                                    <h6 class="mb-3">Bank Transfer</h6>
+                                    <div class="mb-3">
+                                        <label class="form-label">Select Bank</label>
+                                        <select class="form-select" name="bankName">
+                                            <option value="">Choose your bank</option>
+                                            <option value="nabil">Nabil Bank</option>
+                                            <option value="nic_asia">NIC Asia Bank</option>
+                                            <option value="himalayan">Himalayan Bank</option>
+                                            <option value="standard_chartered">Standard Chartered Bank</option>
+                                            <option value="everest">Everest Bank</option>
+                                            <option value="kumari">Kumari Bank</option>
+                                            <option value="laxmi">Laxmi Sunrise Bank</option>
+                                            <option value="mega">Mega Bank</option>
+                                            <option value="global_ime">Global IME Bank</option>
+                                            <option value="citizens">Citizens Bank International</option>
+                                            <option value="prime">Prime Commercial Bank</option>
+                                            <option value="sunrise">Sunrise Bank</option>
+                                            <option value="century">Century Commercial Bank</option>
+                                            <option value="sanima">Sanima Bank</option>
+                                            <option value="machhapuchhre">Machhapuchhre Bank</option>
+                                            <option value="rastriya_banijya">Rastriya Banijya Bank</option>
+                                            <option value="agricultural">Agricultural Development Bank</option>
+                                        </select>
+                                    </div>
+                                    <div class="alert alert-warning">
+                                        <i class="fas fa-exclamation-triangle me-2"></i>
+                                        Bank details will be provided after confirming purchase. Complete transfer within 24 hours.
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary w-100 mt-3">
+                                    <i class="fas fa-shield-alt me-2"></i>Confirm Purchase
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- JavaScript for interactivity -->
+    <script>
+        // Payment Method Selection
+        function selectPaymentMethod(method) {
+            // Remove selected class from all options
+            document.querySelectorAll('.payment-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            event.currentTarget.classList.add('selected');
+            
+            // Check the radio button
+            document.getElementById(method).checked = true;
+            
+            // Hide all payment details
+            document.querySelectorAll('.payment-details').forEach(detail => {
+                detail.style.display = 'none';
+            });
+            
+            // Show selected payment details
+            const detailsMap = {
+                'card': 'cardDetails',
+                'esewa': 'esewaDetails',
+                'khalti': 'khaltiDetails',
+                'imepay': 'imepayDetails',
+                'bank': 'bankDetails'
+            };
+            
+            if (detailsMap[method]) {
+                document.getElementById(detailsMap[method]).style.display = 'block';
+            }
+            
+            // Update required fields based on payment method
+            updateRequiredFields(method);
+        }
+
+        function updateRequiredFields(method) {
+            // Remove required from all fields first
+            document.querySelectorAll('input[required]').forEach(input => {
+                input.removeAttribute('required');
+            });
+            document.querySelectorAll('select[required]').forEach(select => {
+                select.removeAttribute('required');
+            });
+            
+            // Add required to relevant fields
+            switch(method) {
+                case 'card':
+                    document.querySelector('input[name="cardNumber"]').setAttribute('required', '');
+                    document.querySelector('input[name="expiryDate"]').setAttribute('required', '');
+                    document.querySelector('input[name="cvv"]').setAttribute('required', '');
+                    document.querySelector('input[name="cardholderName"]').setAttribute('required', '');
+                    break;
+                case 'esewa':
+                    document.querySelector('input[name="esewaId"]').setAttribute('required', '');
+                    break;
+                case 'khalti':
+                    document.querySelector('input[name="khaltiMobile"]').setAttribute('required', '');
+                    break;
+                case 'imepay':
+                    document.querySelector('input[name="imepayMobile"]').setAttribute('required', '');
+                    break;
+                case 'bank':
+                    document.querySelector('select[name="bankName"]').setAttribute('required', '');
+                    break;
+            }
+        }
+
+        // Initialize with card payment selected
+        document.addEventListener('DOMContentLoaded', function() {
+            selectPaymentMethod('card');
+        });
+
+        // Format card number input
+        document.querySelector('input[name="cardNumber"]')?.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
+            e.target.value = value;
+        });
+
+        // Format expiry date input
+        document.querySelector('input[name="expiryDate"]')?.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            }
+            e.target.value = value;
+        });
+
+        // Format CVV input (numbers only)
+        document.querySelector('input[name="cvv"]')?.addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/\D/g, '');
+        });
+
+        // Format mobile number inputs (numbers only)
+        document.querySelector('input[name="khaltiMobile"]')?.addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/\D/g, '');
+        });
+
+        document.querySelector('input[name="imepayMobile"]')?.addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/\D/g, '');
+        });
+
+        // Existing JavaScript functions
+        document.getElementById('profile-container').addEventListener('click', () => {
+            const dropdown = document.getElementById('profile-dropdown');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        });
+
+        document.getElementById('mobile-profile-container').addEventListener('click', () => {
+            const mobileDropdown = document.getElementById('mobile-profile-dropdown');
+            mobileDropdown.style.display = mobileDropdown.style.display === 'block' ? 'none' : 'block';
+        });
+
+        document.getElementById('hamburger-icon').addEventListener('click', () => {
+            const mobileNav = document.getElementById('mobile-nav');
+            mobileNav.classList.toggle('open');
+        });
+
+        // Auto-dismiss toast after 3 seconds
+        document.addEventListener('DOMContentLoaded', () => {
+            const toastEl = document.querySelector('.toast');
+            if (toastEl) {
+                const toast = new bootstrap.Toast(toastEl);
+                toast.show();
+                setTimeout(() => toast.hide(), 3000);
+            }
+        });
+
+        // Update cart and wishlist badges
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartBadge();
+            updateWishlistBadge();
+
+            function updateCartBadge() {
+                const cartBadge = document.getElementById('cart-badge');
+                const mobileCartBadge = document.getElementById('mobile-cart-badge');
+                const cartItemCount = parseInt(cartBadge.textContent) || 0;
+                if (cartItemCount > 0) {
+                    cartBadge.textContent = cartItemCount;
+                    mobileCartBadge.textContent = cartItemCount;
+                    cartBadge.style.display = 'inline';
+                    mobileCartBadge.style.display = 'inline';
+                } else {
+                    cartBadge.style.display = 'none';
+                    mobileCartBadge.style.display = 'none';
+                }
+            }
+
+            function updateWishlistBadge() {
+                const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+                const wishlistBadge = document.getElementById('wishlist-badge');
+                const mobileWishlistBadge = document.getElementById('mobile-wishlist-badge');
+                if (wishlist.length > 0) {
+                    wishlistBadge.textContent = wishlist.length;
+                    mobileWishlistBadge.textContent = wishlist.length;
+                    wishlistBadge.style.display = 'inline';
+                    mobileWishlistBadge.style.display = 'inline';
+                } else {
+                    wishlistBadge.style.display = 'none';
+                    mobileWishlistBadge.style.display = 'none';
+                }
+            }
+        });
+    </script>
+    <script th:src="@{/js/Addtocart.js}"></script>
+    <script th:src="@{/js/darklight.js}"></script>
+    <script th:src="@{/js/search.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

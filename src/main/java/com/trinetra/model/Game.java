@@ -34,8 +34,50 @@ public class Game {
     private String publisher;
     
     private String link;
+    
+    private String gameImage2;
+    
+    private String gameImage3;
+    
+    private String gameImage4;
+    
+    private String gameImage1;
+    
+    
 
-    public String getLink() {
+    public String getGameImage2() {
+		return gameImage2;
+	}
+
+	public void setGameImage2(String gameImage2) {
+		this.gameImage2 = gameImage2;
+	}
+
+	public String getGameImage3() {
+		return gameImage3;
+	}
+
+	public void setGameImage3(String gameImage3) {
+		this.gameImage3 = gameImage3;
+	}
+
+	public String getGameImage4() {
+		return gameImage4;
+	}
+
+	public void setGameImage4(String gameImage4) {
+		this.gameImage4 = gameImage4;
+	}
+
+	public String getGameImage1() {
+		return gameImage1;
+	}
+
+	public void setGameImage1(String gameImage1) {
+		this.gameImage1 = gameImage1;
+	}
+
+	public String getLink() {
 		return link;
 	}
 

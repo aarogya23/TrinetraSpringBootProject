@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ea fc 25</title>
+    <title>EA FC 25</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome Icons -->
@@ -13,95 +13,85 @@
     <link href="/css/product.css" rel="stylesheet">
     <link href="Index.css" rel="stylesheet">
     <style>
-    
-    
-   @media (max-width: 576px) {
-    .card-img-top {
-        max-height: 345px;
-    }
-    #eafc{
-            max-height: 171px;
-    }
-
-    .scroll-container {
-     overflow-x: auto;
-     -webkit-overflow-scrolling: touch;
-    }
-
-    .scroll-container .row {
-     flex-wrap: nowrap;
-    }
-
-    .scroll-container .col-10 {
-        flex: 0 0 auto;
-    }
-
-    }
-    .theme-toggle {
-        background: var(--toggle-bg, #333);
-        border: 2px solid var(--toggle-border, #555);
-        border-radius: 50px;
-        padding: 6px 10px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        margin-left: 15px;
-    }
-
-    .theme-toggle:hover {
-        transform: scale(1.05);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    }
-
-    .theme-toggle i {
-        font-size: 16px;
-        color: var(--toggle-icon-color, #fff);
-        transition: all 0.3s ease;
-    }
-
-    .theme-toggle-text {
-        font-size: 11px;
-        font-weight: 600;
-        color: var(--toggle-text-color, #fff);
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-
-    /* Mobile theme toggle styling */
-    @media (max-width: 768px) {
+        @media (max-width: 576px) {
+            .card-img-top {
+                max-height: 345px;
+            }
+            #eafc {
+                max-height: 171px;
+            }
+            .scroll-container {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            .scroll-container .row {
+                flex-wrap: nowrap;
+            }
+            .scroll-container .col-10 {
+                flex: 0 0 auto;
+            }
+        }
         .theme-toggle {
-            margin-left: 0;
-            margin-top: 10px;
-            justify-content: center;
-        }
-        
-        .mobile-theme-toggle {
+            background: var(--toggle-bg, #333);
+            border: 2px solid var(--toggle-border, #555);
+            border-radius: 50px;
+            padding: 6px 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
             display: flex;
-            justify-content: center;
-            padding: 10px 0;
-            border-top: 1px solid var(--border-color, #333);
-            margin-top: 10px;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            margin-left: 15px;
         }
-    }
-
-    /* Hide desktop theme toggle on mobile */
-    @media (max-width: 768px) {
-        .desktop-theme-toggle {
-            display: none !important;
+        .theme-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
-    }
-
-    /* Hide mobile theme toggle on desktop */
-    @media (min-width: 769px) {
-        .mobile-theme-toggle {
-            display: none !important;
+        .theme-toggle i {
+            font-size: 16px;
+            color: var(--toggle-icon-color, #fff);
+            transition: all 0.3s ease;
         }
-    }
-
-   
+        .theme-toggle-text {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--toggle-text-color, #fff);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        @media (max-width: 768px) {
+            .theme-toggle {
+                margin-left: 0;
+                margin-top: 10px;
+                justify-content: center;
+            }
+            .mobile-theme-toggle {
+                display: flex;
+                justify-content: center;
+                padding: 10px 0;
+                border-top: 1px solid var(--border-color, #333);
+                margin-top: 10px;
+            }
+        }
+        @media (max-width: 768px) {
+            .desktop-theme-toggle {
+                display: none !important;
+            }
+        }
+        @media (min-width: 769px) {
+            .mobile-theme-toggle {
+                display: none !important;
+            }
+        }
+        .review-card {
+            border-left: 4px solid #007bff;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .stars {
+            color: #ffc107;
+        }
     </style>
 </head>
 <body>
@@ -118,19 +108,18 @@
             <!-- Desktop Navigation -->
             <nav class="main-nav">
                 <a href="index.html" class="nav-link">Home</a>
-                <a href="AiAsk.html" class="nav-link">AskAi</a>
+                <a href="modelchat" class="nav-link">AskAi</a>
                 <a href="library.html" class="nav-link">Library</a>
                 <a href="wishlist.html" class="nav-link" id="wishlist-link">
                     Wishlist
                     <span class="badge" id="wishlist-badge"></span>
                 </a>
-                <a href="cart" class="nav-link active" id="cart-link">
+                <a href="cart" class="nav-link" id="cart-link">
                     Cart
                     <span class="badge" id="cart-badge">1</span>
                 </a>
             </nav>
             
-            <!-- Desktop Search Box -->
             <!-- Desktop Search Box -->
             <div class="search-box desktop-search">
                 <form id="search-form">
@@ -156,13 +145,14 @@
             
             <!-- Profile with Dropdown - for Desktop -->
             <div class="profile-container" id="profile-container">
-                <img src="image/question.png" alt="Profile" class="profile-icon" style="border-radius: 50%;">
+                <img src="image/profile.png" alt="Profile" class="profile-icon" style="border-radius: 50%;">
                 
                 <!-- Profile Dropdown Menu -->
                 <div class="profile-dropdown" id="profile-dropdown" style="display: none;">
-                    <a href="login" class="dropdown-item">Login</a>
-                    <a href="signup" class="dropdown-item">Signup</a>
-                    <div class="dropdown-item logout" id="logout-button">Logout</div>
+                    <a href="profile" class="dropdown-item" target="_blank">Profile</a>
+                    
+                    <a href="logout" class="dropdown-item">Log out</a>
+                    
                 </div>
             </div>
             
@@ -179,16 +169,16 @@
         <div class="mobile-nav" id="mobile-nav">
             <!-- Mobile Profile Section at the top of mobile menu -->
             <div class="mobile-profile-section">
-                <div class="mobile-profile-container" id="mobile-profile-container">
-                    <img src="profile.jpg" alt="Profile" class="mobile-profile-icon">
+                <div class="mobile-profile-container" id="mobile-profile-container" >
+                    <img src = "image/profile.png" alt="Profile" class="mobile-profile-icon">
                     <div class="mobile-profile-info">
                         <div class="mobile-profile-name">User Profile</div>
                         
                         <!-- Mobile Profile Dropdown Menu -->
                         <div class="mobile-profile-dropdown" id="mobile-profile-dropdown" style="display: none;">
-                            <a href="profile.html" class="dropdown-item">My Profile</a>
-                            <a href="settings.html" class="dropdown-item">Settings</a>
-                            <div class="dropdown-item logout" id="mobile-logout-button">Logout</div>
+                            <a href="profile" class="dropdown-item">My Profile</a>
+                            
+                            <a href="logout" class="dropdown-item">Log out</a>
                         </div>
                     </div>
                 </div>
@@ -236,7 +226,7 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.html">Home</a></li>
                     <li class="breadcrumb-item"><a href="#">Games</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">EA Fc 25</li>
+                    <li class="breadcrumb-item active" aria-current="page">F1 2024</li>
                 </ol>
             </nav>
         </div>
@@ -247,18 +237,17 @@
                 <!-- Product Gallery -->
                 <div class="col-lg-6">
                     <div class="product-gallery">
-                        <img src="/image/eafc25.jpeg" alt="Call of Duty: Modern Warfare 3" class="product-main-image" id="main-product-image">
-                         <video class="product-main-video" id="main-product-video" controls style="display: none; width: 573px;">
+                        <img src="/image/f1.jpg" alt="EA FC 25" class="product-main-image" id="main-product-image">
+                        <video class="product-main-video" id="main-product-video" controls style="display: none; width: 573px;">
                             <source src="" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
                         <div class="product-thumbnails">
-                            <img src="/image/eafc25.jpeg" alt="EAFC 25 - Main" class="thumbnail active" onclick="changeImage('/image/eafc25.jpeg')">
-                            
-                            <img src="/image/Brant.jpg" alt="EAFC 25" class="thumbnail" onclick="changeImage('/image/Brant.jpg')">
-                            <img src="/image/colepalmer.jpg" alt="Call of Duty: Modern Warfare 3 - Zombies" class="thumbnail" onclick="changeImage('/image/colepalmer.jpg')">
-                            <img src="/image/son.jpg" alt="Call of Duty: Modern Warfare 3 - Zombies" class="thumbnail" onclick="changeImage('/image/son.jpg')">
-                            <img src="/image/Brant.jpg" alt="Call of Duty: Modern Warfare 3 - Zombies" class="thumbnail" onclick="changeImage('/image/Brant.jpg')">
+                            <img src="/image/f1.jpg" alt="EA FC 25 - Main" class="thumbnail active" onclick="changeImage('/image/f1.jpg')">
+                            <img src="/image/main2.jpg" alt="EA FC 25" class="thumbnail" onclick="changeImage('/image/main2.jpg')">
+                            <img src="/image/4.jpg" alt="EA FC 25" class="thumbnail" onclick="changeImage('/image/4.jpg')">
+                            <img src="/image/main3.jpg" alt="EA FC 25" class="thumbnail" onclick="changeImage('/image/main3.jpg')">
+                            <img src="/image/main4.jpg" alt="EA FC 25" class="thumbnail" onclick="changeImage('/image/main4.jpg')">
                             <img src="ea fc image 2.jpg" alt="EA FC 25 - Trailer" class="thumbnail" onclick="changeVideo('eafc.mp4')">
                         </div>
                     </div>
@@ -267,7 +256,7 @@
                 <!-- Product Information -->
                 <div class="col-lg-6">
                     <div class="product-info">
-                        <h1>Ea fc 25</h1>
+                        <h1>F1 2024</h1>
                         
                         <div class="product-meta">
                             <div class="meta-item">
@@ -276,20 +265,20 @@
                             </div>
                             <div class="meta-item">
                                 <i class="fas fa-gamepad"></i>
-                                <span>Football Games</span>
+                                <span>F1 Games</span>
                             </div>
                             <div class="meta-item">
                                 <i class="fas fa-user-shield"></i>
-                                <span>Ea Sport</span>
+                                <span>EA Sports</span>
                             </div>
                         </div>
                         
-                        <p>Experience the next evolution of football with EA Sports FC 25. Step onto the pitch with your favorite clubs and players, and lead them to glory in intense matches, immersive career modes, and thrilling online competitions. Feel the passion of the game as you shape your legacy in the world’s most authentic football experience.</p>
+                        <p>Experience the adrenaline of Formula 1 with F1 24. Take the driver’s seat in the most iconic racing competition in the world and push your limits on legendary circuits. Race alongside your favorite drivers and teams, dominate in immersive career modes, and battle rivals in intense online multiplayer. Feel the speed, precision, and strategy as you chase victory and build your legacy in the most authentic F1 experience yet..</p>
                         
                         <div class="price-container">
-                            <span class="current-price">Rs2000</span>
+                            <span class="current-price">Rs2800</span>
                             <span class="old-price">Rs3000</span>
-                            <span class="discount">-53%</span>
+                            <span class="discount">-23%</span>
                         </div>
                         
                         <div class="action-buttons">
@@ -326,33 +315,31 @@
                 </div>
                 
                 <div class="tab-content active" id="description-tab">
-                    <h3>Game Description</h3>
-                    <p>EA Sports FC 25 is a 2025 football simulation video game developed and published by EA Sports. It is the latest installment in the EA Sports FC series, following EA Sports FC 24, and continues the legacy of the long-running FIFA franchise. Featuring enhanced gameplay mechanics, updated team rosters, and deeper career and Ultimate Team modes, EA FC 25 delivers the most authentic and immersive football experience to date. With improved graphics, dynamic animations, and real-world football innovations, it sets a new standard for the beautiful game in virtual form.</p>
-                    
-                    <h4>Career Mode</h4>
-                    <p>EA Sports FC 25 expands the Career Mode experience with more immersive management features, dynamic storylines, and deeper player development. Whether you’re managing a top-tier club or rising through the ranks as a young star, your choices shape your path to greatness on and off the pitch.</p>
+                   <p>F1 24 is a 2024 Formula One racing simulation video game developed and published by EA Sports and Codemasters. It is the latest installment in the official Formula 1 series, following F1 23, and delivers the thrill of the world’s most prestigious motorsport like never before. Featuring authentic circuits, updated driver line-ups, and advanced racing physics, F1 24 pushes the limits of realism with stunning visuals, immersive handling, and the true-to-life atmosphere of Formula 1.</p>
 
-                    <h4>Ultimate Team</h4>
-                    <p>Build your dream squad in Ultimate Team with new Evolutions, refined chemistry, and fresh ICONs and Heroes. FC 25 introduces more customization options and seasonal challenges, allowing players to create a team that reflects their playstyle and vision.</p>
-
-                    <h4>Clubs & Volta</h4>
-                    <p>Clubs mode returns with cross-play support, expanded progression, and new customization features to represent your club your way. In Volta, street football reaches new heights with vibrant environments, creative flair, and fast-paced gameplay that captures the spirit of the global game.</p>
-                    </div>
+					<h4>Career Mode</h4>
+					<p>F1 24 introduces a deeper Career Mode with expanded driver reputation systems, contract negotiations, and team dynamics. Whether you rise as a rookie chasing your first podium or lead a championship team to glory, every decision on and off the track shapes your Formula 1 journey.</p>
+					
+					<h4>My Team</h4>
+					<p>Create, customize, and manage your very own F1 team in the enhanced My Team mode. From designing liveries and managing budgets to signing drivers and developing car performance, the choices you make will determine your path to becoming a racing powerhouse.</p>
+					
+					<h4>Multiplayer & Esports</h4>
+					<p>Race online against players worldwide in thrilling head-to-head competitions. With improved matchmaking, cross-play support, and official esports events, F1 24 delivers the ultimate competitive racing experience for both casual players and professional drivers alike.</p>
+					</div>
 
                 <div class="tab-content" id="specifications-tab">
                     <h3>Game Specifications</h3>
-                    
                     <div class="spec-item">
                         <div class="spec-label">Publisher</div>
-                        <div class="spec-value">Activision</div>
+                        <div class="spec-value">EA Sports</div>
                     </div>
                     <div class="spec-item">
                         <div class="spec-label">Developer</div>
-                        <div class="spec-value">Sledgehammer Games</div>
+                        <div class="spec-value">EA Vancouver</div>
                     </div>
                     <div class="spec-item">
                         <div class="spec-label">Genre</div>
-                        <div class="spec-value">First-Person Shooter, Action</div>
+                        <div class="spec-value">Sports, Football Simulation</div>
                     </div>
                     <div class="spec-item">
                         <div class="spec-label">Platforms</div>
@@ -364,28 +351,26 @@
                     </div>
                     <div class="spec-item">
                         <div class="spec-label">Game Modes</div>
-                        <div class="spec-value">Single-player Campaign, Multiplayer, Co-op Zombies</div>
+                        <div class="spec-value">Career Mode, Ultimate Team, Clubs, Volta</div>
                     </div>
                     <div class="spec-item">
                         <div class="spec-label">Multiplayer Modes</div>
-                        <div class="spec-value">Team Deathmatch, Domination, Hardpoint, Search and Destroy, Free-for-All, and more</div>
+                        <div class="spec-value">Online Multiplayer, Co-op, Competitive</div>
                     </div>
                     <div class="spec-item">
                         <div class="spec-label">Online Players</div>
-                        <div class="spec-value">2-32 players</div>
+                        <div class="spec-value">2-22 players</div>
                     </div>
                     <div class="spec-item">
                         <div class="spec-label">File Size</div>
-                        <div class="spec-value">Approximately 140GB (varies by platform)</div>
+                        <div class="spec-value">Approximately 100GB (varies by platform)</div>
                     </div>
                     <div class="spec-item">
                         <div class="spec-label">Age Rating</div>
-                        <div class="spec-value">ESRB: Mature 17+, PEGI: 18</div>
+                        <div class="spec-value">ESRB: Everyone, PEGI: 3</div>
                     </div>
                 </div>
                 
-                
-
                 <div class="tab-content" id="requirements-tab">
                     <h3>System Requirements</h3>
                     <ul>
@@ -400,15 +385,59 @@
                 </div>
 
                 <div class="tab-content" id="reviews-tab">
-                    <h3>Player Reviews</h3>
-                    <div class="review">
-                        <p><strong>Ramesh T.:</strong> “The best CoD in recent years. Campaign is intense and Zombies is so much fun with friends!”</p>
+                    <h3>Customer Reviews</h3>
+                    
+                    <!-- Add Review Form -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Write a Review</h4>
+                        </div>
+                        <div class="card-body">
+                            <form action="addbro" method="post">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Name</label>
+                                        <input type="text" class="form-control" name="name" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Rating</label>
+                                        <select class="form-control" name="rating" required>
+                                            <option value="">Select Rating</option>
+                                            <option value="1">⭐ 1 Star</option>
+                                            <option value="2">⭐⭐ 2 Stars</option>
+                                            <option value="3">⭐⭐⭐ 3 Stars</option>
+                                            <option value="4">⭐⭐⭐⭐ 4 Stars</option>
+                                            <option value="5">⭐⭐⭐⭐⭐ 5 Stars</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Comment</label>
+                                    <textarea class="form-control" name="comment" rows="3" required></textarea>
+                                </div>
+                                <input type="submit" value="Submit Review" class="btn btn-primary">
+                            </form>
+                        </div>
                     </div>
-                    <div class="review">
-                        <p><strong>Sita K.:</strong> “Graphics and gunplay are top-notch. Totally worth the price!”</p>
-                    </div>
-                    <div class="review">
-                        <p><strong>Arjun B.:</strong> “Solid multiplayer experience. Loving the classic maps and fast-paced action.”</p>
+
+                    <!-- Reviews List -->
+                    <div class="reviews-section">
+                        <div th:if="${#lists.isEmpty(reviews)}" class="text-center text-muted py-5">
+                            <h5>No reviews yet. Be the first to review!</h5>
+                        </div>
+                        <div th:each="review : ${reviews}" class="card review-card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <h5 th:text="${review.name}">Customer Name</h5>
+                                    <small class="text-muted" th:text="${#temporals.format(review.createdAt, 'dd MMM yyyy HH:mm')}">Date</small>
+                                </div>
+                                <div class="stars mb-2">
+                                    <span th:each="i : ${#numbers.sequence(1, review.rating)}">⭐</span>
+                                    <span class="ms-2" th:text="${review.rating + ' out of 5 stars'}"></span>
+                                </div>
+                                <p th:text="${review.comment}">Review comment here...</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -416,60 +445,54 @@
     </main>
 
     <!-- JavaScript for interactivity -->
-    <!-- JavaScript for interactivity -->
     <script>
+        function changeImage(imageSrc) {
+            const image = document.getElementById('main-product-image');
+            const video = document.getElementById('main-product-video');
+            
+            image.src = imageSrc;
+            image.style.display = 'block';
+            video.style.display = 'none';
 
-    function changeImage(imageSrc) {
-        const image = document.getElementById('main-product-image');
-        const video = document.getElementById('main-product-video');
-        
-        image.src = imageSrc;
-        image.style.display = 'block';
-        video.style.display = 'none';
+            const thumbnails = document.querySelectorAll('.thumbnail');
+            thumbnails.forEach(thumb => thumb.classList.remove('active'));
+            event.target.classList.add('active');
+        }
 
-        const thumbnails = document.querySelectorAll('.thumbnail');
-        thumbnails.forEach(thumb => thumb.classList.remove('active'));
-        event.target.classList.add('active');
-    }
+        function changeVideo(videoSrc) {
+            const image = document.getElementById('main-product-image');
+            const video = document.getElementById('main-product-video');
+            
+            video.querySelector('source').src = videoSrc;
+            video.load();
 
-    function changeVideo(videoSrc) {
-        const image = document.getElementById('main-product-image');
-        const video = document.getElementById('main-product-video');
-        
-        video.querySelector('source').src = videoSrc;
-        video.load();
+            image.style.display = 'none';
+            video.style.display = 'block';
 
-        image.style.display = 'none';
-        video.style.display = 'block';
+            const thumbnails = document.querySelectorAll('.thumbnail');
+            thumbnails.forEach(thumb => thumb.classList.remove('active'));
+            event.target.classList.add('active');
+        }
 
-        const thumbnails = document.querySelectorAll('.thumbnail');
-        thumbnails.forEach(thumb => thumb.classList.remove('active'));
-        event.target.classList.add('active');
-    }
+        // Tab switch logic
+        const tabItems = document.querySelectorAll('.tab-item');
+        const tabContents = document.querySelectorAll('.tab-content');
 
-    // Tab switch logic
-    const tabItems = document.querySelectorAll('.tab-item');
-    const tabContents = document.querySelectorAll('.tab-content');
+        tabItems.forEach(item => {
+            item.addEventListener('click', () => {
+                tabItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
 
-    tabItems.forEach(item => {
-        item.addEventListener('click', () => {
-            tabItems.forEach(i => i.classList.remove('active'));
-            item.classList.add('active');
+                const selectedTab = item.getAttribute('data-tab');
 
-            const selectedTab = item.getAttribute('data-tab');
-
-            tabContents.forEach(content => {
-                content.classList.remove('active');
-                if (content.id === `${selectedTab}-tab`) {
-                    content.classList.add('active');
-                }
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === `${selectedTab}-tab`) {
+                        content.classList.add('active');
+                    }
+                });
             });
         });
-    });
-
-
-
-
 
         // Profile Dropdown (Desktop)
         document.getElementById('profile-container').addEventListener('click', () => {
@@ -492,7 +515,6 @@
     <script src="" th:src="@{js/Addtocart.js}"></script>
     <script src="" th:src="@{js/darklight.js}"></script>
     <script src="" th:src="@{js/search.js}"></script>
-
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

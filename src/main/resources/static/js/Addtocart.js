@@ -1,224 +1,107 @@
-// Wait for DOM to fully load
-document.addEventListener('DOMContentLoaded', function() {
-    // Get cart button
+document.addEventListener('DOMContentLoaded', () => {
     const addToCartBtn = document.getElementById('add-to-cart-btn');
-    const buyNowBtn = document.getElementById('buy-now-btn');
-    const wishlistBtn = document.getElementById('wishlist-btn');
-    
-    // Initialize local storage arrays if they don't exist
-    if (!localStorage.getItem('cart')) {
-        localStorage.setItem('cart', JSON.stringify([]));
+    if (!addToCartBtn) {
+        console.error('Add to Cart button not found');
+        return;
     }
-    
-    if (!localStorage.getItem('wishlist')) {
-        localStorage.setItem('wishlist', JSON.stringify([]));
+
+    const gameId = addToCartBtn.getAttribute('data-game-id');
+    const gameName = addToCartBtn.getAttribute('data-game-name');
+    const gamePrice = parseFloat(addToCartBtn.getAttribute('data-game-price'));
+    const gameImage = addToCartBtn.getAttribute('data-game-image');
+
+    if (!gameId || !gameName || isNaN(gamePrice) || !gameImage) {
+        console.error('Invalid game data:', { gameId, gameName, gamePrice, gameImage });
+        return;
     }
-    
-    // Update cart and wishlist badges
-    updateBadges();
-    
-    // Add to Cart functionality
-    if (addToCartBtn) {
-        addToCartBtn.addEventListener('click', function() {
-            // Get current product details
-            const product = {
-                id: generateUniqueId(),
-                name: document.querySelector('.product-info h1').textContent,
-                price: document.querySelector('.current-price').textContent,
-                image: document.getElementById('main-product-image').src,
-                platform: document.querySelector('.additional-info p:nth-child(2)').textContent.replace('Platform:', '').trim(),
-                quantity: 1
-            };
-            
-            // Get current cart
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
-            
-            // Check if product already exists in cart
-            const existingProductIndex = cart.findIndex(item => item.name === product.name);
-            
-            if (existingProductIndex > -1) {
-                // If product exists, increase quantity
-                cart[existingProductIndex].quantity += 1;
-                showToast('Product quantity updated in cart!');
-            } else {
-                // If product doesn't exist, add it
-                cart.push(product);
-                showToast('Product added to cart!');
+
+    // Check if game is already in cart on page load
+    fetch(`/cart/check?gameId=${gameId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to check cart status');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.isInCart) {
+            addToCartBtn.disabled = true;
+            addToCartBtn.textContent = 'In Cart';
+        }
+    })
+    .catch(error => console.error('Error checking cart status:', error));
+
+    // Handle Add to Cart button click
+    addToCartBtn.addEventListener('click', () => {
+        fetch('/addToCart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ gameId: parseInt(gameId) })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to add to cart');
             }
-            
-            // Save updated cart to localStorage
-            localStorage.setItem('cart', JSON.stringify(cart));
-            
-            // Update badges
-            updateBadges();
+            return response.json();
+        })
+        .then(data => {
+            showToast(data.message);
+            addToCartBtn.disabled = true;
+            addToCartBtn.textContent = 'In Cart';
+            updateCartBadge(data.cartItemCount);
+        })
+        .catch(error => {
+            console.error('Error adding to cart:', error);
+            showToast('Failed to add to cart. Please try again.');
         });
-    }
-    
-    // Buy Now functionality
-    if (buyNowBtn) {
-        buyNowBtn.addEventListener('click', function() {
-            // Get current product details
-            const product = {
-                id: generateUniqueId(),
-                name: document.querySelector('.product-info h1').textContent,
-                price: document.querySelector('.current-price').textContent,
-                image: document.getElementById('main-product-image').src,
-                platform: document.querySelector('.additional-info p:nth-child(2)').textContent.replace('Platform:', '').trim(),
-                quantity: 1
-            };
-            
-            // Get current cart and clear it
-            let cart = [];
-            
-            // Add only this product
-            cart.push(product);
-            
-            // Save updated cart to localStorage
-            localStorage.setItem('cart', JSON.stringify(cart));
-            
-            // Update badges
-            updateBadges();
-            
-            // Redirect to cart page
-            window.location.href = 'cart';
-        });
-    }
-    
-    // Wishlist functionality
-    if (wishlistBtn) {
-        wishlistBtn.addEventListener('click', function() {
-            // Toggle wishlist button icon
-            const wishlistIcon = wishlistBtn.querySelector('i');
-            const isInWishlist = wishlistIcon.classList.contains('fas');
-            
-            // Get current product details
-            const product = {
-                id: generateUniqueId(),
-                name: document.querySelector('.product-info h1').textContent,
-                price: document.querySelector('.current-price').textContent,
-                image: document.getElementById('main-product-image').src,
-                platform: document.querySelector('.additional-info p:nth-child(2)').textContent.replace('Platform:', '').trim()
-            };
-            
-            // Get current wishlist
-            let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-            
-            if (isInWishlist) {
-                // Remove from wishlist
-                wishlist = wishlist.filter(item => item.name !== product.name);
-                wishlistIcon.classList.remove('fas');
-                wishlistIcon.classList.add('far');
-                showToast('Product removed from wishlist!');
+    });
+
+    function updateCartBadge(cartItemCount) {
+        const cartBadge = document.getElementById('cart-badge');
+        const mobileCartBadge = document.getElementById('mobile-cart-badge');
+        if (cartBadge && mobileCartBadge) {
+            if (cartItemCount > 0) {
+                cartBadge.textContent = cartItemCount;
+                mobileCartBadge.textContent = cartItemCount;
+                cartBadge.style.display = 'inline';
+                mobileCartBadge.style.display = 'inline';
             } else {
-                // Check if product already exists in wishlist
-                const existingProductIndex = wishlist.findIndex(item => item.name === product.name);
-                
-                if (existingProductIndex === -1) {
-                    // If product doesn't exist, add it
-                    wishlist.push(product);
-                    wishlistIcon.classList.remove('far');
-                    wishlistIcon.classList.add('fas');
-                    showToast('Product added to wishlist!');
-                }
+                cartBadge.style.display = 'none';
+                mobileCartBadge.style.display = 'none';
             }
-            
-            // Save updated wishlist to localStorage
-            localStorage.setItem('wishlist', JSON.stringify(wishlist));
-            
-            // Update badges
-            updateBadges();
-        });
+        } else {
+            console.error('Cart badge elements not found');
+        }
     }
-    
-    // Check if current product is in wishlist on page load
-    checkWishlistStatus();
+
+    function showToast(message) {
+        const toastContainer = document.getElementById('toast-container');
+        if (!toastContainer) {
+            console.error('Toast container not found');
+            return;
+        }
+        const toastEl = document.createElement('div');
+        toastEl.className = 'toast show';
+        toastEl.setAttribute('role', 'alert');
+        toastEl.setAttribute('aria-live', 'assertive');
+        toastEl.setAttribute('aria-atomic', 'true');
+        toastEl.innerHTML = `
+            <div class="toast-header">
+                <strong class="me-auto">Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">${message}</div>
+        `;
+        toastContainer.appendChild(toastEl);
+        const toast = new bootstrap.Toast(toastEl);
+        toast.show();
+        setTimeout(() => toast.hide(), 3000);
+    }
 });
-
-// Generate a unique ID for products
-function generateUniqueId() {
-    return Date.now().toString(36) + Math.random().toString(36).substr(2);
-}
-
-// Update cart and wishlist badges
-function updateBadges() {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-    
-    // Update desktop badges
-    const cartBadge = document.getElementById('cart-badge');
-    const wishlistBadge = document.getElementById('wishlist-badge');
-    
-    if (cartBadge) {
-        cartBadge.textContent = cart.length > 0 ? cart.length : '';
-    }
-    
-    if (wishlistBadge) {
-        wishlistBadge.textContent = wishlist.length > 0 ? wishlist.length : '';
-    }
-    
-    // Update mobile badges
-    const mobileCartBadge = document.getElementById('mobile-cart-badge');
-    const mobileWishlistBadge = document.getElementById('mobile-wishlist-badge');
-    
-    if (mobileCartBadge) {
-        mobileCartBadge.textContent = cart.length > 0 ? cart.length : '';
-    }
-    
-    if (mobileWishlistBadge) {
-        mobileWishlistBadge.textContent = wishlist.length > 0 ? wishlist.length : '';
-    }
-}
-
-// Check if current product is in wishlist and update icon
-function checkWishlistStatus() {
-    const wishlistBtn = document.getElementById('wishlist-btn');
-    if (!wishlistBtn) return;
-    
-    const wishlistIcon = wishlistBtn.querySelector('i');
-    if (!wishlistIcon) return;
-    
-    const productName = document.querySelector('.product-info h1')?.textContent;
-    if (!productName) return;
-    
-    const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-    const isInWishlist = wishlist.some(item => item.name === productName);
-    
-    if (isInWishlist) {
-        wishlistIcon.classList.remove('far');
-        wishlistIcon.classList.add('fas');
-    } else {
-        wishlistIcon.classList.remove('fas');
-        wishlistIcon.classList.add('far');
-    }
-}
-
-// Show toast notification
-function showToast(message) {
-    const toastContainer = document.getElementById('toast-container');
-    
-    // Create toast element
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.innerHTML = `
-        <div class="toast-content">
-            <i class="fas fa-check-circle"></i>
-            <span>${message}</span>
-        </div>
-    `;
-    
-    // Add toast to container
-    toastContainer.appendChild(toast);
-    
-    // Show toast
-    setTimeout(() => {
-        toast.classList.add('show');
-    }, 100);
-    
-    // Remove toast after 3 seconds
-    setTimeout(() => {
-        toast.classList.remove('show');
-        setTimeout(() => {
-            toastContainer.removeChild(toast);
-        }, 300);
-    }, 3000);
-}

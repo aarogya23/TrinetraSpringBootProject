@@ -1,275 +1,140 @@
-// Wait for DOM to fully load
-document.addEventListener('DOMContentLoaded', function() {
-    // Load cart items from localStorage
-    loadCartItems();
-    
-    // Update badges
-    updateBadges();
-});
-
-function loadCartItems() {
+// src/main/resources/static/js/cartitem.js
+document.addEventListener('DOMContentLoaded', () => {
     const cartItemsContainer = document.getElementById('cart-items');
-    const cartSummaryContainer = document.getElementById('cart-summary');
-    
-    // Get cart from localStorage
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    
-    // Check if cart is empty
-    if (cart.length === 0) {
-        cartItemsContainer.innerHTML = `
-            <div class="empty-cart">
-                <i class="fas fa-shopping-cart"></i>
-                <h3>Your cart is empty</h3>
-                <p>Looks like you haven't added any games to your cart yet.</p>
-                <a href="TrinetraGamePage.html" class="continue-shopping-btn">
-                    <i class="fas fa-arrow-left"></i> Continue Shopping
-                </a>
-            </div>
-        `;
-        cartSummaryContainer.style.display = 'none';
+    const cartEmptyMessage = document.getElementById('cart-empty');
+    const cartTotalContainer = document.getElementById('cart-total');
+    const checkoutButton = document.getElementById('checkout-button');
+    const clearCartButton = document.getElementById('clear-cart-btn');
+
+    if (!cartItemsContainer || !cartEmptyMessage || !cartTotalContainer || !checkoutButton || !clearCartButton) {
+        console.error('Cart page elements missing');
         return;
     }
-    
-    // Reset cart items container
-    cartItemsContainer.innerHTML = '';
-    
-    // Initialize total price
-    let subtotal = 0;
-    
-    // Loop through cart items and create HTML
-    cart.forEach((item, index) => {
-        // Extract price value (assumes format like "Rs1999")
-        const priceValue = parseFloat(item.price.replace(/[^0-9]/g, ''));
-        
-        // Calculate item total
-        const itemTotal = priceValue * item.quantity;
-        
-        // Add to subtotal
-        subtotal += itemTotal;
-        
-        // Create cart item element
-        const cartItemElement = document.createElement('div');
-        cartItemElement.className = 'cart-item';
-        cartItemElement.innerHTML = `
-            <img src="${item.image}" alt="${item.name}" class="cart-item-image">
-            <div class="cart-item-details">
-                <div class="cart-item-title">${item.name}</div>
-                <div class="cart-item-price">${item.price}</div>
-                <div class="cart-item-platform">${item.platform}</div>
-                <div class="quantity-control">
-                    <button class="quantity-btn decrease-btn" data-index="${index}">-</button>
-                    <input type="number" class="quantity-input" value="${item.quantity}" min="1" max="10" data-index="${index}">
-                    <button class="quantity-btn increase-btn" data-index="${index}">+</button>
+
+    let cart;
+    try {
+        cart = JSON.parse(localStorage.getItem('cart')) || [];
+    } catch (e) {
+        console.error('Error parsing cart from localStorage:', e);
+        cart = [];
+    }
+    console.log('Cart data:', cart);
+
+    if (cart.length === 0) {
+        cartEmptyMessage.style.display = 'block';
+        checkoutButton.style.display = 'none';
+    } else {
+        cartEmptyMessage.style.display = 'none';
+        checkoutButton.style.display = 'block';
+
+        cart.forEach(item => {
+            if (!item.id || !item.name || !item.price || !item.quantity) {
+                console.error('Invalid cart item:', item);
+                return;
+            }
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'cart-item d-flex justify-content-between align-items-center';
+            itemDiv.innerHTML = `
+                <div>
+                    <h5>${item.name}</h5>
+                    <p>Price: Rs ${parseFloat(item.price).toFixed(2)}</p>
+                    <p>Quantity: 
+                        <button class="qty-btn" data-game-id="${item.id}" data-action="decrease">-</button> 
+                        ${item.quantity} 
+                        <button class="qty-btn" data-game-id="${item.id}" data-action="increase">+</button>
+                    </p>
                 </div>
-            </div>
-            <div class="cart-item-actions">
-                <button class="remove-btn" data-index="${index}">
+                <button class="btn btn-danger btn-sm remove-btn" data-game-id="${item.id}">
                     <i class="fas fa-trash"></i> Remove
                 </button>
-            </div>
-        `;
-        
-        cartItemsContainer.appendChild(cartItemElement);
-    });
-    
-    // Create summary
-    const tax = subtotal * 0.18; // Assuming 18% GST
-    const total = subtotal + tax;
-    
-    cartSummaryContainer.innerHTML = `
-        <div class="summary-row">
-            <div>Subtotal:</div>
-            <div>Rs${subtotal.toFixed(2)}</div>
-        </div>
-        <div class="summary-row">
-            <div>Tax (18% GST):</div>
-            <div>Rs${tax.toFixed(2)}</div>
-        </div>
-        <div class="summary-row total">
-            <div>Total:</div>
-            <div>Rs${total.toFixed(2)}</div>
-        </div>
-        <button class="checkout-btn" id="checkout-btn">
-            <i class="fas fa-lock"></i> Proceed to Checkout
-        </button>
-    `;
-    
-    // Add event listeners
-    addEventListeners();
-}
+            `;
+            cartItemsContainer.appendChild(itemDiv);
+        });
 
-function addEventListeners() {
-    // Quantity decrease buttons
-    const decreaseBtns = document.querySelectorAll('.decrease-btn');
-    decreaseBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const index = parseInt(this.getAttribute('data-index'));
-            updateQuantity(index, -1);
+        const totalPrice = cart.reduce((total, item) => total + parseFloat(item.price) * item.quantity, 0);
+        cartTotalContainer.textContent = `Total: Rs ${totalPrice.toFixed(2)}`;
+    }
+
+    document.querySelectorAll('.remove-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const gameId = button.getAttribute('data-game-id');
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart = cart.filter(item => item.id !== gameId);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            console.log('Item removed, new cart:', cart);
+            showToast('Item removed from cart!');
+            location.reload();
         });
     });
-    
-    // Quantity increase buttons
-    const increaseBtns = document.querySelectorAll('.increase-btn');
-    increaseBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const index = parseInt(this.getAttribute('data-index'));
-            updateQuantity(index, 1);
-        });
-    });
-    
-    // Quantity input fields
-    const quantityInputs = document.querySelectorAll('.quantity-input');
-    quantityInputs.forEach(input => {
-        input.addEventListener('change', function() {
-            const index = parseInt(this.getAttribute('data-index'));
-            const newQuantity = parseInt(this.value);
-            if (newQuantity >= 1 && newQuantity <= 10) {
-                setQuantity(index, newQuantity);
+
+    document.querySelectorAll('.qty-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const gameId = button.getAttribute('data-game-id');
+            const action = button.getAttribute('data-action');
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const item = cart.find(item => item.id === gameId);
+            if (item) {
+                if (action === 'increase') item.quantity += 1;
+                if (action === 'decrease' && item.quantity > 1) item.quantity -= 1;
+                if (action === 'decrease' && item.quantity === 1) cart = cart.filter(i => i.id !== gameId);
+                localStorage.setItem('cart', JSON.stringify(cart));
+                console.log('Quantity updated, new cart:', cart);
+                showToast(`Quantity updated for ${item.name}!`);
+                location.reload();
             }
         });
     });
-    
-    // Remove buttons
-    const removeBtns = document.querySelectorAll('.remove-btn');
-    removeBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const index = parseInt(this.getAttribute('data-index'));
-            removeItem(index);
-        });
+
+    clearCartButton.addEventListener('click', () => {
+        localStorage.removeItem('cart');
+        console.log('Cart cleared');
+        showToast('Cart cleared!');
+        location.reload();
     });
-    
-    // Checkout button
-    const checkoutBtn = document.getElementById('checkout-btn');
-    if (checkoutBtn) {
-        checkoutBtn.addEventListener('click', function() {
-            // Show loading toast
-            showToast('Proceeding to payment...');
-            
-            // Store cart data in localStorage to be accessed by the payment page
-            const cart = JSON.parse(localStorage.getItem('cart')) || [];
-            localStorage.setItem('checkoutData', JSON.stringify({
-                items: cart,
-                timestamp: new Date().toISOString()
-            }));
-            
-            // Redirect to payment page after a short delay
-            setTimeout(() => {
-                window.location.href = 'payment'; // Replace with your payment page URL
-            }, 1000);
-        });
-    }
-}
 
-function updateQuantity(index, change) {
-    // Get cart from localStorage
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    
-    // Make sure index is valid
-    if (index >= 0 && index < cart.length) {
-        // Update quantity, ensuring it's between 1 and 10
-        cart[index].quantity += change;
-        if (cart[index].quantity < 1) cart[index].quantity = 1;
-        if (cart[index].quantity > 10) cart[index].quantity = 10;
-        
-        // Save updated cart
-        localStorage.setItem('cart', JSON.stringify(cart));
-        
-        // Reload cart items
-        loadCartItems();
-        
-        // Show toast
-        showToast('Cart updated!');
+    function updateCartBadge() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0);
+        const cartBadge = document.getElementById('cart-badge');
+        const mobileCartBadge = document.getElementById('mobile-cart-badge');
+        if (cartBadge && mobileCartBadge) {
+            if (cartItemCount > 0) {
+                cartBadge.textContent = cartItemCount;
+                mobileCartBadge.textContent = cartItemCount;
+                cartBadge.style.display = 'inline';
+                mobileCartBadge.style.display = 'inline';
+            } else {
+                cartBadge.style.display = 'none';
+                mobileCartBadge.style.display = 'none';
+            }
+        } else {
+            console.error('Cart badge elements not found');
+        }
     }
-}
 
-function setQuantity(index, quantity) {
-    // Get cart from localStorage
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    
-    // Make sure index is valid
-    if (index >= 0 && index < cart.length) {
-        // Set quantity
-        cart[index].quantity = quantity;
-        
-        // Save updated cart
-        localStorage.setItem('cart', JSON.stringify(cart));
-        
-        // Reload cart items
-        loadCartItems();
-        
-        // Show toast
-        showToast('Cart updated!');
+    function showToast(message) {
+        const toastContainer = document.getElementById('toast-container');
+        if (!toastContainer) {
+            console.error('Toast container not found');
+            return;
+        }
+        const toastEl = document.createElement('div');
+        toastEl.className = 'toast show';
+        toastEl.setAttribute('role', 'alert');
+        toastEl.setAttribute('aria-live', 'assertive');
+        toastEl.setAttribute('aria-atomic', 'true');
+        toastEl.innerHTML = `
+            <div class="toast-header">
+                <strong class="me-auto">Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">${message}</div>
+        `;
+        toastContainer.appendChild(toastEl);
+        const toast = new bootstrap.Toast(toastEl);
+        toast.show();
+        setTimeout(() => toast.hide(), 3000);
     }
-}
 
-function removeItem(index) {
-    // Get cart from localStorage
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    
-    // Make sure index is valid
-    if (index >= 0 && index < cart.length) {
-        // Remove item
-        cart.splice(index, 1);
-        
-        // Save updated cart
-        localStorage.setItem('cart', JSON.stringify(cart));
-        
-        // Reload cart items
-        loadCartItems();
-        
-        // Update badges
-        updateBadges();
-        
-        // Show toast
-        showToast('Item removed from cart!');
-    }
-}
-
-// Update cart and wishlist badges
-function updateBadges() {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-    
-    // Update desktop badges
-    const cartBadge = document.getElementById('cart-badge');
-    const wishlistBadge = document.getElementById('wishlist-badge');
-    
-    if (cartBadge) {
-        cartBadge.textContent = cart.length > 0 ? cart.length : '';
-    }
-    
-    if (wishlistBadge) {
-        wishlistBadge.textContent = wishlist.length > 0 ? wishlist.length : '';
-    }
-}
-
-// Show toast notification
-function showToast(message) {
-    const toastContainer = document.getElementById('toast-container');
-    
-    // Create toast element
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.innerHTML = `
-        <div class="toast-content">
-            <i class="fas fa-check-circle"></i>
-            <span>${message}</span>
-        </div>
-    `;
-    
-    // Add toast to container
-    toastContainer.appendChild(toast);
-    
-    // Show toast
-    setTimeout(() => {
-        toast.classList.add('show');
-    }, 100);
-    
-    // Remove toast after 3 seconds
-    setTimeout(() => {
-        toast.classList.remove('show');
-        setTimeout(() => {
-            toastContainer.removeChild(toast);
-        }, 300);
-    }, 3000);
-}
+    updateCartBadge();
+});
