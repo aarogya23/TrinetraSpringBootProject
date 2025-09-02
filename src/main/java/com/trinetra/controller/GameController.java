@@ -3,6 +3,7 @@ package com.trinetra.controller;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -99,7 +100,6 @@ public class GameController {
             return "redirect:/index.html";
         }
 
-        // Prepare payment details based on payment method
         String paymentDetails;
         switch (paymentMethod) {
             case "card":
@@ -122,7 +122,8 @@ public class GameController {
                 paymentDetails = "Unknown";
         }
 
-        // Save purchase to database
+        String image = game.getImage() != null ? game.getImage() : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==";
+
         Purchase purchase = new Purchase(
                 userId,
                 gameId,
@@ -130,23 +131,27 @@ public class GameController {
                 game.getGameprice(),
                 paymentMethod,
                 paymentDetails,
-                LocalDateTime.now()
+                LocalDateTime.now(),
+                image,
+                "Ready to Play",
+                UUID.randomUUID().toString().substring(0, 8).toUpperCase(),
+                null,
+                "0 hours"
         );
         purchaseRepository.save(purchase);
 
-        // Clear the cart for this game
         Cart cartItem = cartRepository.findByUserIdAndGameId(userId, gameId);
         if (cartItem != null) {
             cartRepository.delete(cartItem);
         }
 
-        // Add purchase and game details to model for success page
         model.addAttribute("purchase", purchase);
-        model.addAttribute("game", game); // Add the game object to access the Base64 image
+        model.addAttribute("game", game);
         model.addAttribute("message", "Purchase successful! Thank you for your order.");
 
-        return "success";
+        return "library";
     }
+    
  // Show all reviews (standalone review page)
     @GetMapping("/review")
     public String showAllReviews(Model model) {

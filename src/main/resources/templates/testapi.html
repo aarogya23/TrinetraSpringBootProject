@@ -3,371 +3,881 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trinetra Chat App</title>
+    <title>Trinetra Games</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --primary-color: #f28c38; /* Orange */
+            --secondary-color: #f5f7fa;
+            --text-color: #333;
+            --bg-color: #ffffff;
+            --header-bg: #ffffff;
+            --border-color: #e0e0e0;
+            --toggle-bg: #333;
+            --toggle-border: #555;
+            --toggle-icon-color: #fff;
+            --toggle-text-color: #fff;
+            --chat-bg: #f8f9fa;
+            --message-user-bg: #f28c38; /* Orange */
+            --message-bot-bg: #e9ecef;
+            --message-text-color: #fff;
+            --footer-bg: #2c2c2c;
+            --footer-text: #b0b0b0;
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+   
+         [data-theme="dark"] {
+            --primary-color: #ffb347; /* Lighter orange/yellow */
+            --secondary-color: #2c2c2c;
+            --text-color: #e0e0e0;
+            --bg-color: #1a1a1a;
+            --header-bg: #252525;
+            --border-color: #444;
+            --toggle-bg: #ffb347;
+            --toggle-border: #ffb347;
+            --toggle-icon-color: #fff;
+            --toggle-text-color: #fff;
+            --chat-bg: #252525;
+            --message-user-bg: #ffb347;
+            --message-bot-bg: #333;
+            --message-text-color: #e0e0e0;
+            --footer-bg: #1a1a1a;
+            --footer-text: #b0b0b0;
+        }
+         
+       
+
+        .nav-link {
+            color: var(--text-color);
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        
+        .theme-toggle {
+            background: var(--toggle-bg);
+            border: 2px solid var(--toggle-border);
+            border-radius: 50px;
+            padding: 6px 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 6px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .theme-toggle i {
+            font-size: 16px;
+            color: var(--toggle-icon-color);
+        }
+
+        .theme-toggle-text {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--toggle-text-color);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .hamburger-menu {
+            display: none;
+            cursor: pointer;
+        }
+
+        .hamburger-icon span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-color);
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-nav {
+            display: none;
+            background-color: var(--header-bg);
+            padding: 20px;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .mobile-profile-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .mobile-profile-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .mobile-profile-name {
+            font-weight: 600;
+            color: var(--text-color);
         }
 
         .chat-container {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            width: 90%;
             max-width: 800px;
-            height: 600px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
+            margin: 40px auto;
+            background-color: var(--chat-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
         }
 
         .chat-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
             text-align: center;
-            border-radius: 15px 15px 0 0;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .chat-header h1 {
             font-size: 24px;
             font-weight: 600;
+            color: var(--text-color);
+            margin: 0;
+        }
+
+        .chat-mode-toggle {
+            padding: 8px 12px;
+            border-radius: 8px;
+            background-color: var(--secondary-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .chat-mode-toggle:hover {
+            background-color: var(--primary-color);
+            color: #fff;
         }
 
         .chat-messages {
-            flex: 1;
+            max-height: 500px;
             overflow-y: auto;
             padding: 20px;
-            background: #f8f9fa;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
         }
 
         .message {
-            display: flex;
             margin-bottom: 15px;
-            animation: fadeIn 0.3s ease-in;
+            padding: 10px 15px;
+            border-radius: 12px;
+            max-width: 80%;
+            line-height: 1.5;
         }
 
-        .message.user {
-            justify-content: flex-end;
+        .user-message {
+            background-color: var(--message-user-bg);
+            color: var(--message-text-color);
+            margin-left: auto;
+            border-bottom-right-radius: 0;
         }
 
-        .message.bot {
-            justify-content: flex-start;
-        }
-
-        .message-content {
-            max-width: 70%;
-            padding: 12px 16px;
-            border-radius: 18px;
-            word-wrap: break-word;
-            line-height: 1.4;
-        }
-
-        .message.user .message-content {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-bottom-right-radius: 4px;
-        }
-
-        .message.bot .message-content {
-            background: white;
-            color: #333;
-            border: 1px solid #e0e0e0;
-            border-bottom-left-radius: 4px;
-        }
-
-        .chat-input-container {
-            padding: 20px;
-            background: white;
-            border-top: 1px solid #e0e0e0;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .chat-input {
-            flex: 1;
-            padding: 12px 16px;
-            border: 1px solid #ddd;
-            border-radius: 25px;
-            outline: none;
-            font-size: 16px;
-            transition: border-color 0.3s ease;
-        }
-
-        .chat-input:focus {
-            border-color: #667eea;
-        }
-
-        .send-button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: transform 0.2s ease;
-        }
-
-        .send-button:hover {
-            transform: scale(1.05);
-        }
-
-        .send-button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
+        .bot-message {
+            background-color: var(--message-bot-bg);
+            color: var(--text-color);
+            margin-right: auto;
+            border-bottom-left-radius: 0;
         }
 
         .typing-indicator {
-            display: none;
+            display: flex;
             align-items: center;
-            gap: 5px;
-            color: #666;
-            font-style: italic;
-            margin-bottom: 10px;
+            padding: 10px;
         }
 
         .typing-dots {
             display: flex;
-            gap: 3px;
+            gap: 5px;
         }
 
         .typing-dot {
-            width: 6px;
-            height: 6px;
-            background: #666;
+            width: 8px;
+            height: 8px;
+            background-color: var(--text-color);
             border-radius: 50%;
-            animation: typing 1.4s infinite both;
+            animation: typing 1.2s infinite;
         }
 
-        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
-        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
 
         @keyframes typing {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1); }
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
         }
 
-        .no-messages {
-            text-align: center;
-            color: #666;
-            font-style: italic;
-            margin-top: 50px;
+        .chat-input-container {
+            padding: 20px;
+            border-top: 1px solid var(--border-color);
         }
 
-        /* Scrollbar styling */
-        .chat-messages::-webkit-scrollbar {
-            width: 6px;
+        .input-wrapper {
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
         }
 
-        .chat-messages::-webkit-scrollbar-track {
-            background: #f1f1f1;
+        .text-input-container {
+            flex-grow: 1;
+            position: relative;
         }
 
-        .chat-messages::-webkit-scrollbar-thumb {
-            background: #c1c1c1;
-            border-radius: 3px;
+        .chat-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            resize: none;
+            transition: all 0.3s ease;
         }
 
-        .chat-messages::-webkit-scrollbar-thumb:hover {
-            background: #a1a1a1;
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 5px rgba(242, 140, 56, 0.3);
         }
 
-        /* Mobile responsiveness */
+        .send-btn {
+            background-color: var(--primary-color);
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .send-btn:hover {
+            background-color: #d97b30; /* Darker orange */
+        }
+
+        .send-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        footer {
+            background-color: var(--footer-bg);
+            color: var(--footer-text);
+            padding: 40px 0;
+            margin-top: 40px;
+        }
+
+        footer .nav-link {
+            color: var(--footer-text);
+            transition: color 0.3s ease;
+        }
+
+        footer .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        footer .container {
+            max-width: 1200px;
+        }
+
+        .custom-nav-gap .nav-item {
+            margin: 0 15px;
+        }
+
         @media (max-width: 768px) {
+            .header-main {
+                flex-wrap: wrap;
+            }
+
+            .main-nav, .desktop-search, .desktop-theme-toggle, .profile-container {
+                display: none;
+            }
+
+            .hamburger-menu {
+                display: block;
+            }
+
+            .mobile-nav.active {
+                display: block;
+            }
+
+            .mobile-nav .nav-link {
+                display: block;
+                padding: 10px 0;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .mobile-search {
+                margin: 20px 0;
+            }
+
+            .mobile-theme-toggle {
+                display: flex;
+                justify-content: center;
+                padding: 10px 0;
+                border-top: 1px solid var(--border-color);
+                margin-top: 10px;
+            }
+
             .chat-container {
-                width: 95%;
-                height: 90vh;
                 margin: 20px;
             }
 
-            .message-content {
-                max-width: 85%;
+            .chat-header {
+                flex-direction: column;
+                gap: 10px;
             }
 
-            .chat-input-container {
-                padding: 15px;
+            .chat-mode-toggle {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-nav, .mobile-theme-toggle {
+                display: none !important;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <header class="header">
+        <div class="header-main">
+            <div class="logo">
+                <img src="resources/image/black.png" alt="Trinetra Games" class="logo">
+            </div>
+            <!-- Desktop Navigation -->
+            <nav class="main-nav">
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="modelchat" class="nav-link">AskAi</a>
+                <a href="library.html" class="nav-link">Library</a>
+                <a href="wishlist.html" class="nav-link" id="wishlist-link">
+                    Wishlist
+                    <span class="badge" id="wishlist-badge"></span>
+                </a>
+                <a href="cart" class="nav-link" id="cart-link">
+                    Cart
+                    <span class="badge" id="cart-badge">1</span>
+                </a>
+            </nav>
+            <!-- Desktop Search Box -->
+            <div class="search-box desktop-search">
+                <form id="search-form">
+                    <input
+                        type="text"
+                        placeholder="Search for games..."
+                        id="searchInput"
+                        aria-label="Search for games"
+                        oninput="searchGames()"
+                    >
+                    <button type="submit" aria-label="Search"><i class="fas fa-search"></i></button>
+                    <div id="searchResults" class="search-results"></div>
+                </form>
+            </div>
+            <!-- Desktop Theme Toggle -->
+            <div class="theme-toggle desktop-theme-toggle" id="theme-toggle">
+                <i class="fas fa-sun" id="theme-icon"></i>
+                <span class="theme-toggle-text" id="theme-text">Light</span>
+            </div>
+            <!-- Profile with Dropdown - for Desktop -->
+            <div class="profile-container" id="profile-container">
+                <img src="image/profile.png" alt="Profile" class="profile-icon">
+                <div class="profile-dropdown" id="profile-dropdown" style="display: none;">
+                    <a href="profile" class="dropdown-item" target="_blank">Profile</a>
+                    <a href="logout" class="dropdown-item">Log out</a>
+                </div>
+            </div>
+            <div class="hamburger-menu" id="hamburger-menu">
+                <div class="hamburger-icon" id="hamburger-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Navigation -->
+        <div class="mobile-nav" id="mobile-nav">
+            <div class="mobile-profile-section">
+                <div class="mobile-profile-container" id="mobile-profile-container">
+                    <img src="image/profile.png" alt="Profile" class="mobile-profile-icon">
+                    <div class="mobile-profile-info">
+                        <div class="mobile-profile-name">User Profile</div>
+                        <div class="mobile-profile-dropdown" id="mobile-profile-dropdown" style="display: none;">
+                            <a href="profile" class="dropdown-item">My Profile</a>
+                            <a href="logout" class="dropdown-item">Log out</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="modelchat" class="nav-link">AskAi</a>
+            <a href="library.html" class="nav-link">Library</a>
+            <a href="wishlist.html" class="nav-link" id="mobile-wishlist-link">
+                Wishlist
+                <span class="badge" id="mobile-wishlist-badge"></span>
+            </a>
+            <a href="cart" class="nav-link" id="mobile-cart-link">
+                Cart
+                <span class="badge" id="mobile-cart-badge">1</span>
+            </a>
+            <!-- Mobile Search Box -->
+            <div class="search-box mobile-search">
+                <form id="mobile-search-form">
+                    <input
+                        type="text"
+                        placeholder="Search for games..."
+                        id="mobile-search-input"
+                        aria-label="Search for games"
+                    >
+                    <button type="submit" aria-label="Search"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+            <!-- Mobile Theme Toggle -->
+            <div class="mobile-theme-toggle">
+                <div class="theme-toggle" id="mobile-theme-toggle">
+                    <i class="fas fa-sun" id="mobile-theme-icon"></i>
+                    <span class="theme-toggle-text" id="mobile-theme-text">Light</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
     <div class="chat-container">
         <div class="chat-header">
-            <h1>🤖 Trinetra AI Chat</h1>
+            <h1 id="chat-title">🤖 Mistral AI Chatbot</h1>
+            <select id="chat-mode" class="chat-mode-toggle">
+                <option value="mistral">Mistral AI</option>
+                <option value="trinetra">Chat with Trinetra</option>
+            </select>
         </div>
-        
-        <div class="chat-messages" id="chatMessages">
-            <!-- Display existing messages -->
-            <div th:if="${messages != null and !messages.isEmpty()}">
-                <div th:each="msg : ${messages}" class="message-pair">
-                    <div class="message user">
-                        <div class="message-content" th:text="${msg.question}"></div>
-                    </div>
-                    <div class="message bot">
-                        <div class="message-content" th:text="${msg.answer}"></div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Show message when no chat history -->
-            <div th:if="${messages == null or messages.isEmpty()}" class="no-messages">
-                <p>👋 Welcome! Ask me anything to get started.</p>
-            </div>
-            
-            <!-- Typing indicator -->
-            <div class="typing-indicator" id="typingIndicator">
-                <span>AI is thinking</span>
-                <div class="typing-dots">
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
-                </div>
+        <div class="chat-messages" id="chat-messages">
+            <div class="message bot-message">
+                👋 Hello! I'm a Mistral AI chatbot. Feel free to start chatting!
             </div>
         </div>
-        
         <div class="chat-input-container">
-            <input type="text" 
-                   class="chat-input" 
-                   id="questionInput" 
-                   placeholder="Type your message here..." 
-                   maxlength="500">
-            <button class="send-button" id="sendButton" onclick="sendMessage()">Send</button>
+            <div class="input-wrapper">
+                <div class="text-input-container">
+                    <textarea
+                        id="chat-input"
+                        class="chat-input"
+                        placeholder="Type your message..."
+                        rows="1"
+                    ></textarea>
+                </div>
+                <button class="send-btn" onclick="sendMessage()" id="send-btn" title="Send message">
+                    ➤
+                </button>
+            </div>
         </div>
     </div>
 
-    <script>
-        // Auto-focus on input field
-        document.getElementById('questionInput').focus();
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="nav justify-content-center custom-nav-gap">
+                        <li class="nav-item"><a class="nav-link" href="About.jsp">About Us</a></li>
+                        <li class="nav-item"><a class="nav-link" href="News.jsp">News</a></li>
+                        <li class="nav-item"><a class="nav-link" href="contact">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link" href="review">Review</a></li>
+                    </ul>
+                    <p class="mt-3">
+                        Learn more about our mission, vision, and the team behind our company in the <strong>About Us</strong> section. Explore our wide range of products and enjoy a seamless shopping experience in the <strong>Shop</strong> section. We value your feedback, so please share your thoughts and help us improve our services in the <strong>Feedback</strong> section. Read our <strong>Privacy Policy</strong> to understand how we handle your personal data.
+                    </p>
+                    <div class="container d-flex justify-content-between align-items-center flex-wrap">
+                        <p>&copy; 2025 Trinetra Game Studio</p>
+                        <div>
+                            <a href="#" class="mx-2 text-light">Privacy Policy</a>
+                            <a href="#" class="mx-2 text-light">Terms of Service</a>
+                            <a href="#" class="mx-2 text-light">Contact Us</a>
+                        </div>
+                        <div>
+                            <a href="https://www.facebook.com/aarogya.thapa.947905" class="mx-2 text-light" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://github.com/aarogya23" class="mx-2 text-light" target="_blank"><i class="fab fa-github"></i></a>
+                            <a href="https://www.instagram.com/aarogyathapa2/" class="mx-2 text-light" target="_blank"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.linkedin.com/in/aarogya-thapa-8172962b8/" class="mx-2 text-light" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 
-        // Send message on Enter key
-        document.getElementById('questionInput').addEventListener('keypress', function(e) {
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script async type='module' src='https://interfaces.zapier.com/assets/web-components/zapier-interfaces/zapier-interfaces.esm.js'></script>
+    <script>
+        // ⚡ API Configuration
+        const API_KEY = '';
+        const BACKEND_URL = 'http://localhost:8082';
+
+        let isTyping = false;
+        let chatMode = 'mistral';
+
+        // Auto-resize textarea
+        const chatInput = document.getElementById('chat-input');
+        chatInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+        });
+
+        // Send message on Enter (allow Shift+Enter for new lines)
+        chatInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 sendMessage();
             }
         });
 
-        function sendMessage() {
-            const input = document.getElementById('questionInput');
-            const question = input.value.trim();
-            const sendButton = document.getElementById('sendButton');
-            const chatMessages = document.getElementById('chatMessages');
-            const typingIndicator = document.getElementById('typingIndicator');
+        // Handle chat mode toggle
+        const chatModeToggle = document.getElementById('chat-mode');
+        const chatTitle = document.getElementById('chat-title');
+        chatModeToggle.addEventListener('change', function() {
+            chatMode = this.value;
+            chatTitle.textContent = chatMode === 'mistral' ? '🤖 Mistral AI Chatbot' : '🤖 Chat with Trinetra';
+            const messagesContainer = document.getElementById('chat-messages');
+            messagesContainer.innerHTML = '';
+            addMessage(
+                chatMode === 'mistral'
+                    ? '👋 Hello! I\'m a Mistral AI chatbot. Feel free to start chatting!'
+                    : '👋 Hello! I\'m here to help with questions about Trinetra Game Studio. Ask about our games, store, or services!',
+                false
+            );
+            loadChatHistory();
+        });
 
-            if (question === '') {
-                input.focus();
+        function addMessage(content, isUser = false) {
+            const messagesContainer = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+            messageDiv.innerHTML = content;
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const messagesContainer = document.getElementById('chat-messages');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'typing-indicator';
+            typingDiv.id = 'typing-indicator';
+            typingDiv.innerHTML = `
+                <div class="typing-dots">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            `;
+            messagesContainer.appendChild(typingDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function hideTypingIndicator() {
+            const typingIndicator = document.getElementById('typing-indicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+
+        function showError(message) {
+            const messagesContainer = document.getElementById('chat-messages');
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.textContent = message;
+            messagesContainer.appendChild(errorDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        async function saveToDatabase(question, answer, model, responseTime) {
+            try {
+                const saveData = {
+                    question: question,
+                    answer: answer,
+                    model: model,
+                    hasImage: false,
+                    imageUrl: null,
+                    responseTime: responseTime,
+                    mode: chatMode
+                };
+
+                const response = await fetch(`${BACKEND_URL}/api/save-message`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(saveData)
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    console.log('💾 Saved to database:', result.messageId);
+                } else {
+                    console.error('Failed to save to database:', response.status);
+                }
+            } catch (error) {
+                console.error('Database save error:', error);
+            }
+        }
+
+        async function loadChatHistory() {
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/history?mode=${chatMode}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    const messagesContainer = document.getElementById('chat-messages');
+                    messagesContainer.innerHTML = '';
+
+                    addMessage(
+                        chatMode === 'mistral'
+                            ? '👋 Hello! I\'m a Mistral AI chatbot. Feel free to start chatting!'
+                            : '👋 Hello! I\'m here to help with questions about Trinetra Game Studio. Ask about our games, store, or services!',
+                        false
+                    );
+
+                    if (data.success && data.messages) {
+                        data.messages.forEach(msg => {
+                            if (msg.mode === chatMode) {
+                                addMessage(msg.question, true);
+                                addMessage(msg.answer, false);
+                            }
+                        });
+                        console.log(`📜 Loaded ${data.messages.length} messages from database for ${chatMode} mode`);
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading chat history:', error);
+            }
+        }
+
+        async function sendMessage() {
+            if (!API_KEY || API_KEY === 'YOUR_OPENROUTER_API_KEY_HERE') {
+                showError('Please set your API key in the JavaScript code!');
                 return;
             }
 
-            // Disable input and button
-            input.disabled = true;
-            sendButton.disabled = true;
-            sendButton.textContent = 'Sending...';
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
 
-            // Add user message to chat
-            addMessage(question, 'user');
-
-            // Clear input
-            input.value = '';
-
-            // Show typing indicator
-            typingIndicator.style.display = 'flex';
-
-            // Scroll to bottom
-            scrollToBottom();
-
-            // Send AJAX request
-            fetch('/ask', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: 'question=' + encodeURIComponent(question)
-            })
-            .then(response => response.text())
-            .then(answer => {
-                // Hide typing indicator
-                typingIndicator.style.display = 'none';
-                
-                // Add bot response to chat
-                addMessage(answer, 'bot');
-                
-                // Scroll to bottom
-                scrollToBottom();
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                
-                // Hide typing indicator
-                typingIndicator.style.display = 'none';
-                
-                // Add error message
-                addMessage('Sorry, there was an error processing your request. Please try again.', 'bot');
-                
-                // Scroll to bottom
-                scrollToBottom();
-            })
-            .finally(() => {
-                // Re-enable input and button
-                input.disabled = false;
-                sendButton.disabled = false;
-                sendButton.textContent = 'Send';
-                input.focus();
-            });
-        }
-
-        function addMessage(content, type) {
-            const chatMessages = document.getElementById('chatMessages');
-            
-            // Remove "no messages" placeholder if it exists
-            const noMessages = chatMessages.querySelector('.no-messages');
-            if (noMessages) {
-                noMessages.remove();
+            if (!message) {
+                return;
             }
 
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${type}`;
-            
-            const contentDiv = document.createElement('div');
-            contentDiv.className = 'message-content';
-            contentDiv.textContent = content;
-            
-            messageDiv.appendChild(contentDiv);
-            chatMessages.appendChild(messageDiv);
+            if (isTyping) {
+                return;
+            }
+
+            addMessage(message, true);
+            input.value = '';
+            input.style.height = 'auto';
+            showTypingIndicator();
+            isTyping = true;
+            document.getElementById('send-btn').disabled = true;
+
+            const startTime = Date.now();
+
+            try {
+                if (chatMode === 'trinetra') {
+                    const trinetraKeywords = ['trinetra', 'game', 'games', 'studio', 'store', 'wishlist', 'cart', 'library', 'profile', 'shop', 'about', 'contact', 'review', 'news'];
+                    const isTrinetraRelated = trinetraKeywords.some(keyword => message.toLowerCase().includes(keyword));
+
+                    if (!isTrinetraRelated) {
+                        hideTypingIndicator();
+                        addMessage('Sorry, I can only answer questions related to Trinetra Game Studio in this mode. Please ask about our games, store, or services, or switch to Mistral AI mode.', false);
+                        await saveToDatabase(
+                            message,
+                            'Non-Trinetra related question rejected',
+                            'trinetra',
+                            Date.now() - startTime
+                        );
+                        isTyping = false;
+                        document.getElementById('send-btn').disabled = false;
+                        return;
+                    }
+
+                    const trinetraResponses = {
+                        'about': 'Trinetra Game Studio is dedicated to creating immersive gaming experiences. Visit our About Us page to learn more about our mission and team!',
+                        'games': 'We offer a variety of games in our Library. Check out the Library page to explore our collection!',
+                        'store': 'Our store provides a seamless shopping experience. Visit the Shop section to browse and purchase games!',
+                        'wishlist': 'You can add games to your Wishlist by visiting the Wishlist page. It’s a great way to keep track of your favorite games!',
+                        'cart': 'Your Cart contains games ready for purchase. Head to the Cart page to review and checkout!',
+                        'contact': 'Reach out to us via the Contact page for any inquiries or support!',
+                        'review': 'We value your feedback! Share your thoughts on our Review page to help us improve.',
+                        'news': 'Stay updated with the latest from Trinetra Game Studio on our News page!'
+                    };
+
+                    let responseText = 'I can assist with questions about Trinetra Game Studio. Please provide more details or ask about our games, store, or services!';
+                    for (const keyword in trinetraResponses) {
+                        if (message.toLowerCase().includes(keyword)) {
+                            responseText = trinetraResponses[keyword];
+                            break;
+                        }
+                    }
+
+                    hideTypingIndicator();
+                    addMessage(responseText, false);
+                    await saveToDatabase(
+                        message,
+                        responseText,
+                        'trinetra',
+                        Date.now() - startTime
+                    );
+                    isTyping = false;
+                    document.getElementById('send-btn').disabled = false;
+                } else {
+                    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+                        method: "POST",
+                        headers: {
+                            "Authorization": `Bearer ${API_KEY}`,
+                            "HTTP-Referer": window.location.origin,
+                            "X-Title": "Mistral AI Chatbot",
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            "model": "mistralai/mistral-small-3.2-24b-instruct:free",
+                            "messages": [
+                                {
+                                    "role": "user",
+                                    "content": [
+                                        {
+                                            "type": "text",
+                                            "text": message
+                                        }
+                                    ]
+                                }
+                            ],
+                            "temperature": 0.7,
+                            "max_tokens": 2000,
+                            "top_p": 0.9
+                        })
+                    });
+
+                    hideTypingIndicator();
+
+                    if (!response.ok) {
+                        const errorData = await response.json().catch(() => ({}));
+                        throw new Error(`API Error: ${response.status} - ${errorData.error?.message || response.statusText}`);
+                    }
+
+                    const data = await response.json();
+                    const botResponse = data.choices[0]?.message?.content || "Sorry, I didn't receive a proper response.";
+                    const responseTime = Date.now() - startTime;
+
+                    addMessage(botResponse, false);
+                    await saveToDatabase(
+                        message,
+                        botResponse,
+                        "mistralai/mistral-small-3.2-24b-instruct:free",
+                        responseTime
+                    );
+                }
+            } catch (error) {
+                hideTypingIndicator();
+                console.error('Error:', error);
+                showError(`Error: ${error.message}`);
+                await saveToDatabase(
+                    message,
+                    `ERROR: ${error.message}`,
+                    chatMode === 'mistral' ? "mistralai/mistral-small-3.2-24b-instruct:free" : "trinetra",
+                    Date.now() - startTime
+                );
+            } finally {
+                isTyping = false;
+                document.getElementById('send-btn').disabled = false;
+            }
         }
 
-        function scrollToBottom() {
-            const chatMessages = document.getElementById('chatMessages');
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+        async function clearChatHistory() {
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/clear-history?mode=${chatMode}`, {
+                    method: 'POST'
+                });
+
+                if (response.ok) {
+                    const messagesContainer = document.getElementById('chat-messages');
+                    messagesContainer.innerHTML = '';
+                    addMessage(
+                        chatMode === 'mistral'
+                            ? '👋 Hello! I\'m a Mistral AI chatbot. Feel free to start chatting!'
+                            : '👋 Hello! I\'m here to help with questions about Trinetra Game Studio. Ask about our games, store, or services!',
+                        false
+                    );
+                    console.log(`🗑️ Chat history cleared for ${chatMode} mode`);
+                } else {
+                    showError('Failed to clear chat history');
+                }
+            } catch (error) {
+                console.error('Error clearing history:', error);
+                showError('Error clearing chat history');
+            }
         }
 
-        // Auto-scroll to bottom on page load
-        window.addEventListener('load', function() {
-            scrollToBottom();
+        async function getChatStats() {
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/stats?mode=${chatMode}`);
+                if (response.ok) {
+                    const stats = await response.json();
+                    console.log(`📊 Chat Statistics for ${chatMode} mode:`, stats);
+                    return stats;
+                }
+            } catch (error) {
+                console.error('Error getting stats:', error);
+            }
+            return null;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('chat-input').focus();
+            loadChatHistory();
         });
     </script>
+    <script src="" th:src="@{js/themecontroller.js}"></script>
+    <script src="" th:src="@{js/navbar.js}"></script>
+    <script src="" th:src="@{js/search.js}"></script>
 </body>
 </html>

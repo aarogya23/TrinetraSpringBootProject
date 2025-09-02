@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile</title>
+    <title>User Profile - Trinetra</title>
     <style>
         * {
             margin: 0;
@@ -12,174 +12,262 @@
         }
 
         :root {
-            --bg-color: #ffffff;
-            --container-bg: #ffffff;
-            --text-color: #333333;
-            --secondary-text: #666666;
-            --border-color: #e0e0e0;
-            --shadow-color: rgba(0, 0, 0, 0.1);
-            --button-bg: #007BFF;
-            --button-hover: #0056b3;
-            --toggle-bg: #f0f0f0;
-            --toggle-circle: #ffffff;
-            --accent-color: #007BFF;
+            /* Light mode colors */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-card: #ffffff;
+            --text-primary: #2d3748;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --border-color: #e2e8f0;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --shadow-hover: rgba(0, 0, 0, 0.15);
+            
+            /* Trinetra brand colors */
+            --orange-primary: #ff6b35;
+            --orange-secondary: #ff8c42;
+            --yellow-primary: #ffd23f;
+            --yellow-secondary: #ffe066;
+            --gradient-primary: linear-gradient(135deg, var(--orange-primary), var(--yellow-primary));
+            --gradient-secondary: linear-gradient(135deg, var(--orange-secondary), var(--yellow-secondary));
+            
+            /* Button states */
+            --btn-hover: linear-gradient(135deg, #e55a2e, #e6bd39);
+            --btn-active: linear-gradient(135deg, #cc4f28, #cc9f32);
         }
 
         [data-theme="dark"] {
-            --bg-color: #121212;
-            --container-bg: #1e1e1e;
-            --text-color: #ffffff;
-            --secondary-text: #cccccc;
-            --border-color: #333333;
-            --shadow-color: rgba(0, 0, 0, 0.3);
-            --button-bg: #0d6efd;
-            --button-hover: #0b5ed7;
-            --toggle-bg: #333333;
-            --toggle-circle: #ffffff;
-            --accent-color: #4dabf7;
+            /* Dark mode colors */
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border-color: #475569;
+            --shadow: rgba(0, 0, 0, 0.3);
+            --shadow-hover: rgba(0, 0, 0, 0.4);
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--bg-color);
-            color: var(--text-color);
-            padding: 40px 20px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             min-height: 100vh;
             transition: all 0.3s ease;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(255, 107, 53, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 210, 63, 0.1) 0%, transparent 50%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 600px;
-            margin: 0 auto 30px auto;
+            text-align: center;
+            margin-bottom: 40px;
         }
 
-        .theme-toggle {
+        .logo {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .profile-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .profile-left {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 40px var(--shadow);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
             position: relative;
-            width: 60px;
-            height: 30px;
-            background: var(--toggle-bg);
-            border-radius: 15px;
-            cursor: pointer;
-            transition: background 0.3s ease;
-            border: 2px solid var(--border-color);
+            overflow: hidden;
         }
 
-        .theme-toggle::before {
+        .profile-right {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 40px var(--shadow);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .purchase-section {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 40px var(--shadow);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            margin-top: 40px;
+        }
+
+        .profile-left::before,
+        .profile-right::before,
+        .purchase-section::before {
             content: '';
             position: absolute;
-            top: 3px;
-            left: 3px;
-            width: 22px;
-            height: 22px;
-            background: var(--toggle-circle);
-            border-radius: 50%;
-            transition: transform 0.3s ease;
-            box-shadow: 0 2px 4px var(--shadow-color);
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
         }
 
-        [data-theme="dark"] .theme-toggle::before {
-            transform: translateX(28px);
-            background: var(--accent-color);
-        }
-
-        .theme-label {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--secondary-text);
-        }
-
-        .profile-container {
-            max-width: 600px;
-            margin: auto;
-            background: var(--container-bg);
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 8px 32px var(--shadow-color);
-            border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
-        }
-
-        .profile-container:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 40px var(--shadow-color);
-        }
-
-        h2 {
+        .error {
+            background: linear-gradient(135deg, #fee2e2, #fecaca);
+            color: #dc2626;
+            padding: 12px 20px;
+            border-radius: 12px;
             text-align: center;
-            color: var(--text-color);
-            margin-bottom: 15px;
-            font-size: 28px;
-            font-weight: 600;
+            margin-bottom: 20px;
+            border: 1px solid #fca5a5;
+            animation: slideIn 0.3s ease;
+        }
+
+        .success {
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            color: #059669;
+            padding: 12px 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 20px;
+            border: 1px solid #6ee7b7;
+            animation: slideIn 0.3s ease;
+        }
+
+        .profile-image-section {
+            text-align: center;
+            margin-bottom: 30px;
         }
 
         .profile-icon {
             width: 120px;
             height: 120px;
-            margin: 0 auto 15px auto;
             border-radius: 50%;
             overflow: hidden;
-            border: 3px solid var(--accent-color);
-            background: var(--toggle-bg);
+            margin: 0 auto 20px;
+            position: relative;
+            background: var(--gradient-primary);
+            padding: 4px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .profile-icon:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px var(--shadow-hover);
         }
 
         .profile-icon img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            border-radius: 50%;
+            background: var(--bg-card);
         }
 
         .upload-form {
-            text-align: center;
-            margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
         }
 
-        .upload-form input[type="file"] {
-            margin-bottom: 10px;
-            padding: 5px;
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
         }
 
-        .btn {
-            padding: 10px 20px;
-            background: var(--button-bg);
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            border: none;
+        .file-input {
+            position: absolute;
+            left: -9999px;
+            opacity: 0;
+        }
+
+        .file-input-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: var(--bg-secondary);
+            border: 2px dashed var(--border-color);
+            border-radius: 12px;
             cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+            font-weight: 500;
         }
 
-        .btn:hover {
-            background: var(--button-hover);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+        .file-input-label:hover {
+            border-color: var(--orange-primary);
+            background: var(--bg-primary);
+            transform: translateY(-2px);
         }
 
-        .btn-secondary {
-            background: transparent;
-            color: var(--text-color);
-            border: 2px solid var(--border-color);
+        .upload-btn {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
         }
 
-        .btn-secondary:hover {
-            background: var(--toggle-bg);
-            border-color: var(--accent-color);
-            color: var(--accent-color);
-            box-shadow: none;
+        .upload-btn:hover {
+            background: var(--btn-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+        }
+
+        .upload-btn:active {
+            background: var(--btn-active);
+            transform: translateY(0);
         }
 
         .info {
-            margin: 25px 0;
+            margin-top: 30px;
         }
 
         .info-item {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
+            padding: 16px 0;
             border-bottom: 1px solid var(--border-color);
             transition: all 0.3s ease;
         }
@@ -188,116 +276,710 @@
             border-bottom: none;
         }
 
+        .info-item:hover {
+            background: var(--bg-secondary);
+            margin: 0 -20px;
+            padding: 16px 20px;
+            border-radius: 8px;
+        }
+
         .info-label {
             font-weight: 600;
-            color: var(--secondary-text);
-            width: 120px;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .info-value {
-            color: var(--text-color);
-            font-size: 16px;
+            color: var(--text-primary);
             font-weight: 500;
-            flex: 1;
         }
 
-        .actions {
+        .update-section {
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 25px;
             text-align: center;
-            margin-top: 30px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+
+        .update-form {
             display: flex;
-            gap: 15px;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+
+        .form-input {
+            padding: 14px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-input:focus {
+            border-color: var(--orange-primary);
+            background: var(--bg-card);
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .update-btn {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+            margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .update-btn:hover {
+            background: var(--btn-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+        }
+
+        .update-btn:active {
+            background: var(--btn-active);
+            transform: translateY(0);
+        }
+
+        .update-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--gradient-secondary);
+            border-radius: 12px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .update-btn:hover::before {
+            opacity: 1;
+        }
+
+        .update-btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .logout-section {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .logout-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 12px 24px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .logout-link:hover {
+            color: var(--orange-primary);
+            border-color: var(--orange-primary);
+            background: var(--bg-secondary);
+            transform: translateY(-2px);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
             justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px var(--shadow);
+            z-index: 1000;
+        }
+
+        .theme-toggle:hover {
+            background: var(--gradient-primary);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .icon {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        /* Purchase History Table */
+        .purchase-section {
+            margin-top: 40px;
+        }
+
+        .purchase-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .purchase-table th,
+        .purchase-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .purchase-table th {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .purchase-table td {
+            color: var(--text-primary);
+        }
+
+        .purchase-table tr:hover {
+            background: var(--bg-secondary);
+        }
+
+        .game-image {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .no-purchases {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 20px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .profile-card {
+            animation: fadeIn 0.6s ease;
         }
 
         @media (max-width: 600px) {
-            .profile-container {
-                margin: 20px;
+            .container {
+                padding: 20px 15px;
+            }
+            
+            .profile-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .profile-left,
+            .profile-right,
+            .purchase-section {
                 padding: 30px 20px;
+                border-radius: 20px;
             }
-            .header {
-                flex-direction: column;
-                gap: 15px;
+            
+            .logo {
+                font-size: 2rem;
             }
-            .actions {
-                flex-direction: column;
-                align-items: center;
+            
+            .info-item:hover {
+                margin: 0 -15px;
+                padding: 16px 15px;
             }
-            .btn {
-                width: 100%;
+
+            .update-section {
+                margin-top: 0;
+                padding-top: 0;
             }
+
+            .purchase-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+
+        .profile-icon::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .profile-icon:hover::after {
+            opacity: 1;
+        }
+
+        .upload-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--gradient-secondary);
+            border-radius: 12px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .upload-btn:hover::before {
+            opacity: 1;
+        }
+
+        .upload-btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-input:invalid {
+            border-color: #dc2626;
+        }
+
+        .form-input:valid {
+            border-color: #059669;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="theme-label">🌙 Dark Mode</div>
-        <div class="theme-toggle" onclick="toggleTheme()"></div>
+    <div class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+        <svg class="icon sun-icon" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="5"/>
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+        <svg class="icon moon-icon" viewBox="0 0 24 24" style="display: none;">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
     </div>
 
-    <div class="profile-container">
-        <!-- Profile Image -->
-        <div class="profile-icon">
-    <img src="image/Aarogya_1755177409112_ss.jpeg"
-         alt="Profile Image" width="150" height="150" style="border-radius:50%;">
-</div>
+    <div class="container">
+        <div class="header">
+            <h3 class="logo">Welcome <div class="info-value" th:text="${user.username}">john_doe</div></h3>
+        </div>
 
-       <!-- Upload Form -->
-        <form action="/uploadProfileImage" method="post" enctype="multipart/form-data" class="upload-form">
-            <input type="file" name="image" accept="image/*" required>
-            <button type="submit" class="btn">Upload Image</button>
-        </form>
-        
+        <div class="profile-content">
+            <!-- Left Side - Current Profile Info -->
+            <div class="profile-left">
+                <div th:if="${error}" class="error" th:text="${error}"></div>
+                <div th:if="${success}" class="success" th:text="${success}"></div>
 
-        <h2>Welcome, <span th:text="${user.username}"></span>!</h2>
-        <p style="text-align: center; color: var(--secondary-text); margin-bottom: 30px; font-style: italic;">Your Profile Dashboard</p>
+                <div class="profile-image-section">
+                    <div class="profile-icon">
+                        <img th:if="${user.profileImage != null}" 
+                             th:src="'data:image/jpeg;base64,' + ${user.profileImage}"
+                             alt="Profile Image">
+                        <img th:if="${user.profileImage == null}" 
+                             src="/images/default-profile.png"
+                             alt="Default Profile Image">
+                    </div>
 
-        <div class="info">
-            <div class="info-item">
-                <div class="info-label">Username:</div>
-                <div class="info-value">
-                    <span th:text="${user.username}"></span>
+                    <form action="/uploadProfileImage" method="post" enctype="multipart/form-data" class="upload-form">
+                        <div class="file-input-wrapper">
+                            <input type="file" name="image" accept="image/*" required class="file-input" id="imageInput">
+                            <label for="imageInput" class="file-input-label">
+                                <svg class="icon" viewBox="0 0 24 24">
+                                    <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
+                                    <circle cx="12" cy="13" r="3"/>
+                                </svg>
+                                Choose Image
+                            </label>
+                        </div>
+                        <button type="submit" class="upload-btn">
+                            <span>Upload Image</span>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="info">
+                    <div class="info-item">
+                        <div class="info-label">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                            Username
+                        </div>
+                        <div class="info-value" th:text="${user.username}">john_doe</div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-label">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <polyline points="22,6 12,13 2,6"/>
+                            </svg>
+                            Email
+                        </div>
+                        <div class="info-value" th:text="${user.email}">john@example.com</div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-label">
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                            Country
+                        </div>
+                        <div class="info-value" th:text="${user.country}">Nepal</div>
+                    </div>
+                </div>
+
+                <div class="logout-section">
+                    <a href="/logout" class="logout-link">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                            <polyline points="16,17 21,12 16,7"/>
+                            <line x1="21" y1="12" x2="9" y2="12"/>
+                        </svg>
+                        Logout
+                    </a>
                 </div>
             </div>
-            <div class="info-item">
-                <div class="info-label">Email:</div>
-                <div class="info-value">
-                    <span th:text="${user.email}"></span>
-                </div>
-            </div>
-            <div class="info-item">
-                <div class="info-label">Country:</div>
-                <div class="info-value">
-                    <span th:text="${user.country}"></span>
+
+            <!-- Right Side - Update Form -->
+            <div class="profile-right">
+                <div class="update-section">
+                    <h3 class="section-title">Update Profile</h3>
+                    
+                    <form action="/updateProfile" method="post" class="update-form">
+                        <div class="form-group">
+                            <label for="newUsername" class="form-label">
+                                <svg class="icon" viewBox="0 0 24 24">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="12" cy="7" r="4"/>
+                                </svg>
+                                New Username
+                            </label>
+                            <input type="text" 
+                                   id="newUsername" 
+                                   name="username" 
+                                   class="form-input"
+                                   th:placeholder="${user.username}"
+                                   placeholder="Enter new username"
+                                   minlength="3"
+                                   maxlength="20"
+                                   pattern="[a-zA-Z0-9_]+"
+                                   title="Username should contain only letters, numbers, and underscores">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="newEmail" class="form-label">
+                                <svg class="icon" viewBox="0 0 24 24">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                    <polyline points="22,6 12,13 2,6"/>
+                                </svg>
+                                New Email
+                            </label>
+                            <input type="email" 
+                                   id="newEmail" 
+                                   name="email" 
+                                   class="form-input"
+                                   th:placeholder="${user.email}"
+                                   placeholder="Enter new email address">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="newCountry" class="form-label">
+                                <svg class="icon" viewBox="0 0 24 24">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                    <circle cx="12" cy="10" r="3"/>
+                                </svg>
+                                New Country
+                            </label>
+                            <input type="text" 
+                                   id="newCountry" 
+                                   name="country" 
+                                   class="form-input"
+                                   th:placeholder="${user.country}"
+                                   placeholder="Enter new country"
+                                   maxlength="50">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="currentPassword" class="form-label">
+                                <svg class="icon" viewBox="0 0 24 24">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                    <circle cx="12" cy="16" r="1"/>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                                </svg>
+                                Current Password (Required)
+                            </label>
+                            <input type="password" 
+                                   id="currentPassword" 
+                                   name="currentPassword" 
+                                   class="form-input"
+                                   placeholder="Enter current password"
+                                   required
+                                   minlength="6">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="newPassword" class="form-label">
+                                <svg class="icon" viewBox="0 0 24 24">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                    <circle cx="12" cy="16" r="1"/>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                                </svg>
+                                New Password (Optional)
+                            </label>
+                            <input type="password" 
+                                   id="newPassword" 
+                                   name="newPassword" 
+                                   class="form-input"
+                                   placeholder="Enter new password (leave blank to keep current)"
+                                   minlength="6">
+                        </div>
+
+                        <button type="submit" class="update-btn">
+                            <span>
+                                <svg class="icon" viewBox="0 0 24 24" style="width: 18px; height: 18px; margin-right: 8px;">
+                                    <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+                                </svg>
+                                Update Profile
+                            </span>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
 
-        <div class="actions">
-            <a href="#" class="btn btn-secondary">Edit Profile</a>
-            <a href="logout" class="btn">Logout</a>
+        <!-- Purchase History Section -->
+        <div class="purchase-section">
+            <h3 class="section-title">Recent Purchases (Last 5 Games)</h3>
+            <div th:if="${purchases.isEmpty()}" class="no-purchases">
+                No recent purchases found.
+            </div>
+            <div th:unless="${purchases.isEmpty()}">
+                <table class="purchase-table">
+                    <thead>
+                        <tr>
+                            <th>Game Image</th>
+                            <th>Game Name</th>
+                            <th>Price</th>
+                            <th>Purchase Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="purchase : ${purchases}">
+                            <td>
+                                <img th:if="${purchase.image != null}" 
+                                     th:src="'data:image/jpeg;base64,' + ${purchase.image}"
+                                     class="game-image" alt="Game Image"/>
+                                <span th:unless="${purchase.image != null}">No Image</span>
+                            </td>
+                            <td th:text="${purchase.gameName}"></td>
+                            <td th:text="'Rs' + ${#numbers.formatDecimal(purchase.gamePrice, 1, 2)}"></td>
+                            <td th:text="${#temporals.format(purchase.purchaseDate, 'yyyy-MM-dd HH:mm')}"></td>
+                            <td th:text="${purchase.status}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
     <script>
-        const currentTheme = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', currentTheme);
-
+        // Theme toggle functionality
         function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            const label = document.querySelector('.theme-label');
-            label.textContent = newTheme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+            
+            body.setAttribute('data-theme', newTheme);
+            
+            // Toggle icons
+            const sunIcon = document.querySelector('.sun-icon');
+            const moonIcon = document.querySelector('.moon-icon');
+            
+            if (newTheme === 'dark') {
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+            } else {
+                sunIcon.style.display = 'block';
+                moonIcon.style.display = 'none';
+            }
+
+            // Save preference (would use localStorage in real app, but storing in memory for demo)
+            window.themePreference = newTheme;
         }
 
-        window.addEventListener('DOMContentLoaded', () => {
-            const label = document.querySelector('.theme-label');
-            const theme = document.documentElement.getAttribute('data-theme');
-            label.textContent = theme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+        // Initialize theme
+        function initTheme() {
+            const savedTheme = window.themePreference || 'light';
+            document.body.setAttribute('data-theme', savedTheme);
+            
+            const sunIcon = document.querySelector('.sun-icon');
+            const moonIcon = document.querySelector('.moon-icon');
+            
+            if (savedTheme === 'dark') {
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+            }
+        }
+
+        // File input enhancement
+        document.addEventListener('DOMContentLoaded', function() {
+            initTheme();
+            
+            const fileInput = document.getElementById('imageInput');
+            const label = document.querySelector('.file-input-label');
+            
+            if (fileInput && label) {
+                fileInput.addEventListener('change', function(e) {
+                    const fileName = e.target.files[0]?.name;
+                    if (fileName) {
+                        label.innerHTML = `
+                            <svg class="icon" viewBox="0 0 24 24">
+                                <path d="M9 12l2 2 4-4"/>
+                                <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"/>
+                                <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3"/>
+                            </svg>
+                            ${fileName.length > 20 ? fileName.substring(0, 20) + '...' : fileName}
+                        `;
+                    }
+                });
+            }
+
+            // Enhanced form validation
+            const updateForm = document.querySelector('.update-form');
+            if (updateForm) {
+                updateForm.addEventListener('submit', function(e) {
+                    const currentPassword = document.getElementById('currentPassword').value;
+                    const username = document.getElementById('newUsername').value;
+                    const email = document.getElementById('newEmail').value;
+                    const country = document.getElementById('newCountry').value;
+                    const newPassword = document.getElementById('newPassword').value;
+
+                    // Check if at least one field is filled (besides current password)
+                    if (!username && !email && !country && !newPassword) {
+                        e.preventDefault();
+                        alert('Please fill at least one field to update.');
+                        return false;
+                    }
+
+                    // Validate current password
+                    if (!currentPassword) {
+                        e.preventDefault();
+                        alert('Current password is required to make changes.');
+                        return false;
+                    }
+
+                    // Email validation
+                    if (email && !email.includes('@')) {
+                        e.preventDefault();
+                        alert('Please enter a valid email address.');
+                        return false;
+                    }
+                });
+            }
+
+            // Add some interactive feedback
+            document.querySelectorAll('.info-item').forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateX(5px)';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateX(0)';
+                });
+            });
+
+            // Form input animations
+            document.querySelectorAll('.form-input').forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.style.transform = 'scale(1.02)';
+                });
+            });
         });
     </script>
 </body>

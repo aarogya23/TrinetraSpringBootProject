@@ -13,9 +13,8 @@
     <link href="/css/product.css" rel="stylesheet">
     <link href="/css/Index.css" rel="stylesheet">
     <style>
-    body {
+        body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-          
         }
         @media (max-width: 576px) {
             .scroll-container {
@@ -154,6 +153,32 @@
             border: 1px solid #ddd;
             border-radius: 5px;
         }
+        .payment-specific {
+            display: none;
+        }
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #1a1a1a;
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 1060;
+            text-align: center;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+        .popup h3 {
+            margin-bottom: 15px;
+        }
+        .popup p {
+            margin: 10px 0;
+        }
+        .popup .btn {
+            padding: 5px 15px;
+        }
     </style>
 </head>
 <body>
@@ -282,38 +307,76 @@
             <!-- Payment Details Section -->
             <div id="payment-details" style="display: none; margin-top: 20px;">
                 <h4>Payment Details</h4>
-                <div class="form-group">
-                    <label for="mobileNumber">Mobile Number</label>
-                    <input type="tel" id="mobileNumber" placeholder="Enter your mobile number" required>
-                </div>
-                <div class="form-group">
-                    <label for="credentials">Credentials</label>
-                    <input type="text" id="credentials" placeholder="Enter your credentials" required>
-                </div>
-                <h6>Select Payment Method</h6>
-                <div class="payment-methods">
-                    <div class="payment-method">
-                        <input type="radio" name="paymentMethod" value="card" id="paymentCard">
-                        <label for="paymentCard">Card</label>
+                <form id="payment-form" action="/confirmPurchase" method="POST">
+                    <input type="hidden" name="gameId" id="gameId">
+                    <h6>Select Payment Method</h6>
+                    <div class="payment-methods">
+                        <div class="payment-method" data-method="card">
+                            <input type="radio" name="paymentMethod" value="card" id="paymentCard">
+                            <label for="paymentCard">Card</label>
+                        </div>
+                        <div class="payment-method" data-method="esewa">
+                            <input type="radio" name="paymentMethod" value="esewa" id="paymentEsewa">
+                            <label for="paymentEsewa">eSewa</label>
+                        </div>
+                        <div class="payment-method" data-method="khalti">
+                            <input type="radio" name="paymentMethod" value="khalti" id="paymentKhalti">
+                            <label for="paymentKhalti">Khalti</label>
+                        </div>
+                        <div class="payment-method" data-method="imepay">
+                            <input type="radio" name="paymentMethod" value="imepay" id="paymentIMEPay">
+                            <label for="paymentIMEPay">IME Pay</label>
+                        </div>
+                        <div class="payment-method" data-method="bank">
+                            <input type="radio" name="paymentMethod" value="bank" id="paymentBank">
+                            <label for="paymentBank">Bank Transfer</label>
+                        </div>
                     </div>
-                    <div class="payment-method">
-                        <input type="radio" name="paymentMethod" value="esewa" id="paymentEsewa">
-                        <label for="paymentEsewa">eSewa</label>
+                    <!-- Payment-specific fields -->
+                    <div id="card-details" class="payment-specific">
+                        <div class="form-group">
+                            <label for="cardNumber">Card Number</label>
+                            <input type="text" name="cardNumber" id="cardNumber" placeholder="Enter card number">
+                        </div>
+                        <div class="form-group">
+                            <label for="cardholderName">Cardholder Name</label>
+                            <input type="text" name="cardholderName" id="cardholderName" placeholder="Enter cardholder name">
+                        </div>
+                        <div class="form-group">
+                            <label for="expiryDate">Expiry Date</label>
+                            <input type="text" name="expiryDate" id="expiryDate" placeholder="MM/YY">
+                        </div>
+                        <div class="form-group">
+                            <label for="cvv">CVV</label>
+                            <input type="text" name="cvv" id="cvv" placeholder="Enter CVV">
+                        </div>
                     </div>
-                    <div class="payment-method">
-                        <input type="radio" name="paymentMethod" value="khalti" id="paymentKhalti">
-                        <label for="paymentKhalti">Khalti</label>
+                    <div id="esewa-details" class="payment-specific">
+                        <div class="form-group">
+                            <label for="esewaId">eSewa ID</label>
+                            <input type="text" name="esewaId" id="esewaId" placeholder="Enter eSewa ID">
+                        </div>
                     </div>
-                    <div class="payment-method">
-                        <input type="radio" name="paymentMethod" value="imepay" id="paymentIMEPay">
-                        <label for="paymentIMEPay">IME Pay</label>
+                    <div id="khalti-details" class="payment-specific">
+                        <div class="form-group">
+                            <label for="khaltiMobile">Khalti Mobile</label>
+                            <input type="tel" name="khaltiMobile" id="khaltiMobile" placeholder="Enter Khalti mobile number">
+                        </div>
                     </div>
-                    <div class="payment-method">
-                        <input type="radio" name="paymentMethod" value="bank" id="paymentBank">
-                        <label for="paymentBank">Bank Transfer</label>
+                    <div id="imepay-details" class="payment-specific">
+                        <div class="form-group">
+                            <label for="imepayMobile">IME Pay Mobile</label>
+                            <input type="tel" name="imepayMobile" id="imepayMobile" placeholder="Enter IME Pay mobile number">
+                        </div>
                     </div>
-                </div>
-                <button type="button" class="btn btn-primary mt-3" id="confirmPayment">Confirm Payment</button>
+                    <div id="bank-details" class="payment-specific">
+                        <div class="form-group">
+                            <label for="bankName">Bank Name</label>
+                            <input type="text" name="bankName" id="bankName" placeholder="Enter bank name">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3" id="confirmPayment">Confirm Payment</button>
+                </form>
             </div>
         </section>
     </main>
@@ -347,8 +410,9 @@
                 const paymentDetails = document.getElementById('payment-details');
                 if (cart.length > 0) {
                     paymentDetails.style.display = 'block';
-                    document.getElementById('mobileNumber').value = '';
-                    document.getElementById('credentials').value = '';
+                    // For simplicity, assume the first item in the cart is being purchased
+                    document.getElementById('gameId').value = cart[0].id || 1; // Adjust based on actual game ID
+                    document.querySelectorAll('.payment-specific').forEach(div => div.style.display = 'none');
                     document.querySelectorAll('input[name="paymentMethod"]').forEach(radio => radio.checked = false);
                     document.querySelectorAll('.payment-method').forEach(method => method.classList.remove('selected'));
                 } else {
@@ -364,25 +428,89 @@
                     method.classList.add('selected');
                     const radio = method.querySelector('input[type="radio"]');
                     radio.checked = true;
+                    // Show relevant payment fields
+                    document.querySelectorAll('.payment-specific').forEach(div => div.style.display = 'none');
+                    const methodValue = radio.value;
+                    const detailsDiv = document.getElementById(`${methodValue}-details`);
+                    if (detailsDiv) {
+                        detailsDiv.style.display = 'block';
+                    }
                 });
             });
 
-            // Confirm Payment
-            document.getElementById('confirmPayment').addEventListener('click', () => {
-                const mobileNumber = document.getElementById('mobileNumber').value;
-                const credentials = document.getElementById('credentials').value;
-                const selectedMethod = document.querySelector('input[name="paymentMethod"]:checked');
+            // Form submission
+            document.getElementById('payment-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const form = e.target;
+                const formData = new FormData(form);
+                const paymentMethod = formData.get('paymentMethod');
+                const gameId = formData.get('gameId');
 
-                if (!mobileNumber || !credentials) {
-                    showToast('Please enter mobile number and credentials');
-                } else if (!selectedMethod) {
+                if (!gameId) {
+                    showToast('Please select a game to purchase');
+                    return;
+                }
+                if (!paymentMethod) {
                     showToast('Please select a payment method');
-                } else {
-                    showToast(`Payment confirmed with ${selectedMethod.value} for mobile ${mobileNumber}`);
-                    document.getElementById('payment-details').style.display = 'none';
-                    // Optionally clear cart or redirect here
-                    // clearCart(); // Uncomment if you want to clear cart after payment
-                    // window.location.href = '/thankyou'; // Uncomment and adjust if you have a thank you page
+                    return;
+                }
+
+                // Validate payment-specific fields
+                if (paymentMethod === 'card' && (!formData.get('cardNumber') || !formData.get('cardholderName') || !formData.get('expiryDate') || !formData.get('cvv'))) {
+                    showToast('Please fill in all card details');
+                    return;
+                } else if (paymentMethod === 'esewa' && !formData.get('esewaId')) {
+                    showToast('Please enter eSewa ID');
+                    return;
+                } else if (paymentMethod === 'khalti' && !formData.get('khaltiMobile')) {
+                    showToast('Please enter Khalti mobile number');
+                    return;
+                } else if (paymentMethod === 'imepay' && !formData.get('imepayMobile')) {
+                    showToast('Please enter IME Pay mobile number');
+                    return;
+                } else if (paymentMethod === 'bank' && !formData.get('bankName')) {
+                    showToast('Please enter bank name');
+                    return;
+                }
+
+                try {
+                    const response = await fetch('/confirmPurchase', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    if (response.ok) {
+                        // Get the first cart item for demo purposes
+                        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                        const purchasedItem = cart[0] || { name: 'Football Manager 2023', price: 0 };
+                        const amount = `Rs ${purchasedItem.price.toFixed(2)} (Free with Prime)`;
+                        const code = `FM2023-${Math.floor(Math.random() * 10000).toString().padStart(4, '0')}`; // Sample code
+
+                        // Show popup
+                        const popup = document.createElement('div');
+                        popup.className = 'popup';
+                        popup.innerHTML = `
+                            <h3>Purchase Successful!</h3>
+                            <p>Game: ${purchasedItem.name}</p>
+                            <p>Amount: ${amount}</p>
+                            <p>Redemption Code: <strong>${code}</strong></p>
+                            <button class="btn btn-primary mt-3" onclick="this.parentElement.remove(); window.location.href='/library';">OK</button>
+                        `;
+                        document.body.appendChild(popup);
+
+                        // Clear the purchased item from cart
+                        const index = cart.findIndex(item => item.id === parseInt(gameId));
+                        if (index !== -1) {
+                            cart.splice(index, 1);
+                            localStorage.setItem('cart', JSON.stringify(cart));
+                            renderCart();
+                        }
+                    } else {
+                        const error = await response.text();
+                        showToast(`Purchase failed: ${error}`);
+                    }
+                } catch (error) {
+                    showToast('An error occurred during purchase');
+                    console.error(error);
                 }
             });
 

@@ -10,243 +10,239 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link  href="/css/Index.css" rel="stylesheet">
+    <link href="/css/Index.css" rel="stylesheet">
     <link href="/css/librarydark.css" rel="stylesheet">
     <style>
+        @media (max-width: 576px) {
+            .card-img-top {
+                max-height: 345px;
+            }
+            #eafc {
+                max-height: 171px;
+            }
 
-    
-   @media (max-width: 576px) {
-    .card-img-top {
-        max-height: 345px;
-    }
-    #eafc{
-            max-height: 171px;
-    }
+            .scroll-container {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
 
-    .scroll-container {
-     overflow-x: auto;
-     -webkit-overflow-scrolling: touch;
-    }
+            .scroll-container .row {
+                flex-wrap: nowrap;
+            }
 
-    .scroll-container .row {
-     flex-wrap: nowrap;
-    }
+            .scroll-container .col-10 {
+                flex: 0 0 auto;
+            }
+        }
 
-    .scroll-container .col-10 {
-        flex: 0 0 auto;
-    }
-
-    }
-    .theme-toggle {
-        background: var(--toggle-bg, #333);
-        border: 2px solid var(--toggle-border, #555);
-        border-radius: 50px;
-        padding: 6px 10px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        margin-left: 15px;
-    }
-
-    .theme-toggle:hover {
-        transform: scale(1.05);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    }
-
-    .theme-toggle i {
-        font-size: 16px;
-        color: var(--toggle-icon-color, #fff);
-        transition: all 0.3s ease;
-    }
-
-    .theme-toggle-text {
-        font-size: 11px;
-        font-weight: 600;
-        color: var(--toggle-text-color, #fff);
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-
-    /* Mobile theme toggle styling */
-    @media (max-width: 768px) {
         .theme-toggle {
-            margin-left: 0;
-            margin-top: 10px;
-            justify-content: center;
-        }
-        
-        .mobile-theme-toggle {
+            background: var(--toggle-bg, #333);
+            border: 2px solid var(--toggle-border, #555);
+            border-radius: 50px;
+            padding: 6px 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
             display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            margin-left: 15px;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .theme-toggle i {
+            font-size: 16px;
+            color: var(--toggle-icon-color, #fff);
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle-text {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--toggle-text-color, #fff);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Mobile theme toggle styling */
+        @media (max-width: 768px) {
+            .theme-toggle {
+                margin-left: 0;
+                margin-top: 10px;
+                justify-content: center;
+            }
+            
+            .mobile-theme-toggle {
+                display: flex;
+                justify-content: center;
+                padding: 10px 0;
+                border-top: 1px solid var(--border-color, #333);
+                margin-top: 10px;
+            }
+        }
+
+        /* Hide desktop theme toggle on mobile */
+        @media (max-width: 768px) {
+            .desktop-theme-toggle {
+                display: none !important;
+            }
+        }
+
+        /* Hide mobile theme toggle on desktop */
+        @media (min-width: 769px) {
+            .mobile-theme-toggle {
+                display: none !important;
+            }
+        }
+
+        /* Delete confirmation modal styles */
+        .delete-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
             justify-content: center;
-            padding: 10px 0;
-            border-top: 1px solid var(--border-color, #333);
-            margin-top: 10px;
+            align-items: center;
         }
-    }
 
-    /* Hide desktop theme toggle on mobile */
-    @media (max-width: 768px) {
-        .desktop-theme-toggle {
-            display: none !important;
+        .delete-modal.show {
+            display: flex;
         }
-    }
 
-    /* Hide mobile theme toggle on desktop */
-    @media (min-width: 769px) {
-        .mobile-theme-toggle {
-            display: none !important;
+        .delete-modal-content {
+            background: var(--bg-color, #fff);
+            color: var(--text-color, #333);
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.3s ease-out;
         }
-    }
 
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
 
-/* Delete confirmation modal styles */
-.delete-modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    z-index: 2000;
-    justify-content: center;
-    align-items: center;
-}
+        .delete-modal h3 {
+            color: #fb011a;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
 
-.delete-modal.show {
-    display: flex;
-}
+        .delete-modal p {
+            margin-bottom: 25px;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
 
-.delete-modal-content {
-    background: var(--bg-color, #fff);
-    color: var(--text-color, #333);
-    padding: 30px;
-    border-radius: 15px;
-    max-width: 500px;
-    width: 90%;
-    text-align: center;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    animation: modalSlideIn 0.3s ease-out;
-}
+        .delete-modal .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
 
-@keyframes modalSlideIn {
-    from {
-        transform: translateY(-50px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
+        .delete-modal .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
 
-.delete-modal h3 {
-    color: #fb011a;
-    margin-bottom: 15px;
-    font-size: 1.5rem;
-}
+        .btn-danger {
+            background: #ff0019;
+            color: white;
+        }
 
-.delete-modal p {
-    margin-bottom: 25px;
-    font-size: 1rem;
-    line-height: 1.5;
-}
+        .btn-danger:hover {
+            background: #ff0019;
+            transform: translateY(-2px);
+        }
 
-.delete-modal .btn-group {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    flex-wrap: wrap;
-}
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
 
-.delete-modal .btn {
-    padding: 12px 25px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
 
-.btn-danger {
-    background: #ff0019;
-    color: white;
-}
+        /* Delete button styles */
+        .btn-delete {
+            background: #ff0019;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 5px;
+        }
 
-.btn-danger:hover {
-    background: #ff0019;
-    transform: translateY(-2px);
-}
+        .btn-delete:hover {
+            background: #eb061d;
+            transform: scale(1.05);
+        }
 
-.btn-secondary {
-    background: #6c757d;
-    color: white;
-}
+        .btn-delete i {
+            font-size: 14px;
+        }
 
-.btn-secondary:hover {
-    background: #5a6268;
-    transform: translateY(-2px);
-}
+        /* Toast notification styles */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 3000;
+            background: #28a745;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            animation: toastSlideIn 0.3s ease-out;
+        }
 
-/* Delete button styles */
-.btn-delete {
-    background: #ff0019;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-left: 5px;
-}
+        .toast.error {
+            background: #f6041c;
+        }
 
-.btn-delete:hover {
-    background: #eb061d;
-    transform: scale(1.05);
-}
+        .toast.info {
+            background: #17a2b8;
+        }
 
-.btn-delete i {
-    font-size: 14px;
-}
-
-/* Toast notification styles */
-.toast {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 3000;
-    background: #28a745;
-    color: white;
-    padding: 15px 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    animation: toastSlideIn 0.3s ease-out;
-}
-
-.toast.error {
-    background: #f6041c;
-}
-
-.toast.info {
-    background: #17a2b8;
-}
-
-@keyframes toastSlideIn {
-    from {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
+        @keyframes toastSlideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 
@@ -256,7 +252,7 @@
         <!-- Toasts will be dynamically added here -->
     </div>
 
-     <header class="header">
+    <header class="header">
         <div class="header-main">
             <div class="logo">
                 <img src="art.png" alt="Trinetra Games" class="logo">
@@ -265,22 +261,18 @@
             <nav class="main-nav">
                 <a href="index.html" class="nav-link">Home</a>
                 <a href="AiAsk.html" class="nav-link">AskAi</a>
-                <a href="library.html" class="nav-link">Library</a>
+                <a href="library.html" class="nav-link active">Library</a>
                 <a href="wishlist.html" class="nav-link" id="wishlist-link">
                     Wishlist
                     <span class="badge" id="wishlist-badge"></span>
                 </a>
-                <a href="cart.html" class="nav-link active" id="cart-link">
+                <a href="cart.html" class="nav-link" id="cart-link">
                     Cart
                     <span class="badge" id="cart-badge">1</span>
                 </a>
             </nav>
             
-            <!-- Desktop Theme Toggle -->
-            <div class="theme-toggle desktop-theme-toggle" id="theme-toggle" style="border-radius: 30px;">
-                <i class="fas fa-sun" id="theme-icon"></i>
-                <span class="theme-toggle-text" id="theme-text">Light</span>
-            </div>
+            
             
             <!-- Desktop Search Box -->
             <div class="search-box desktop-search">
@@ -297,16 +289,22 @@
                 </form>
             </div>
             
+            <!-- Desktop Theme Toggle -->
+            <div class="theme-toggle desktop-theme-toggle" id="theme-toggle" style="border-radius: 30px;">
+                <i class="fas fa-sun" id="theme-icon"></i>
+                <span class="theme-toggle-text" id="theme-text">Light</span>
+            </div>
             <!-- Profile with Dropdown - for Desktop -->
             <div class="profile-container" id="profile-container">
-                <img src="profile.png" alt="Profile" class="profile-icon" style="border-radius: 50%;">
+                <img src="image/profile.png" alt="Profile" class="profile-icon" style="border-radius: 50%;">
                 
                 <!-- Profile Dropdown Menu -->
                 <div class="profile-dropdown" id="profile-dropdown" style="display: none;">
-                    <a href="profile.html" class="dropdown-item">My Profile</a>
-                    <a href="settings.html" class="dropdown-item">Settings</a>
-                    <div class="dropdown-item logout" id="logout-button">Logout</div>
-                </div>
+                   
+                    <a href="profile" class="dropdown-item" target="_blank">Profile</a>
+                    
+                    <a href="logout" class="dropdown-item">Log out</a>
+                   </div>
             </div>
             
             <div class="hamburger-menu" id="hamburger-menu">
@@ -329,22 +327,22 @@
                         
                         <!-- Mobile Profile Dropdown Menu -->
                         <div class="mobile-profile-dropdown" id="mobile-profile-dropdown" style="display: none;">
-                            <a href="profile.html" class="dropdown-item">My Profile</a>
-                            <a href="settings.html" class="dropdown-item">Settings</a>
-                            <div class="dropdown-item logout" id="mobile-logout-button">Logout</div>
+                             <a href="profile" class="dropdown-item" target="_blank">Profile</a>
+                    
+                    <a href="logout" class="dropdown-item">Log out</a>
                         </div>
                     </div>
                 </div>
             </div>
 
             <a href="index.html" class="nav-link">Home</a>
-            <a href="index.html" class="nav-link">AskAi</a>
-            <a href="LIBARAY.html" class="nav-link">Library</a>
+            <a href="AiAsk.html" class="nav-link">AskAi</a>
+            <a href="library.html" class="nav-link active">Library</a>
             <a href="wishlist.html" class="nav-link" id="mobile-wishlist-link">
                 Wishlist
                 <span class="badge" id="mobile-wishlist-badge"></span>
             </a>
-            <a href="ADD TO CART1.html" class="nav-link active" id="mobile-cart-link">
+            <a href="cart.html" class="nav-link" id="mobile-cart-link">
                 Cart
                 <span class="badge" id="mobile-cart-badge">1</span>
             </a>
@@ -372,6 +370,18 @@
         </div>
     </header>
     
+    <!-- Delete Confirmation Modal -->
+    <div class="delete-modal" id="delete-modal">
+        <div class="delete-modal-content">
+            <h3>Confirm Deletion</h3>
+            <p id="delete-message"></p>
+            <div class="btn-group">
+                <button class="btn btn-danger" id="confirm-delete">Delete</button>
+                <button class="btn btn-secondary" id="cancel-delete">Cancel</button>
+            </div>
+        </div>
+    </div>
+
     <main class="library-container">
         <!-- Library Header -->
         <div class="library-header">
@@ -423,7 +433,6 @@
                         id="search-input"
                         aria-label="Search for games"
                     >
-                    
                 </form>
             </div>
         </div>
@@ -451,33 +460,57 @@
     </main>
 
     <script>
-        // Global variable to track the game to be deleted
         let gameToDelete = null;
+        let purchases = [];
 
         // Wait for DOM to fully load
         document.addEventListener('DOMContentLoaded', function() {
             loadLibrary();
             setupEventListeners();
-            updateStats();
             setupDeleteModal();
         });
-        
-        // Load library from localStorage
-        function loadLibrary() {
-            const library = JSON.parse(localStorage.getItem('gameLibrary')) || [];
-            
-            if (library.length === 0) {
-                document.getElementById('empty-library').style.display = 'block';
-                document.getElementById('games-grid').style.display = 'none';
-                return;
+
+        // Load library from API
+        async function loadLibrary() {
+            try {
+                const response = await fetch("/api/purchases/user/1", {
+                    headers: { 'Authorization': 'Bearer ' + localStorage.getItem('jwtToken') }
+                });
+                if (!response.ok) throw new Error('Failed to fetch purchases');
+                purchases = await response.json();
+                
+                if (purchases.length === 0) {
+                    document.getElementById('empty-library').style.display = 'block';
+                    document.getElementById('games-grid').style.display = 'none';
+                    return;
+                }
+
+                document.getElementById('empty-library').style.display = 'none';
+                document.getElementById('games-grid').style.display = 'grid';
+                
+                displayGames(purchases);
+                updateStats();
+            } catch (error) {
+                console.error(error);
+                showToast('Failed to load library.', 'error');
+                // Fallback to local storage
+                const library = JSON.parse(localStorage.getItem('gameLibrary')) || [];
+                if (library.length > 0) {
+                    purchases = library;
+                    document.getElementById('empty-library').style.display = 'none';
+                    document.getElementById('games-grid').style.display = 'grid';
+                    displayGames(purchases);
+                    updateStats();
+                }
             }
-            
-            document.getElementById('empty-library').style.display = 'none';
-            document.getElementById('games-grid').style.display = 'grid';
-            
-            displayGames(library);
         }
-        
+
+        // Format image for display
+        function formatImage(imageData) {
+            if (!imageData) return "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==";
+            return imageData.startsWith("data:image") ? imageData : `data:image/png;base64,${imageData}`;
+        }
+
         // Display games in both grid and list views
         function displayGames(games) {
             const gamesGrid = document.getElementById('games-grid');
@@ -497,7 +530,7 @@
                 gamesList.appendChild(listItem);
             });
         }
-        
+
         // Create game card for grid view
         function createGameCard(game) {
             const card = document.createElement('div');
@@ -506,24 +539,25 @@
             const statusClass = game.status === 'Ready to Play' ? 'status-ready' : 
                               game.status === 'Downloading' ? 'status-downloading' : 'status-updating';
             
-            const purchaseDate = new Date(game.purchaseDate).toLocaleDateString();
+            const purchaseDate = new Date(game.purchaseDate || Date.now()).toLocaleDateString();
+            const gameName = game.gameName || game.name || 'Unknown Game';
             
             card.innerHTML = `
                 <div style="position: relative;">
-                    <img src="${game.image}" alt="${game.name}" class="game-image">
-                    <div class="game-status-overlay ${statusClass}">${game.status}</div>
+                    <img src="${formatImage(game.image)}" alt="${gameName}" class="game-image" onerror="this.src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg=='">
+                    <div class="game-status-overlay ${statusClass}">${game.status || 'Ready to Play'}</div>
                 </div>
                 
                 <div class="game-info">
-                    <h3 class="game-title">${game.name}</h3>
+                    <h3 class="game-title">${gameName}</h3>
                     
                     <div class="game-details">
                         <span>Last played: ${game.lastPlayed || 'Never'}</span>
-                        <span>${game.playTime}</span>
+                        <span>${game.playTime || '0 hours'}</span>
                     </div>
                     
                     <div class="purchase-info">
-                        Purchased: ${purchaseDate} | Order: ${game.orderId}
+                        Purchased: ${purchaseDate} | Order: ${game.orderId || 'N/A'}
                     </div>
                     
                     <div class="secret-code-section">
@@ -532,27 +566,27 @@
                                 <i class="fas fa-key"></i>
                                 Activation Code
                             </div>
-                            <button class="toggle-code-btn" onclick="toggleCode('${game.name}')">
-                                <i class="fas fa-eye" id="eye-${game.name.replace(/\s+/g, '')}"></i>
+                            <button class="toggle-code-btn" onclick="toggleCode('${gameName.replace(/\s+/g, '')}')">
+                                <i class="fas fa-eye" id="eye-${gameName.replace(/\s+/g, '')}"></i>
                             </button>
                         </div>
-                        <div class="secret-code code-hidden" id="code-${game.name.replace(/\s+/g, '')}">
-                            ${game.secretCode}
-                            <button class="copy-code-btn" onclick="copyToClipboard('${game.secretCode}')">
+                        <div class="secret-code code-hidden" id="code-${gameName.replace(/\s+/g, '')}">
+                            ${game.secretCode || 'XXXX-XXXX'}
+                            <button class="copy-code-btn" onclick="copyToClipboard('${game.secretCode || ''}')">
                                 <i class="fas fa-copy"></i>
                             </button>
                         </div>
                     </div>
                     
                     <div class="game-actions">
-                        <button class="btn btn-primary" onclick="playGame('${game.name}')">
+                        <button class="btn btn-primary" onclick="playGame('${gameName}')">
                             <i class="fas fa-play"></i>
-                            ${game.status === 'Ready to Play' ? 'Play' : game.status}
+                            ${game.status === 'Ready to Play' ? 'Play' : game.status || 'Play'}
                         </button>
-                        <button class="btn btn-secondary" onclick="gameOptions('${game.name}')">
+                        <button class="btn btn-secondary" onclick="gameOptions('${gameName}')">
                             <i class="fas fa-cog"></i>
                         </button>
-                        <button class="btn-delete" onclick="showDeleteConfirmation('${game.name}')" title="Delete Game">
+                        <button class="btn-delete" onclick="showDeleteConfirmation('${gameName}', '${game.id || ''}')" title="Delete Game">
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
@@ -561,33 +595,34 @@
             
             return card;
         }
-        
+
         // Create game list item for list view
         function createGameListItem(game) {
             const item = document.createElement('div');
             item.className = 'game-list-item';
             
-            const purchaseDate = new Date(game.purchaseDate).toLocaleDateString();
+            const purchaseDate = new Date(game.purchaseDate || Date.now()).toLocaleDateString();
+            const gameName = game.gameName || game.name || 'Unknown Game';
             
             item.innerHTML = `
-                <img src="${game.image}" alt="${game.name}" class="list-game-image">
+                <img src="${formatImage(game.image)}" alt="${gameName}" class="list-game-image" onerror="this.src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg=='">
                 
                 <div class="list-game-info">
-                    <h4 class="list-game-title">${game.name}</h4>
+                    <h4 class="list-game-title">${gameName}</h4>
                     <div class="list-game-meta">
-                        ${game.status} • Last played: ${game.lastPlayed || 'Never'} • ${game.playTime} • Purchased: ${purchaseDate}
+                        ${game.status || 'Ready to Play'} • Last played: ${game.lastPlayed || 'Never'} • ${game.playTime || '0 hours'} • Purchased: ${purchaseDate}
                     </div>
                 </div>
                 
                 <div class="list-game-actions">
-                    <button class="btn btn-primary" onclick="playGame('${game.name}')">
+                    <button class="btn btn-primary" onclick="playGame('${gameName}')">
                         <i class="fas fa-play"></i>
-                        ${game.status === 'Ready to Play' ? 'Play' : game.status}
+                        ${game.status === 'Ready to Play' ? 'Play' : game.status || 'Play'}
                     </button>
-                    <button class="btn btn-secondary" onclick="gameOptions('${game.name}')">
+                    <button class="btn btn-secondary" onclick="gameOptions('${gameName}')">
                         <i class="fas fa-cog"></i>
                     </button>
-                    <button class="btn-delete" onclick="showDeleteConfirmation('${game.name}')" title="Delete Game">
+                    <button class="btn-delete" onclick="showDeleteConfirmation('${gameName}', '${game.id || ''}')" title="Delete Game">
                         <i class="fas fa-trash"></i>
                     </button>
                 </div>
@@ -595,10 +630,10 @@
             
             return item;
         }
-        
+
         // Show delete confirmation modal
-        function showDeleteConfirmation(gameName) {
-            gameToDelete = gameName;
+        function showDeleteConfirmation(gameName, gameId) {
+            gameToDelete = { name: gameName, id: gameId };
             const modal = document.getElementById('delete-modal');
             const message = document.getElementById('delete-message');
             
@@ -607,33 +642,49 @@
             
             modal.classList.add('show');
         }
-        
+
         // Hide delete confirmation modal
         function hideDeleteConfirmation() {
             const modal = document.getElementById('delete-modal');
             modal.classList.remove('show');
             gameToDelete = null;
         }
-        
+
         // Delete game from library
-        function deleteGame() {
+        async function deleteGame() {
             if (!gameToDelete) return;
             
-            const library = JSON.parse(localStorage.getItem('gameLibrary')) || [];
-            const updatedLibrary = library.filter(game => game.name !== gameToDelete);
-            
-            localStorage.setItem('gameLibrary', JSON.stringify(updatedLibrary));
-            
-            showToast(`"${gameToDelete}" has been deleted from your library.`, 'success');
-            
-            // Refresh the display
-            loadLibrary();
-            updateStats();
-            
-            // Hide modal
-            hideDeleteConfirmation();
+            try {
+                if (gameToDelete.id) {
+                    const response = await fetch(`/api/purchases/${gameToDelete.id}`, {
+                        method: 'DELETE',
+                        headers: { 'Authorization': 'Bearer ' + localStorage.getItem('jwtToken') }
+                    });
+                    if (!response.ok) throw new Error('Failed to delete game');
+                    showToast(`"${gameToDelete.name}" has been deleted from your library.`, 'success');
+                    await loadLibrary();
+                } else {
+                    // Fallback to local storage deletion
+                    const library = JSON.parse(localStorage.getItem('gameLibrary')) || [];
+                    const updatedLibrary = library.filter(game => game.name !== gameToDelete.name);
+                    localStorage.setItem('gameLibrary', JSON.stringify(updatedLibrary));
+                    showToast(`"${gameToDelete.name}" has been deleted from your library.`, 'success');
+                    await loadLibrary();
+                }
+                hideDeleteConfirmation();
+            } catch (error) {
+                console.error(error);
+                showToast('Failed to delete game.', 'error');
+                // Fallback to local storage deletion
+                const library = JSON.parse(localStorage.getItem('gameLibrary')) || [];
+                const updatedLibrary = library.filter(game => game.name !== gameToDelete.name);
+                localStorage.setItem('gameLibrary', JSON.stringify(updatedLibrary));
+                showToast(`"${gameToDelete.name}" has been deleted from your library.`, 'success');
+                await loadLibrary();
+                hideDeleteConfirmation();
+            }
         }
-        
+
         // Setup delete modal event listeners
         function setupDeleteModal() {
             const modal = document.getElementById('delete-modal');
@@ -657,17 +708,15 @@
                 }
             });
         }
-        
+
         // Update library statistics
         function updateStats() {
-            const library = JSON.parse(localStorage.getItem('gameLibrary')) || [];
+            const totalGames = purchases.length;
+            const readyGames = purchases.filter(game => game.status === 'Ready to Play').length;
             
-            const totalGames = library.length;
-            const readyGames = library.filter(game => game.status === 'Ready to Play').length;
-            
-            // Calculate total playtime (simplified)
+            // Calculate total playtime
             let totalMinutes = 0;
-            library.forEach(game => {
+            purchases.forEach(game => {
                 const playTime = game.playTime || '0 hours';
                 const hours = parseInt(playTime.split(' ')[0]) || 0;
                 totalMinutes += hours * 60;
@@ -679,7 +728,7 @@
             document.getElementById('ready-games').textContent = readyGames;
             document.getElementById('total-playtime').textContent = totalHours + 'h';
         }
-        
+
         // Show toast notification
         function showToast(message, type = 'success') {
             const toast = document.createElement('div');
@@ -689,14 +738,14 @@
                 ${message}
             `;
             
-            document.body.appendChild(toast);
+            document.getElementById('toast-container').appendChild(toast);
             
             // Remove toast after 3 seconds
             setTimeout(() => {
                 toast.remove();
             }, 3000);
         }
-        
+
         // Toggle secret code visibility
         function toggleCode(gameName) {
             const codeElement = document.getElementById(`code-${gameName.replace(/\s+/g, '')}`);
@@ -710,7 +759,7 @@
                 eyeIcon.className = 'fas fa-eye';
             }
         }
-        
+
         // Copy code to clipboard
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(function() {
@@ -726,31 +775,27 @@
                 showToast('Code copied to clipboard!', 'success');
             });
         }
-        
-        // Play game function (simulate)
+
+        // Play game function
         function playGame(gameName) {
             showToast(`Starting ${gameName}...`, 'success');
             
             // Update last played date
-            const library = JSON.parse(localStorage.getItem('gameLibrary')) || [];
-            const game = library.find(g => g.name === gameName);
+            const game = purchases.find(g => (g.gameName || g.name) === gameName);
             
             if (game) {
                 game.lastPlayed = new Date().toLocaleDateString();
-                localStorage.setItem('gameLibrary', JSON.stringify(library));
-                
-                // Refresh the display
                 setTimeout(() => {
                     loadLibrary();
                 }, 1000);
             }
         }
-        
+
         // Game options function
         function gameOptions(gameName) {
             showToast(`Opening options for ${gameName}`, 'info');
         }
-        
+
         // Setup event listeners
         function setupEventListeners() {
             // View toggle buttons
@@ -772,6 +817,12 @@
             
             // Search functionality
             document.getElementById('search-input').addEventListener('input', function() {
+                searchGames(this.value);
+            });
+            document.getElementById('searchInput').addEventListener('input', function() {
+                searchGames(this.value);
+            });
+            document.getElementById('mobile-search-input').addEventListener('input', function() {
                 searchGames(this.value);
             });
             
@@ -799,8 +850,21 @@
                     mobileNav.classList.toggle('active');
                 });
             }
+
+            // Mobile profile dropdown
+            const mobileProfileContainer = document.getElementById('mobile-profile-container');
+            const mobileProfileDropdown = document.getElementById('mobile-profile-dropdown');
+            if (mobileProfileContainer && mobileProfileDropdown) {
+                mobileProfileContainer.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    mobileProfileDropdown.style.display = mobileProfileDropdown.style.display === 'none' ? 'block' : 'none';
+                });
+                document.addEventListener('click', function() {
+                    mobileProfileDropdown.style.display = 'none';
+                });
+            }
         }
-        
+
         // Toggle between grid and list view
         function toggleView(view) {
             const gamesGrid = document.getElementById('games-grid');
@@ -817,10 +881,9 @@
             }
         }
 
-        // Placeholder functions for filtering and searching (implement as needed)
+        // Filter games by status
         function filterGames(status) {
-            const library = JSON.parse(localStorage.getItem('gameLibrary')) || [];
-            let filteredGames = library;
+            let filteredGames = purchases;
             
             if (status !== 'all') {
                 const statusMap = {
@@ -828,21 +891,20 @@
                     'downloading': 'Downloading',
                     'updating': 'Updating'
                 };
-                filteredGames = library.filter(game => game.status === statusMap[status]);
+                filteredGames = purchases.filter(game => game.status === statusMap[status]);
             }
             
             displayGames(filteredGames);
         }
-        
+
+        // Search games
         function searchGames(searchTerm) {
-            const library = JSON.parse(localStorage.getItem('gameLibrary')) || [];
-            const filteredGames = library.filter(game => 
-                game.name.toLowerCase().includes(searchTerm.toLowerCase())
+            const filteredGames = purchases.filter(game => 
+                (game.gameName || game.name || 'Unknown Game').toLowerCase().includes(searchTerm.toLowerCase())
             );
-            
             displayGames(filteredGames);
         }
     </script>
     <script src="" th:src="@{js/librarythemecontrol.js}"></script>
-    </body>
+</body>
 </html>

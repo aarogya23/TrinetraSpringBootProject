@@ -67,43 +67,30 @@
                 display: none !important;
             }
         }
-        .success-section {
-            text-align: center;
-            padding: 50px 0;
-        }
-        .success-section h1 {
-            color: #28a745;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-        .success-section .secret-code {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #007bff;
-            background: #e9f0fa;
-            padding: 10px 20px;
-            border-radius: 5px;
-            display: inline-block;
-            margin: 20px 0;
-        }
-        .purchase-details {
+        .success-container {
             background: #f8f9fa;
-            padding: 20px;
+            padding: 30px;
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
             margin-top: 20px;
         }
-        .purchase-details img {
-            max-width: 150px;
+        .success-container img {
+            max-width: 200px;
             object-fit: contain;
             border: 1px solid #ddd;
             border-radius: 5px;
+            margin-bottom: 20px;
         }
-        .purchase-details p {
-            margin: 10px 0;
+        .success-container h1 {
+            color: #28a745;
+            font-weight: 600;
+        }
+        .success-container p {
             font-size: 1.1rem;
+            margin-bottom: 15px;
         }
-        .btn-home {
+        .success-container .btn {
             margin-top: 20px;
         }
     </style>
@@ -210,25 +197,21 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/index.html">Home</a></li>
                     <li class="breadcrumb-item"><a href="/cart">Cart</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Purchase Success</li>
+8                    <li class="breadcrumb-item active" aria-current="page">Purchase Confirmation</li>
                 </ol>
             </nav>
         </div>
 
         <!-- Success Section -->
-        <section class="success-section container">
-            <h1>Purchase Successful!</h1>
-            <p>Thank you for your purchase. Your game is now available in your <a href="/library.html">Library</a>.</p>
-            <div class="secret-code" th:text="${purchase.secretCode}">Secret Code</div>
-            <div class="purchase-details">
-                <h4>Purchase Details</h4>
-                <img th:src="${purchase.image}" th:alt="${purchase.gameName}" th:unless="${purchase.image == null}">
-                <p><strong>Game:</strong> <span th:text="${purchase.gameName}">Game Name</span></p>
-                <p><strong>Price:</strong> Rs <span th:text="${purchase.gamePrice != null} ? ${#numbers.formatDecimal(purchase.gamePrice, 1, 2)} : '0.00'">0.00</span></p>
-                <p><strong>Payment Method:</strong> <span th:text="${purchase.paymentMethod}">Method</span></p>
-                <p><strong>Purchase Date:</strong> <span th:text="${purchase.purchaseDate}">Date</span></p>
-            </div>
-            <a href="/index.html" class="btn btn-primary btn-home">Back to Home</a>
+        <section class="container success-container">
+            <h1 th:text="${message}"></h1>
+            <img th:src="${game.image}" alt="Game Image" th:unless="${game.image == null}"/>
+            <p><strong>Game:</strong> <span th:text="${game.gamename}"></span></p>
+            <p><strong>Price:</strong> Rs <span th:text="${game.gameprice}"></span></p>
+            <p><strong>Order ID:</strong> <span th:text="${purchase.orderId}"></span></p>
+            <p><strong>Status:</strong> <span th:text="${purchase.status}"></span></p>
+            <a href="/library.html" class="btn btn-primary">Go to Library</a>
+            <a href="/index.html" class="btn btn-secondary">Continue Shopping</a>
         </section>
     </main>
 
@@ -252,7 +235,7 @@
                 mobileNav.classList.toggle('open');
             });
 
-            // Update cart and wishlist badges from localStorage
+            // Update cart badge
             function updateCartBadge() {
                 const cartBadge = document.getElementById('cart-badge');
                 const mobileCartBadge = document.getElementById('mobile-cart-badge');
@@ -269,24 +252,7 @@
                 }
             }
 
-            function updateWishlistBadge() {
-                const wishlistBadge = document.getElementById('wishlist-badge');
-                const mobileWishlistBadge = document.getElementById('mobile-wishlist-badge');
-                const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-                const totalItems = wishlist.length;
-
-                if (wishlistBadge) {
-                    wishlistBadge.textContent = totalItems;
-                    wishlistBadge.style.display = totalItems > 0 ? 'inline' : 'none';
-                }
-                if (mobileWishlistBadge) {
-                    mobileWishlistBadge.textContent = totalItems;
-                    mobileWishlistBadge.style.display = totalItems > 0 ? 'inline' : 'none';
-                }
-            }
-
             updateCartBadge();
-            updateWishlistBadge();
         });
     </script>
     <script th:src="@{/js/darklight.js}"></script>

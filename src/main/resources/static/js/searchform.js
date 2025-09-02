@@ -1,94 +1,141 @@
+// Unified search functionality
+const searchGames = (inputId, resultsId, isMobile = false) => {
+    const searchInput = document.getElementById(inputId);
+    const searchTerm = searchInput.value.trim();
+    const resultsDiv = document.getElementById(resultsId);
 
-    // Simple search functionality
-    const searchGames = () => {
-        const searchInput = document.getElementById('searchInput');
-        const searchTerm = searchInput.value.trim();
-        const resultsDiv = document.getElementById('searchResults');
-        
-        // Clear previous results
-        resultsDiv.innerHTML = '';
-        resultsDiv.style.display = 'none';
-        
-        // Don't search if less than 2 characters
-        if (searchTerm.length < 2) return;
-        
-        // Call the API
-        fetch(`/api/search?q=${encodeURIComponent(searchTerm)}`)
-            .then(response => response.json())
-            .then(games => displayResults(games, resultsDiv))
-            .catch(error => {
-                console.error('Search error:', error);
-                resultsDiv.innerHTML = '<div class="search-error">Search failed. Please try again.</div>';
-                resultsDiv.style.display = 'block';
-            });
-    };
+    // Validate DOM elements
+    if (!searchInput || !resultsDiv) {
+        console.error(`Missing DOM elements: inputId=${inputId}, resultsId=${resultsId}`);
+        return;
+    }
 
-    // Mobile search function
-    const searchGamesMobile = () => {
-        const searchInput = document.getElementById('mobile-search-input');
-        const searchTerm = searchInput.value.trim();
-        const resultsDiv = document.getElementById('mobileSearchResults');
-        
-        // Clear previous results
-        resultsDiv.innerHTML = '';
-        resultsDiv.style.display = 'none';
-        
-        if (searchTerm.length < 2) return;
-        
-        fetch(`/api/search?q=${encodeURIComponent(searchTerm)}`)
-            .then(response => response.json())
-            .then(games => displayResults(games, resultsDiv))
-            .catch(error => {
-                console.error('Search error:', error);
-                resultsDiv.innerHTML = '<div class="search-error">Search failed. Please try again.</div>';
-                resultsDiv.style.display = 'block';
-            });
-    };
+    // Clear previous results
+    resultsDiv.innerHTML = '';
+    resultsDiv.style.display = 'none';
 
-    const displayResults = (games, resultsDiv) => {
-        if (games.length === 0) {
-            resultsDiv.innerHTML = '<div class="no-results">No games found</div>';
+    // Don't search if less than 2 characters
+    if (searchTerm.length < 2) return;
+
+    // Call the API
+    fetch(`/api/search?q=${encodeURIComponent(searchTerm)}`)
+        .then(response => {
+            if (!response.ok) throw new Error(`API error: ${response.status}`);
+            return response.json();
+        })
+        .then(games => displayResults(games, resultsDiv))
+        .catch(error => {
+            console.error('Search error:', error);
+            resultsDiv.innerHTML = `<div class="search-error">Error: ${error.message}. Please try again.</div>`;
             resultsDiv.style.display = 'block';
+        });
+};
+
+// Display search results
+const displayResults = (games, resultsDiv) => {
+    if (!games || games.length === 0) {
+        resultsDiv.innerHTML = '<div class="no-results">No games found</div>';
+        resultsDiv.style.display = 'block';
+        return;
+    }
+
+    const fragment = document.createDocumentFragment();
+    games.forEach(game => {
+        // Validate game data
+        if (!game.id || !game.gamename || !game.gameprice || !game.image) {
+            console.warn('Invalid game data:', game);
             return;
         }
-        
-        const html = games.map(game => `
-            <div class="search-item" onclick="goToGame('${game.link}')">
-                <img src="data:image/png;base64,${game.image}" alt="${game.gamename}">
-                <div class="search-item-details">
-                    <div class="search-item-name">${game.gamename}</div>
-                    <div class="search-item-price">Rs ${game.gameprice}</div>
-                </div>
-            </div>
-        `).join('');
-        
-        resultsDiv.innerHTML = html;
-        resultsDiv.style.display = 'block';
-    };
 
-    const goToGame = link => window.location.href = link;
+        const div = document.createElement('div');
+        div.className = 'search-item';
+        div.setAttribute('role', 'button');
+        div.setAttribute('aria-label', `Go to ${game.gamename}`);
+        div.onclick = () => goToGame(game.id); // Use game.id for navigation
 
-    // Hide results when clicking outside
-    document.addEventListener('click', e => {
-        if (!e.target.closest('.search-box')) {
-            const desktopResults = document.getElementById('searchResults');
-            const mobileResults = document.getElementById('mobileSearchResults');
-            
-            if (desktopResults) desktopResults.style.display = 'none';
-            if (mobileResults) mobileResults.style.display = 'none';
+        const img = document.createElement('img');
+        img.src = `data:image/png;base64,${game.image}`;
+        img.alt = game.gamename;
+
+        const details = document.createElement('div');
+        details.className = 'search-item-details';
+
+        const name = document.createElement('div');
+        name.className = 'search-item-name';
+        name.textContent = game.gamename;
+
+        const price = document.createElement('div');
+        price.className = 'search-item-price';
+        price.textContent = `Rs ${game.gameprice}`;
+
+        details.append(name, price);
+        div.append(img, details);
+        fragment.append(div);
+    });
+
+    resultsDiv.append(fragment);
+    resultsDiv.style.display = 'block';
+};
+
+// Navigate to game page using /game/{id}
+const goToGame = id => {
+    if (!id) {
+        console.error('No game ID provided for navigation');
+        return;
+    }
+    window.location.href = `/game/${id}`;
+};
+
+// Hide results when clicking outside
+document.addEventListener('click', e => {
+    if (!e.target.closest('.search-box')) {
+        ['searchResults', 'mobileSearchResults'].forEach(id => {
+            const resultsDiv = document.getElementById(id);
+            if (resultsDiv) resultsDiv.style.display = 'none';
+        });
+    }
+});
+
+// Handle form submissions
+const setupFormSubmission = (formId, inputId, resultsId, isMobile) => {
+    const form = document.getElementById(formId);
+    if (!form) {
+        console.error(`Form not found: formId=${formId}`);
+        return;
+    }
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        searchGames(inputId, resultsId, isMobile);
+    });
+};
+
+// Debounce search for better performance
+let debounceTimeout;
+const debounceSearch = (inputId, resultsId, isMobile) => {
+    clearTimeout(debounceTimeout);
+    debounceTimeout = setTimeout(() => searchGames(inputId, resultsId, isMobile), 300);
+};
+
+// Initialize form and input listeners
+const initializeSearch = () => {
+    // Desktop search
+    if (document.getElementById('search-form')) {
+        setupFormSubmission('search-form', 'searchInput', 'searchResults', false);
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.addEventListener('input', () => debounceSearch('searchInput', 'searchResults', false));
         }
-    });
+    }
 
-    // Handle form submission
-    document.getElementById('search-form').addEventListener('submit', e => {
-        e.preventDefault();
-        const searchTerm = document.getElementById('searchInput').value.trim();
-        if (searchTerm) console.log('Searching for:', searchTerm);
-    });
+    // Mobile search
+    if (document.getElementById('mobile-search-form')) {
+        setupFormSubmission('mobile-search-form', 'mobile-search-input', 'mobileSearchResults', true);
+        const mobileSearchInput = document.getElementById('mobile-search-input');
+        if (mobileSearchInput) {
+            mobileSearchInput.addEventListener('input', () => debounceSearch('mobile-search-input', 'mobileSearchResults', true));
+        }
+    }
+};
 
-    document.getElementById('mobile-search-form').addEventListener('submit', e => {
-        e.preventDefault();
-        const searchTerm = document.getElementById('mobile-search-input').value.trim();
-        if (searchTerm) console.log('Mobile searching for:', searchTerm);
-    });
-
+// Run initialization when DOM is loaded
+document.addEventListener('DOMContentLoaded', initializeSearch);

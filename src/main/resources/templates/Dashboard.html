@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -593,7 +593,8 @@
                     <span class="nav-icon">🎮</span>
                     Add all Games
                 </a>
-                <a href="paymentapi" class="nav-item">
+                <a th:href="@{/api/purchases/adminpurchase}" class="nav-item">
+             
                     <span class="nav-icon">💳</span>
                     Game Purchases
                 </a>

@@ -1,132 +1,113 @@
 package com.trinetra.controller;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.trinetra.model.ChatMessage;
 import com.trinetra.repository.ChatMessageRepository;
 
 @Controller
+@CrossOrigin(origins = "*")
 public class ChatController {
 
     @Autowired
     private ChatMessageRepository chatRepository;
 
-    // Replace with your actual OpenRouter API key
-    private final String API_KEY = "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";
-
     /**
-     * Home page - displays chat interface with message history
+     * Show chat page
      */
     @GetMapping("/modelchat")
     public String home(Model model) {
-        List<ChatMessage> messages = chatRepository.findAll();
-        model.addAttribute("messages", messages);
         return "testapi";
     }
 
     /**
-     * Handle chat questions via AJAX
+     * Save chat message to MySQL database
      */
-    @PostMapping("/ask")
+    @PostMapping("/api/save-message")
     @ResponseBody
-    public String askQuestion(@RequestParam String question, 
-                              @RequestParam(required = false) String imageUrl) {
+    public ResponseEntity<Map<String, Object>> saveMessage(@RequestBody Map<String, Object> data) {
+        Map<String, Object> response = new HashMap<>();
+
         try {
-            if ((question == null || question.trim().isEmpty()) && 
-                (imageUrl == null || imageUrl.trim().isEmpty())) {
-                return "Please enter a valid question or provide an image URL.";
-            }
+            String question = (String) data.get("question");
+            String answer = (String) data.get("answer");
+            String model = (String) data.get("model");
+            Boolean hasImage = (Boolean) data.get("hasImage");
+            String imageUrl = (String) data.get("imageUrl");
+            Long responseTime = data.get("responseTime") != null ? Long.parseLong(data.get("responseTime").toString()) : null;
 
-            // Call OpenRouter API
-            String answer = callOpenRouterAPI(question.trim(), imageUrl);
+            ChatMessage message = new ChatMessage();
+            message.setQuestion(question);
+            message.setAnswer(answer);
+            message.setModel(model);
+            message.setHasImage(hasImage);
+            message.setImageUrl(imageUrl);
+            message.setResponseTime(responseTime);
+            message.setCreatedAt(LocalDateTime.now());
 
-            // Save to DB
-            ChatMessage message = new ChatMessage(question, answer);
-            chatRepository.save(message);
+            ChatMessage savedMessage = chatRepository.save(message);
 
-            return answer;
+            response.put("success", true);
+            response.put("message", "Saved successfully");
+            response.put("messageId", savedMessage.getId());
+
+            return ResponseEntity.ok(response);
 
         } catch (Exception e) {
-            System.err.println("Error processing question: " + e.getMessage());
-            return "Sorry, I'm having trouble processing your request. Please try again.";
+            response.put("success", false);
+            response.put("error", "Failed to save: " + e.getMessage());
+            return ResponseEntity.badRequest().body(response);
         }
     }
 
     /**
-     * Call OpenRouter API (supports text + image input)
+     * Get chat history
      */
-    private String callOpenRouterAPI(String question, String imageUrl) {
-        RestTemplate restTemplate = new RestTemplate();
-
+    @GetMapping("/api/history")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> getHistory() {
         try {
-            // Headers
-            HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", "Bearer " + API_KEY);
-            headers.set("Content-Type", "application/json");
-            headers.set("HTTP-Referer", "http://localhost:8081");
-            headers.set("X-Title", "Trinetra Chat App");
-
-            // Message content (text + optional image)
-            List<Map<String, Object>> content = new java.util.ArrayList<>();
-
-            if (question != null && !question.isEmpty()) {
-                content.add(Map.of("type", "text", "text", question));
-            }
-            if (imageUrl != null && !imageUrl.isEmpty()) {
-                content.add(Map.of(
-                    "type", "image_url",
-                    "image_url", Map.of("url", imageUrl)
-                ));
-            }
-
-            // Request body
-            Map<String, Object> requestBody = new HashMap<>();
-            requestBody.put("model", "meta-llama/llama-3.3-70b-instruct:free"); // same as python example
-            requestBody.put("messages", List.of(
-                Map.of("role", "user", "content", content)
-            ));
-            requestBody.put("max_tokens", 1000);
-            requestBody.put("temperature", 0.7);
-
-            // HTTP entity
-            HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestBody, headers);
-
-            // API call
-            Map<String, Object> response = restTemplate.postForObject(
-                "https://openrouter.ai/api/v1/chat/completions",
-                request,
-                Map.class
-            );
-
-            // Extract answer
-            if (response != null && response.containsKey("choices")) {
-                List<Map<String, Object>> choices = (List<Map<String, Object>>) response.get("choices");
-                if (!choices.isEmpty()) {
-                    Map<String, Object> choice = choices.get(0);
-                    Map<String, Object> message = (Map<String, Object>) choice.get("message");
-                    String contentResp = (String) message.get("content");
-                    return contentResp != null ? contentResp : "I couldn't generate a response.";
-                }
-            }
-
-            return "No response received from AI service.";
-
+            List<ChatMessage> messages = chatRepository.findAll();
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("messages", messages);
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            System.err.println("API call failed: " + e.getMessage());
-            throw new RuntimeException("Failed to get response from AI service", e);
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("success", false);
+            errorResponse.put("error", "Failed to load history");
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
+    }
+
+    /**
+     * Clear chat history
+     */
+    @PostMapping("/api/clear-history")
+    @ResponseBody
+    public ResponseEntity<Map<String, String>> clearHistory() {
+        try {
+            chatRepository.deleteAll();
+            Map<String, String> response = new HashMap<>();
+            response.put("status", "success");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, String> response = new HashMap<>();
+            response.put("status", "error");
+            return ResponseEntity.badRequest().body(response);
         }
     }
 }
