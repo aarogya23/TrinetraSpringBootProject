@@ -1,6 +1,7 @@
 package com.trinetra.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -17,6 +18,11 @@ public interface GameRepository extends JpaRepository<Game, Integer>{
 	 
 		// Search by name containing a string (case-insensitive)
 		 List<Game> findByGamenameContainingIgnoreCase(String gamename);
+
+
+		 Optional<Game> findById(Long id);
+
+		
 		
 		
 	

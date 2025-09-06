@@ -168,7 +168,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             z-index: 1060;
             text-align: center;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
         }
         .popup h3 {
             margin-bottom: 15px;
@@ -185,47 +185,56 @@
     <!-- Toast Notification Container -->
     <div class="toast-container position-fixed top-0 end-0 p-3" id="toast-container"></div>
 
-    <header class="header">
+     <header class="header">
         <div class="header-main">
             <div class="logo">
-                <img src="/resources/image/black.png" alt="Trinetra Games" class="logo">
+                <img src="resources/image/black.png" alt="Trinetra Games" class="logo">
             </div>
             <!-- Desktop Navigation -->
             <nav class="main-nav">
-                <a href="/index.html" class="nav-link">Home</a>
-                <a href="/aiask" class="nav-link">AskAi</a>
-                <a href="/library.html" class="nav-link">Library</a>
-                <a href="/wishlist.html" class="nav-link" id="wishlist-link">
+                <a href="home" class="nav-link">Home</a>
+                <a href="modelchat" class="nav-link">AskAi</a>
+                <a href="library" class="nav-link">Library</a>
+                <a href="wish" class="nav-link" id="wishlist-link">
                     Wishlist
                     <span class="badge" id="wishlist-badge"></span>
                 </a>
-                <a href="/cart" class="nav-link active" id="cart-link">
+                <a href="cart" class="nav-link active" id="cart-link">
                     Cart
-                    <span class="badge" id="cart-badge"></span>
+                    <span class="badge" id="cart-badge">1</span>
                 </a>
             </nav>
+            
             <!-- Desktop Search Box -->
-            <div class="search-box desktop-search">
+             <div class="search-box desktop-search">
                 <form id="search-form">
                     <input type="text" placeholder="Search for games..." id="searchInput" aria-label="Search for games" oninput="searchGames()">
                     <button type="submit" aria-label="Search">Search</button>
                     <div id="searchResults" class="search-results"></div>
                 </form>
             </div>
+
+            
             <!-- Desktop Theme Toggle -->
             <div class="theme-toggle desktop-theme-toggle" id="theme-toggle">
                 <i class="fas fa-sun" id="theme-icon"></i>
                 <span class="theme-toggle-text" id="theme-text">Light</span>
             </div>
+            
+            
             <!-- Profile with Dropdown - for Desktop -->
             <div class="profile-container" id="profile-container">
-                <img src="/image/question.png" alt="Profile" class="profile-icon" style="border-radius: 50%;">
+                <img src="image/profile.png" alt="Profile" class="profile-icon" style="border-radius: 50%;">
+                
+                <!-- Profile Dropdown Menu -->
                 <div class="profile-dropdown" id="profile-dropdown" style="display: none;">
-                    <a href="/login" class="dropdown-item">Login</a>
-                    <a href="/signup" class="dropdown-item">Signup</a>
-                    <div class="dropdown-item logout" id="logout-button">Logout</div>
+                    <a href="profile" class="dropdown-item" target="_blank">Profile</a>
+                    
+                    <a href="logout" class="dropdown-item">Log out</a>
+                    
                 </div>
             </div>
+            
             <div class="hamburger-menu" id="hamburger-menu">
                 <div class="humburger-icon" id="hamburger-icon">
                     <span></span>
@@ -234,39 +243,52 @@
                 </div>
             </div>
         </div>
-        <!-- Mobile Navigation -->
+
+        <!-- Mobile Navigation (Includes Search when opened) -->
         <div class="mobile-nav" id="mobile-nav">
+            <!-- Mobile Profile Section at the top of mobile menu -->
             <div class="mobile-profile-section">
-                <div class="mobile-profile-container" id="mobile-profile-container">
-                    <img src="/image/question.png" alt="Profile" class="mobile-profile-icon">
+                <div class="mobile-profile-container" id="mobile-profile-container" >
+                    <img src = "image/profile.png" alt="Profile" class="mobile-profile-icon">
                     <div class="mobile-profile-info">
                         <div class="mobile-profile-name">User Profile</div>
+                        
+                        <!-- Mobile Profile Dropdown Menu -->
                         <div class="mobile-profile-dropdown" id="mobile-profile-dropdown" style="display: none;">
-                            <a href="/login" class="dropdown-item">Login</a>
-                            <a href="/signup" class="dropdown-item">Signup</a>
-                            <div class="dropdown-item logout" id="mobile-logout-button">Logout</div>
+                            <a href="profile" class="dropdown-item">My Profile</a>
+                            
+                            <a href="logout" class="dropdown-item">Log out</a>
                         </div>
                     </div>
                 </div>
             </div>
-            <a href="/index.html" class="nav-link">Home</a>
-            <a href="/aiask" class="nav-link">AskAi</a>
-            <a href="/library.html" class="nav-link">Library</a>
-            <a href="/wishlist.html" class="nav-link" id="mobile-wishlist-link">
+
+            <a href="home" class="nav-link">Home</a>
+            <a href="modelchat" class="nav-link">AskAi</a>
+            <a href="library" class="nav-link">Library</a>
+            <a href="wish" class="nav-link" id="mobile-wishlist-link">
                 Wishlist
                 <span class="badge" id="mobile-wishlist-badge"></span>
             </a>
-            <a href="/cart" class="nav-link active" id="mobile-cart-link">
+            <a href="cart" class="nav-link active" id="mobile-cart-link">
                 Cart
-                <span class="badge" id="mobile-cart-badge"></span>
+                <span class="badge" id="mobile-cart-badge">1</span>
             </a>
+            
+            <!-- Mobile Search Box -->
             <div class="search-box mobile-search">
                 <form id="mobile-search-form">
-                    <input type="text" placeholder="Search for games..." id="mobile-search-input" aria-label="Search for games" oninput="searchGamesMobile()">
+                    <input
+                        type="text"
+                        placeholder="Search for games..."
+                        id="mobile-search-input"
+                        aria-label="Search for games"
+                    >
                     <button type="submit" aria-label="Search">Search</button>
-                    <div id="mobileSearchResults" class="search-results"></div>
                 </form>
             </div>
+
+            <!-- Mobile Theme Toggle -->
             <div class="mobile-theme-toggle">
                 <div class="theme-toggle" id="mobile-theme-toggle">
                     <i class="fas fa-sun" id="mobile-theme-icon"></i>
@@ -275,6 +297,7 @@
             </div>
         </div>
     </header>
+    
 
     <main>
         <!-- Breadcrumb Navigation -->
@@ -309,6 +332,10 @@
                 <h4>Payment Details</h4>
                 <form id="payment-form" action="/confirmPurchase" method="POST">
                     <input type="hidden" name="gameId" id="gameId">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" name="email" id="email" placeholder="Enter your email" required>
+                    </div>
                     <h6>Select Payment Method</h6>
                     <div class="payment-methods">
                         <div class="payment-method" data-method="card">
@@ -384,9 +411,13 @@
     <!-- JavaScript for interactivity -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Initialize cart from localStorage
+            // Initialize cart and wishlist from localStorage
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+
             renderCart();
+            updateCartBadge();
+            updateWishlistBadge();
 
             // Profile dropdown toggle
             document.getElementById('profile-container').addEventListener('click', () => {
@@ -411,7 +442,7 @@
                 if (cart.length > 0) {
                     paymentDetails.style.display = 'block';
                     // For simplicity, assume the first item in the cart is being purchased
-                    document.getElementById('gameId').value = cart[0].id || 1; // Adjust based on actual game ID
+                    document.getElementById('gameId').value = cart[0]?.id || 1;
                     document.querySelectorAll('.payment-specific').forEach(div => div.style.display = 'none');
                     document.querySelectorAll('input[name="paymentMethod"]').forEach(radio => radio.checked = false);
                     document.querySelectorAll('.payment-method').forEach(method => method.classList.remove('selected'));
@@ -445,6 +476,7 @@
                 const formData = new FormData(form);
                 const paymentMethod = formData.get('paymentMethod');
                 const gameId = formData.get('gameId');
+                const email = formData.get('email');
 
                 if (!gameId) {
                     showToast('Please select a game to purchase');
@@ -452,6 +484,10 @@
                 }
                 if (!paymentMethod) {
                     showToast('Please select a payment method');
+                    return;
+                }
+                if (!email || !email.match(/^[A-Za-z0-9+_.-]+@(.+)$/)) {
+                    showToast('Please enter a valid email address');
                     return;
                 }
 
@@ -473,31 +509,36 @@
                     return;
                 }
 
+                // Convert FormData to URL-encoded string
+                const urlEncodedData = new URLSearchParams(formData).toString();
+
                 try {
                     const response = await fetch('/confirmPurchase', {
                         method: 'POST',
-                        body: formData
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: urlEncodedData
                     });
                     if (response.ok) {
-                        // Get the first cart item for demo purposes
                         const cart = JSON.parse(localStorage.getItem('cart')) || [];
                         const purchasedItem = cart[0] || { name: 'Football Manager 2023', price: 0 };
                         const amount = `Rs ${purchasedItem.price.toFixed(2)} (Free with Prime)`;
-                        const code = `FM2023-${Math.floor(Math.random() * 10000).toString().padStart(4, '0')}`; // Sample code
+                        const code = `FM2023-${Math.floor(Math.random() * 10000).toString().padStart(4, '0')}`;
 
-                        // Show popup
                         const popup = document.createElement('div');
                         popup.className = 'popup';
                         popup.innerHTML = `
                             <h3>Purchase Successful!</h3>
                             <p>Game: ${purchasedItem.name}</p>
                             <p>Amount: ${amount}</p>
+                            <p>Email: ${email}</p>
                             <p>Redemption Code: <strong>${code}</strong></p>
+                            <p>A confirmation has been sent to ${email}.</p>
                             <button class="btn btn-primary mt-3" onclick="this.parentElement.remove(); window.location.href='/library';">OK</button>
                         `;
                         document.body.appendChild(popup);
 
-                        // Clear the purchased item from cart
                         const index = cart.findIndex(item => item.id === parseInt(gameId));
                         if (index !== -1) {
                             cart.splice(index, 1);
@@ -601,6 +642,21 @@
                 if (mobileCartBadge) {
                     mobileCartBadge.textContent = totalItems;
                     mobileCartBadge.style.display = totalItems > 0 ? 'inline' : 'none';
+                }
+            }
+
+            function updateWishlistBadge() {
+                const wishlistBadge = document.getElementById('wishlist-badge');
+                const mobileWishlistBadge = document.getElementById('mobile-wishlist-badge');
+                const totalItems = wishlist.length;
+
+                if (wishlistBadge) {
+                    wishlistBadge.textContent = totalItems;
+                    wishlistBadge.style.display = totalItems > 0 ? 'inline' : 'none';
+                }
+                if (mobileWishlistBadge) {
+                    mobileWishlistBadge.textContent = totalItems;
+                    mobileWishlistBadge.style.display = totalItems > 0 ? 'inline' : 'none';
                 }
             }
 

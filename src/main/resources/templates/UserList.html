@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trinetra Game Store - User Management</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
     <style>
@@ -18,8 +16,8 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #f8fafc;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #fff7ed; /* Light orange background to match dashboard */
             color: #1a202c;
             line-height: 1.5;
             min-height: 100vh;
@@ -34,7 +32,7 @@
         .sidebar {
             width: 280px;
             background: #ffffff;
-            border-right: 1px solid #e2e8f0;
+            border-right: 1px solid #fed7aa; /* Lighter orange border */
             padding: 0;
             position: fixed;
             height: 100vh;
@@ -67,7 +65,7 @@
         
         .logo {
             padding: 24px;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid #fed7aa;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -90,7 +88,7 @@
             display: flex;
             align-items: center;
             padding: 16px 24px;
-            color: #64748b;
+            color: #475569;
             text-decoration: none;
             transition: all 0.3s ease;
             border: none;
@@ -106,16 +104,16 @@
         }
         
         .nav-item:hover {
-            background: #f1f5f9;
-            color: #3b82f6;
+            background: #fef3c7; /* Light yellow hover */
+            color: #f97316; /* Orange */
             padding-left: 32px;
         }
         
         .nav-item.active {
-            background: #eff6ff;
-            color: #3b82f6;
+            background: #ffedd5; /* Light orange active */
+            color: #f97316;
             font-weight: 600;
-            border-right: 3px solid #3b82f6;
+            border-right: 3px solid #f97316;
         }
         
         .nav-icon {
@@ -142,7 +140,7 @@
         
         .header {
             background: #ffffff;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid #fed7aa;
             padding: 0 32px;
             height: 80px;
             display: flex;
@@ -154,7 +152,7 @@
         
         .mobile-menu-button {
             display: none;
-            background: #3b82f6;
+            background: #f97316; /* Orange button */
             border: none;
             color: white;
             font-size: 18px;
@@ -165,7 +163,7 @@
         }
         
         .mobile-menu-button:hover {
-            background: #2563eb;
+            background: #ea580c; /* Darker orange hover */
         }
         
         .welcome-section h1 {
@@ -177,7 +175,7 @@
         
         .welcome-section p {
             font-size: 16px;
-            color: #64748b;
+            color: #475569;
             font-weight: 500;
         }
         
@@ -190,7 +188,7 @@
         .search-input {
             width: 100%;
             padding: 12px 16px 12px 40px;
-            border: 1px solid #d1d5db;
+            border: 1px solid #fed7aa; /* Orange border */
             border-radius: 8px;
             font-size: 16px;
             background: #ffffff;
@@ -200,8 +198,8 @@
         
         .search-input:focus {
             outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            border-color: #f97316; /* Orange focus */
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
         }
         
         .search-icon {
@@ -218,7 +216,7 @@
         .content-area {
             flex: 1;
             padding: 24px 32px;
-            background: #f8fafc;
+            background: #fff7ed; /* Consistent background */
             overflow-x: auto;
         }
         
@@ -242,7 +240,7 @@
             gap: 8px;
             padding: 12px 20px;
             background: #ffffff;
-            border: 1px solid #d1d5db;
+            border: 1px solid #fed7aa;
             border-radius: 8px;
             color: #374151;
             font-size: 16px;
@@ -252,28 +250,28 @@
         }
         
         .sort-button:hover {
-            background: #f9fafb;
-            border-color: #3b82f6;
-            color: #3b82f6;
+            background: #fef3c7; /* Light yellow hover */
+            border-color: #f97316;
+            color: #f97316;
         }
         
         .users-table {
             background: #ffffff;
             border-radius: 12px;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #fed7aa;
             overflow: hidden;
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
         }
         
         .table-header {
-            background: #f8fafc;
-            border-bottom: 1px solid #e2e8f0;
+            background: #fff7ed; /* Light orange header */
+            border-bottom: 1px solid #fed7aa;
             padding: 0;
         }
         
         .table-header-row {
             display: grid;
-            grid-template-columns: 2.5fr 1fr 1.5fr 1.2fr 1fr 120px;
+            grid-template-columns: 2.5fr 1fr 1fr 1fr 120px;
             gap: 24px;
             padding: 16px 24px;
             font-size: 14px;
@@ -290,16 +288,16 @@
         
         .user-row {
             display: grid;
-            grid-template-columns: 2.5fr 1fr 1.5fr 1.2fr 1fr 120px;
+            grid-template-columns: 2.5fr 1fr 1fr 1fr 120px;
             gap: 24px;
             padding: 20px 24px;
-            border-bottom: 1px solid #f1f5f9;
+            border-bottom: 1px solid #fef3c7; /* Light yellow separator */
             align-items: center;
             transition: all 0.3s ease;
         }
         
         .user-row:hover {
-            background: #f8fafc;
+            background: #ffedd5; /* Light orange hover */
         }
         
         .user-row:last-child {
@@ -338,87 +336,19 @@
         
         .user-email {
             font-size: 14px;
-            color: #64748b;
+            color: #475569;
             font-weight: 400;
         }
         
         .user-country {
             font-size: 14px;
-            color: #059669;
+            color: #f97316; /* Orange for country */
             font-weight: 600;
-            background: #ecfdf5;
+            background: #ffedd5;
             padding: 6px 12px;
             border-radius: 6px;
             display: inline-block;
-            border: 1px solid #d1fae5;
-        }
-        
-        .password-container {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        
-        .password-strength {
-            font-size: 12px;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .strength-strong {
-            background: #dcfce7;
-            color: #166534;
-            border: 1px solid #bbf7d0;
-        }
-        
-        .strength-medium {
-            background: #fef3c7;
-            color: #92400e;
-            border: 1px solid #fde68a;
-        }
-        
-        .strength-weak {
-            background: #fee2e2;
-            color: #dc2626;
-            border: 1px solid #fecaca;
-        }
-        
-        .password-display {
-            font-size: 14px;
-            color: #374151;
-            font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
-            font-weight: 500;
-            background: #f9fafb;
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: 1px solid #e5e7eb;
-            position: relative;
-            max-width: 200px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        
-        .password-toggle {
-            position: absolute;
-            right: 8px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: #3b82f6;
-            font-size: 12px;
-            padding: 2px 4px;
-            border-radius: 4px;
-            transition: all 0.2s;
-        }
-        
-        .password-toggle:hover {
-            background: #eff6ff;
+            border: 1px solid #fed7aa;
         }
         
         .user-phone {
@@ -426,10 +356,10 @@
             color: #374151;
             font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
             font-weight: 500;
-            background: #f9fafb;
+            background: #fef3c7; /* Light yellow */
             padding: 8px 12px;
             border-radius: 6px;
-            border: 1px solid #e5e7eb;
+            border: 1px solid #fed7aa;
         }
         
         .user-city {
@@ -439,7 +369,7 @@
         }
         
         .action-button {
-            background: #ef4444;
+            background: #dc2626; /* Red for delete */
             border: none;
             color: white;
             cursor: pointer;
@@ -450,7 +380,7 @@
         }
         
         .action-button:hover {
-            background: #dc2626;
+            background: #b91c1c; /* Darker red hover */
             transform: translateY(-1px);
         }
         
@@ -459,14 +389,14 @@
             align-items: center;
             justify-content: center;
             padding: 80px;
-            color: #64748b;
+            color: #475569;
         }
         
         .loading-spinner {
             width: 32px;
             height: 32px;
-            border: 3px solid #e5e7eb;
-            border-top: 3px solid #3b82f6;
+            border: 3px solid #fed7aa;
+            border-top: 3px solid #f97316; /* Orange spinner */
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-right: 16px;
@@ -480,7 +410,7 @@
         .error, .no-users {
             text-align: center;
             padding: 80px 24px;
-            color: #64748b;
+            color: #dc2626; /* Red for error */
             font-size: 18px;
             font-weight: 500;
         }
@@ -494,9 +424,9 @@
             left: 24px;
             right: 24px;
             padding: 16px;
-            background: #f8fafc;
+            background: #fff7ed;
             border-radius: 12px;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #fed7aa;
         }
         
         .user-profile img {
@@ -518,14 +448,14 @@
         
         .profile-email {
             font-size: 14px;
-            color: #64748b;
+            color: #475569;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
         
         .logout-button {
-            background: #ef4444;
+            background: #dc2626; /* Red logout */
             border: none;
             color: white;
             cursor: pointer;
@@ -536,7 +466,7 @@
         }
         
         .logout-button:hover {
-            background: #dc2626;
+            background: #b91c1c; /* Darker red hover */
         }
 
         /* Mobile Card Layout */
@@ -544,7 +474,7 @@
             display: none;
             background: #ffffff;
             border-radius: 12px;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #fed7aa;
             padding: 20px;
             margin-bottom: 16px;
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
@@ -556,7 +486,7 @@
             gap: 16px;
             margin-bottom: 16px;
             padding-bottom: 16px;
-            border-bottom: 1px solid #f1f5f9;
+            border-bottom: 1px solid #fef3c7;
         }
 
         .mobile-card-body {
@@ -574,7 +504,7 @@
         .mobile-field-label {
             font-size: 12px;
             font-weight: 600;
-            color: #64748b;
+            color: #475569;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -591,7 +521,7 @@
             justify-content: center;
             margin-top: 16px;
             padding-top: 16px;
-            border-top: 1px solid #f1f5f9;
+            border-top: 1px solid #fef3c7;
         }
         
         /* Responsive Design */
@@ -653,33 +583,18 @@
                 font-size: 24px;
             }
 
-            /* Hide desktop table on mobile */
             .users-table {
                 display: none;
             }
 
-            /* Show mobile cards */
             .mobile-card {
                 display: block;
-            }
-
-            .mobile-field.password {
-                grid-column: span 2;
-            }
-
-            .mobile-field.password .password-display {
-                max-width: none;
-                width: 100%;
             }
         }
 
         @media (max-width: 480px) {
             .mobile-card-body {
                 grid-template-columns: 1fr;
-            }
-
-            .mobile-field.password {
-                grid-column: span 1;
             }
 
             .mobile-actions {
@@ -700,10 +615,8 @@
 </head>
 <body>
     <div class="app-container">
-        <!-- Mobile Overlay -->
         <div class="mobile-overlay" id="mobileOverlay"></div>
         
-        <!-- Sidebar -->
         <div class="sidebar" id="sidebar">
             <div class="logo">
                 <img src="/image/black.png" alt="Trinetra Logo">
@@ -737,7 +650,7 @@
             </nav>
             
             <div class="user-profile">
-                <div class="user-avatar" style="background: #3b82f6; width: 40px; height: 40px; font-size: 16px;">A</div>
+                <div class="user-avatar" style="background: #f97316; width: 40px; height: 40px; font-size: 16px;">A</div>
                 <div class="profile-info">
                     <div class="profile-name">Admin User</div>
                     <div class="profile-email">admin@trinetra.games</div>
@@ -746,9 +659,7 @@
             </div>
         </div>
         
-        <!-- Main Content -->
         <div class="main-content" id="mainContent">
-            <!-- Header -->
             <header class="header" style="margin-top: 1rem;">
                 <div style="display: flex; align-items: center; gap: 20px;">
                     <button class="mobile-menu-button" id="mobileMenuButton">☰</button>
@@ -764,7 +675,6 @@
                 </div>
             </header>
             
-            <!-- Content Area -->
             <main class="content-area">
                 <div class="page-header">
                     <h2 class="page-title">All Gamers</h2>
@@ -773,13 +683,11 @@
                     </button>
                 </div>
                 
-                <!-- Desktop Table -->
                 <div class="users-table">
                     <div class="table-header">
                         <div class="table-header-row">
                             <div>Gamer Details</div>
                             <div>Country</div>
-                            <div>Password</div>
                             <div>Phone</div>
                             <div>City</div>
                             <div>Action</div>
@@ -804,26 +712,17 @@
                     </div>
                 </div>
 
-                <!-- Mobile Cards Container -->
                 <div id="mobile-users-container"></div>
             </main>
         </div>
     </div>
 
     <script>
-        // Store fetched users globally
         let allUsers = [];
         
-        // Generate random avatar colors (lighter theme appropriate colors)
         const avatarColors = [
-            '#3b82f6', // Blue
-            '#059669', // Green
-            '#dc2626', // Red
-            '#d97706', // Orange
-            '#7c3aed', // Purple
-            '#db2777', // Pink
-            '#0891b2', // Cyan
-            '#65a30d'  // Lime
+            '#f97316', '#eab308', '#dc2626', '#d97706',
+            '#c2410c', '#ca8a04', '#f59e0b', '#b45309'
         ];
         
         function getAvatarColor(name) {
@@ -831,7 +730,6 @@
             return avatarColors[index];
         }
         
-        // Generate random phone number
         function generatePhoneNumber() {
             const areaCode = Math.floor(Math.random() * 900) + 100;
             const firstThree = Math.floor(Math.random() * 900) + 100;
@@ -839,7 +737,6 @@
             return `+1-${areaCode}-${firstThree}-${lastFour}`;
         }
         
-        // Generate random city based on country
         function getCityForCountry(country) {
             const cities = {
                 'USA': ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix'],
@@ -862,70 +759,20 @@
             return 'Unknown City';
         }
         
-        // Calculate password strength
-        function calculatePasswordStrength(password) {
-            if (!password) return 'weak';
-            
-            let score = 0;
-            if (password.length >= 8) score += 2;
-            if (password.length >= 12) score += 1;
-            if (password.match(/[a-z]/)) score += 1;
-            if (password.match(/[A-Z]/)) score += 1;
-            if (password.match(/[0-9]/)) score += 1;
-            if (password.match(/[^a-zA-Z0-9]/)) score += 2;
-            
-            if (score >= 8) return 'strong';
-            if (score >= 5) return 'medium';
-            return 'weak';
-        }
-        
-        // Toggle password visibility
-        function togglePassword(button, userId) {
-            const passwordDisplay = button.parentElement;
-            const isHidden = passwordDisplay.classList.contains('password-hidden');
-            
-            if (isHidden) {
-                // Show password
-                const user = allUsers.find(u => u.username === userId);
-                if (user && user.password) {
-                    passwordDisplay.innerHTML = `
-                        ${user.password}
-                        <button class="password-toggle" onclick="togglePassword(this, '${userId}')">👁️‍🗨️</button>
-                    `;
-                    passwordDisplay.classList.remove('password-hidden');
-                }
-            } else {
-                // Hide password
-                const user = allUsers.find(u => u.username === userId);
-                if (user && user.password) {
-                    const maskedPassword = '*'.repeat(user.password.length);
-                    passwordDisplay.innerHTML = `
-                        ${maskedPassword}
-                        <button class="password-toggle" onclick="togglePassword(this, '${userId}')">👁️</button>
-                    `;
-                    passwordDisplay.classList.add('password-hidden');
-                }
-            }
-        }
-        
-        // Create user row element for desktop
         function createUserRow(user, index) {
             const avatarColor = getAvatarColor(user.username || 'User');
             const initial = (user.username || 'U').charAt(0).toUpperCase();
             const phone = generatePhoneNumber();
             const city = getCityForCountry(user.country || 'USA');
-            const passwordStrength = calculatePasswordStrength(user.password);
-            const passwordLength = user.password ? user.password.length : 0;
             
-            // Initially show masked password
-            const maskedPassword = user.password ? '*'.repeat(passwordLength) : 'No password';
-            
+            const avatarContent = user.profileImage 
+                ? `<img src="${user.profileImage}" alt="${user.username}'s avatar" style="width: 48px; height: 48px; border-radius: 12px; object-fit: cover;" onerror="this.outerHTML='<div class=&quot;user-avatar&quot; style=&quot;background: ${avatarColor}&quot;>${initial}</div>'">`
+                : `<div class="user-avatar" style="background: ${avatarColor}">${initial}</div>`;
+
             return `
                 <div class="user-row">
                     <div class="user-info">
-                        <div class="user-avatar" style="background: ${avatarColor}">
-                            ${initial}
-                        </div>
+                        ${avatarContent}
                         <div class="user-details">
                             <div class="user-name">${user.username || 'Unknown Gamer'}</div>
                             <div class="user-email">${user.email || 'No email'}</div>
@@ -933,13 +780,6 @@
                     </div>
                     <div>
                         <div class="user-country">${user.country || 'Unknown'}</div>
-                    </div>
-                    <div class="password-container">
-                        <div class="password-strength strength-${passwordStrength}">${passwordStrength}</div>
-                        <div class="password-display password-hidden">
-                            ${maskedPassword}
-                            <button class="password-toggle" onclick="togglePassword(this, '${user.username}')">👁️</button>
-                        </div>
                     </div>
                     <div class="user-phone">${phone}</div>
                     <div class="user-city">${city}</div>
@@ -950,24 +790,20 @@
             `;
         }
 
-        // Create mobile card element
         function createMobileCard(user, index) {
             const avatarColor = getAvatarColor(user.username || 'User');
             const initial = (user.username || 'U').charAt(0).toUpperCase();
             const phone = generatePhoneNumber();
             const city = getCityForCountry(user.country || 'USA');
-            const passwordStrength = calculatePasswordStrength(user.password);
-            const passwordLength = user.password ? user.password.length : 0;
             
-            // Initially show masked password
-            const maskedPassword = user.password ? '*'.repeat(passwordLength) : 'No password';
-            
+            const avatarContent = user.profileImage 
+                ? `<img src="${user.profileImage}" alt="${user.username}'s avatar" style="width: 48px; height: 48px; border-radius: 12px; object-fit: cover;" onerror="this.outerHTML='<div class=&quot;user-avatar&quot; style=&quot;background: ${avatarColor}&quot;>${initial}</div>'">`
+                : `<div class="user-avatar" style="background: ${avatarColor}">${initial}</div>`;
+
             return `
                 <div class="mobile-card">
                     <div class="mobile-card-header">
-                        <div class="user-avatar" style="background: ${avatarColor}">
-                            ${initial}
-                        </div>
+                        ${avatarContent}
                         <div class="user-details">
                             <div class="user-name">${user.username || 'Unknown Gamer'}</div>
                             <div class="user-email">${user.email || 'No email'}</div>
@@ -990,16 +826,6 @@
                                 <div class="user-phone">${phone}</div>
                             </div>
                         </div>
-                        <div class="mobile-field password">
-                            <div class="mobile-field-label">Password</div>
-                            <div class="mobile-field-value">
-                                <div class="password-strength strength-${passwordStrength}">${passwordStrength}</div>
-                                <div class="password-display password-hidden" style="margin-top: 8px;">
-                                    ${maskedPassword}
-                                    <button class="password-toggle" onclick="togglePassword(this, '${user.username}')">👁️</button>
-                                </div>
-                            </div>
-                        </div>
                         <div class="mobile-actions">
                             <button class="action-button" onclick="deleteUser('${user.username}')">🗑️ Delete</button>
                         </div>
@@ -1008,36 +834,26 @@
             `;
         }
         
-        // Delete user
         function deleteUser(username) {
             if (confirm(`Are you sure you want to delete gamer "${username}"?`)) {
                 console.log(`Deleting gamer: ${username}`);
-                
-                // Here you can add an API call to delete the user from backend
-                // Example: fetch(`/api/users/${username}`, { method: 'DELETE' })
-                
-                // Remove from local array
                 const userIndex = allUsers.findIndex(u => u.username === username);
                 if (userIndex > -1) {
                     allUsers.splice(userIndex, 1);
                 }
                 
-                // Remove from desktop UI
                 const desktopRow = document.querySelector(`.user-row .action-button[onclick*="${username}"]`)?.closest('.user-row');
                 if (desktopRow) desktopRow.remove();
                 
-                // Remove from mobile UI
                 const mobileCard = document.querySelector(`.mobile-card .action-button[onclick*="${username}"]`)?.closest('.mobile-card');
                 if (mobileCard) mobileCard.remove();
                 
-                // Update user count
                 const currentTitle = document.querySelector('.page-title').textContent;
                 const currentCount = parseInt(currentTitle.match(/\((\d+)\)/)?.[1] || '0');
                 document.querySelector('.page-title').textContent = `All Gamers (${currentCount - 1})`;
             }
         }
         
-        // Load users from Spring Boot API
         async function loadUsers() {
             const loading = document.getElementById('loading');
             const error = document.getElementById('error');
@@ -1045,7 +861,6 @@
             const usersContainer = document.getElementById('users-container');
             const mobileUsersContainer = document.getElementById('mobile-users-container');
             
-            // Show loading
             loading.style.display = 'flex';
             error.style.display = 'none';
             noUsers.style.display = 'none';
@@ -1069,10 +884,8 @@
                 const users = await response.json();
                 console.log('Fetched gamers from API:', users);
                 
-                // Store users globally
                 allUsers = users;
                 
-                // Hide loading
                 loading.style.display = 'none';
                 
                 if (!users || users.length === 0) {
@@ -1081,15 +894,12 @@
                     return;
                 }
                 
-                // Create desktop user rows
                 const userRows = users.map((user, index) => createUserRow(user, index)).join('');
                 usersContainer.innerHTML = userRows;
                 
-                // Create mobile cards
                 const mobileCards = users.map((user, index) => createMobileCard(user, index)).join('');
                 mobileUsersContainer.innerHTML = mobileCards;
                 
-                // Update page title with count
                 document.querySelector('.page-title').textContent = `All Gamers (${users.length})`;
                 
             } catch (err) {
@@ -1097,25 +907,21 @@
                 loading.style.display = 'none';
                 error.style.display = 'block';
                 
-                // Show detailed error message
-                const errorElement = document.getElementById('error');
-                errorElement.innerHTML = `
+                error.innerHTML = `
                     <p>⚠️ Error loading gamers from server</p>
                     <p style="font-size: 14px; color: #666; margin-top: 8px;">
                         ${err.message}
                     </p>
-                    <button onclick="loadUsers()" style="margin-top: 16px; padding: 8px 16px; background: #3b82f6; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                    <button onclick="loadUsers()" style="margin-top: 16px; padding: 8px 16px; background: #f97316; color: white; border: none; border-radius: 6px; cursor: pointer;">
                         Retry
                     </button>
                 `;
             }
         }
         
-        // Search functionality
         document.querySelector('.search-input').addEventListener('input', function(e) {
             const searchTerm = e.target.value.toLowerCase();
             
-            // Search desktop rows
             const userRows = document.querySelectorAll('.user-row');
             userRows.forEach(row => {
                 const name = row.querySelector('.user-name').textContent.toLowerCase();
@@ -1133,7 +939,6 @@
                 }
             });
             
-            // Search mobile cards
             const mobileCards = document.querySelectorAll('.mobile-card');
             mobileCards.forEach(card => {
                 const name = card.querySelector('.user-name').textContent.toLowerCase();
@@ -1152,17 +957,14 @@
             });
         });
         
-        // Sort functionality
         document.querySelector('.sort-button').addEventListener('click', function() {
             const usersContainer = document.getElementById('users-container');
             const mobileUsersContainer = document.getElementById('mobile-users-container');
             const userRows = Array.from(usersContainer.querySelectorAll('.user-row'));
             const mobileCards = Array.from(mobileUsersContainer.querySelectorAll('.mobile-card'));
             
-            // Toggle sort order
             const isAscending = this.textContent.includes('A-Z');
             
-            // Sort desktop rows
             userRows.sort((a, b) => {
                 const nameA = a.querySelector('.user-name').textContent.toLowerCase();
                 const nameB = b.querySelector('.user-name').textContent.toLowerCase();
@@ -1174,7 +976,6 @@
                 }
             });
             
-            // Sort mobile cards
             mobileCards.sort((a, b) => {
                 const nameA = a.querySelector('.user-name').textContent.toLowerCase();
                 const nameB = b.querySelector('.user-name').textContent.toLowerCase();
@@ -1186,35 +987,27 @@
                 }
             });
             
-            // Update button text
             if (isAscending) {
                 this.innerHTML = 'Z-A ↕️';
             } else {
                 this.innerHTML = 'A-Z ↕️';
             }
             
-            // Re-append sorted rows
             userRows.forEach(row => usersContainer.appendChild(row));
             mobileCards.forEach(card => mobileUsersContainer.appendChild(card));
         });
         
-        // Refresh users function
         function refreshUsers() {
             console.log('Refreshing gamer data...');
             loadUsers();
         }
         
-        // Auto-refresh every 30 seconds (optional)
-        // setInterval(refreshUsers, 30000);
-        
-        // Load users when page loads
         document.addEventListener('DOMContentLoaded', function() {
             console.log('Page loaded, loading gamer data...');
             loadUsers();
             setupMobileMenu();
         });
         
-        // Mobile menu functionality
         function setupMobileMenu() {
             const mobileMenuButton = document.getElementById('mobileMenuButton');
             const sidebar = document.getElementById('sidebar');
@@ -1233,7 +1026,6 @@
                 mobileOverlay.classList.remove('active');
             });
             
-            // Close sidebar when clicking nav items on mobile
             const navItems = document.querySelectorAll('.nav-item');
             navItems.forEach(item => {
                 item.addEventListener('click', function() {
@@ -1245,7 +1037,6 @@
                 });
             });
             
-            // Handle window resize
             window.addEventListener('resize', function() {
                 if (window.innerWidth > 768) {
                     sidebar.classList.remove('active');

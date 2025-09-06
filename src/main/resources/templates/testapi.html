@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,8 +30,7 @@
             --footer-text: #b0b0b0;
         }
 
-   
-         [data-theme="dark"] {
+        [data-theme="dark"] {
             --primary-color: #ffb347; /* Lighter orange/yellow */
             --secondary-color: #2c2c2c;
             --text-color: #e0e0e0;
@@ -49,8 +48,12 @@
             --footer-bg: #1a1a1a;
             --footer-text: #b0b0b0;
         }
-         
-       
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Poppins', sans-serif;
+        }
 
         .nav-link {
             color: var(--text-color);
@@ -63,7 +66,6 @@
             color: var(--primary-color);
         }
 
-        
         .theme-toggle {
             background: var(--toggle-bg);
             border: 2px solid var(--toggle-border);
@@ -395,10 +397,10 @@
             </div>
             <!-- Desktop Navigation -->
             <nav class="main-nav">
-                <a href="index.html" class="nav-link active">Home</a>
-                <a href="modelchat" class="nav-link">AskAi</a>
-                <a href="library.html" class="nav-link">Library</a>
-                <a href="wishlist.html" class="nav-link" id="wishlist-link">
+                <a href="home" class="nav-link ">Home</a>
+                <a href="modelchat" class="nav-link active">AskAi</a>
+                <a href="library" class="nav-link">Library</a>
+                <a href="wish" class="nav-link" id="wishlist-link">
                     Wishlist
                     <span class="badge" id="wishlist-badge"></span>
                 </a>
@@ -456,10 +458,10 @@
                     </div>
                 </div>
             </div>
-            <a href="index.html" class="nav-link">Home</a>
+            <a href="home" class="nav-link">Home</a>
             <a href="modelchat" class="nav-link">AskAi</a>
-            <a href="library.html" class="nav-link">Library</a>
-            <a href="wishlist.html" class="nav-link" id="mobile-wishlist-link">
+            <a href="library" class="nav-link">Library</a>
+            <a href="wish" class="nav-link" id="mobile-wishlist-link">
                 Wishlist
                 <span class="badge" id="mobile-wishlist-badge"></span>
             </a>
@@ -491,7 +493,7 @@
 
     <div class="chat-container">
         <div class="chat-header">
-            <h1 id="chat-title">🤖 Mistral AI Chatbot</h1>
+            <h1 id="chat-title">🤖 AI Chatbot</h1>
             <select id="chat-mode" class="chat-mode-toggle">
                 <option value="mistral">Mistral AI</option>
                 <option value="trinetra">Chat with Trinetra</option>
@@ -552,11 +554,12 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script async type='module' src='https://interfaces.zapier.com/assets/web-components/zapier-interfaces/zapier-interfaces.esm.js'></script>
     <script>
         // ⚡ API Configuration
-        const API_KEY = '';
-        const BACKEND_URL = 'http://localhost:8082';
+        const API_KEY = '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'; // Replace with your actual API key
+        const SITE_URL = 'YOUR_SITE_URL'; // Replace with your site URL
+        const SITE_NAME = 'Trinetra Games'; // Replace with your site name
+        const BACKEND_URL = 'http://localhost:8083';
 
         let isTyping = false;
         let chatMode = 'mistral';
@@ -696,7 +699,7 @@
         }
 
         async function sendMessage() {
-            if (!API_KEY || API_KEY === 'YOUR_OPENROUTER_API_KEY_HERE') {
+            if (!API_KEY || API_KEY === 'YOUR_OPENROUTER_API_KEY') {
                 showError('Please set your API key in the JavaScript code!');
                 return;
             }
@@ -774,26 +777,18 @@
                         method: "POST",
                         headers: {
                             "Authorization": `Bearer ${API_KEY}`,
-                            "HTTP-Referer": window.location.origin,
-                            "X-Title": "Mistral AI Chatbot",
+                            "HTTP-Referer": SITE_URL,
+                            "X-Title": SITE_NAME,
                             "Content-Type": "application/json"
                         },
                         body: JSON.stringify({
-                            "model": "mistralai/mistral-small-3.2-24b-instruct:free",
+                            "model": "nousresearch/deephermes-3-llama-3-8b-preview:free",
                             "messages": [
                                 {
                                     "role": "user",
-                                    "content": [
-                                        {
-                                            "type": "text",
-                                            "text": message
-                                        }
-                                    ]
+                                    "content": message
                                 }
-                            ],
-                            "temperature": 0.7,
-                            "max_tokens": 2000,
-                            "top_p": 0.9
+                            ]
                         })
                     });
 
@@ -812,7 +807,7 @@
                     await saveToDatabase(
                         message,
                         botResponse,
-                        "mistralai/mistral-small-3.2-24b-instruct:free",
+                        "nousresearch/deephermes-3-llama-3-8b-preview:free",
                         responseTime
                     );
                 }
@@ -823,7 +818,7 @@
                 await saveToDatabase(
                     message,
                     `ERROR: ${error.message}`,
-                    chatMode === 'mistral' ? "mistralai/mistral-small-3.2-24b-instruct:free" : "trinetra",
+                    chatMode === 'mistral' ? "nousresearch/deephermes-3-llama-3-8b-preview:free" : "trinetra",
                     Date.now() - startTime
                 );
             } finally {
@@ -871,12 +866,63 @@
             return null;
         }
 
+        // Theme Toggle Functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const themeText = document.getElementById('theme-text');
+        const mobileThemeToggle = document.getElementById('mobile-theme-toggle');
+        const mobileThemeIcon = document.getElementById('mobile-theme-icon');
+        const mobileThemeText = document.getElementById('mobile-theme-text');
+
+        function toggleTheme() {
+            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            themeIcon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+            themeText.textContent = isDark ? 'Light' : 'Dark';
+            mobileThemeIcon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+            mobileThemeText.textContent = isDark ? 'Light' : 'Dark';
+        }
+
+        themeToggle.addEventListener('click', toggleTheme);
+        mobileThemeToggle.addEventListener('click', toggleTheme);
+
+        // Hamburger Menu Functionality
+        const hamburgerMenu = document.getElementById('hamburger-menu');
+        const mobileNav = document.getElementById('mobile-nav');
+        const hamburgerIcon = document.getElementById('hamburger-icon');
+
+        hamburgerMenu.addEventListener('click', () => {
+            mobileNav.classList.toggle('active');
+            hamburgerIcon.classList.toggle('open');
+        });
+
+        // Profile Dropdown Functionality
+        const profileContainer = document.getElementById('profile-container');
+        const profileDropdown = document.getElementById('profile-dropdown');
+        const mobileProfileContainer = document.getElementById('mobile-profile-container');
+        const mobileProfileDropdown = document.getElementById('mobile-profile-dropdown');
+
+        profileContainer.addEventListener('click', () => {
+            profileDropdown.style.display = profileDropdown.style.display === 'none' ? 'block' : 'none';
+        });
+
+        mobileProfileContainer.addEventListener('click', () => {
+            mobileProfileDropdown.style.display = mobileProfileDropdown.style.display === 'none' ? 'block' : 'none';
+        });
+
+        // Search Functionality (Placeholder)
+        function searchGames() {
+            const searchInput = document.getElementById('searchInput').value;
+            console.log('Searching for:', searchInput);
+            // Implement actual search logic here if needed
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('chat-input').focus();
             loadChatHistory();
         });
     </script>
-    <script src="" th:src="@{js/themecontroller.js}"></script>
+        <script src="" th:src="@{js/themecontroller.js}"></script>
     <script src="" th:src="@{js/navbar.js}"></script>
     <script src="" th:src="@{js/search.js}"></script>
 </body>

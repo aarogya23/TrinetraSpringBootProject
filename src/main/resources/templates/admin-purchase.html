@@ -16,7 +16,7 @@
 
         body {
             font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #f8fafc;
+            background: #fff7ed; /* Light orange background */
             color: #1a202c;
             line-height: 1.5;
             min-height: 100vh;
@@ -31,7 +31,7 @@
         .sidebar {
             width: 280px;
             background: #ffffff;
-            border-right: 1px solid #e2e8f0;
+            border-right: 1px solid #fed7aa; /* Lighter orange border */
             padding: 0;
             position: fixed;
             height: 100vh;
@@ -64,7 +64,7 @@
 
         .logo {
             padding: 24px;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid #fed7aa;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -87,7 +87,7 @@
             display: flex;
             align-items: center;
             padding: 16px 24px;
-            color: #64748b;
+            color: #475569;
             text-decoration: none;
             transition: all 0.3s ease;
             border: none;
@@ -103,16 +103,16 @@
         }
 
         .nav-item:hover {
-            background: #f1f5f9;
-            color: #3b82f6;
+            background: #fef3c7; /* Light yellow hover */
+            color: #f97316; /* Orange */
             padding-left: 32px;
         }
 
         .nav-item.active {
-            background: #eff6ff;
-            color: #3b82f6;
+            background: #ffedd5; /* Light orange active */
+            color: #f97316;
             font-weight: 600;
-            border-right: 3px solid #3b82f6;
+            border-right: 3px solid #f97316;
         }
 
         .nav-icon {
@@ -139,7 +139,7 @@
 
         .header {
             background: #ffffff;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid #fed7aa;
             padding: 0 32px;
             height: 80px;
             display: flex;
@@ -151,7 +151,7 @@
 
         .mobile-menu-button {
             display: none;
-            background: #3b82f6;
+            background: #f97316; /* Orange button */
             border: none;
             color: white;
             font-size: 18px;
@@ -162,7 +162,7 @@
         }
 
         .mobile-menu-button:hover {
-            background: #2563eb;
+            background: #ea580c; /* Darker orange hover */
         }
 
         .welcome-section h1 {
@@ -174,7 +174,7 @@
 
         .welcome-section p {
             font-size: 16px;
-            color: #64748b;
+            color: #475569;
             font-weight: 500;
         }
 
@@ -185,7 +185,7 @@
         }
 
         .refresh-button {
-            background: #10b981;
+            background: #eab308; /* Yellow refresh button */
             border: none;
             color: white;
             padding: 12px 20px;
@@ -200,14 +200,14 @@
         }
 
         .refresh-button:hover {
-            background: #059669;
+            background: #ca8a04; /* Darker yellow hover */
             transform: translateY(-1px);
         }
 
         .content-area {
             flex: 1;
             padding: 24px 32px;
-            background: #f8fafc;
+            background: #fff7ed; /* Light orange background */
             overflow-x: auto;
         }
 
@@ -229,7 +229,7 @@
             background: #ffffff;
             border-radius: 16px;
             padding: 24px;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #fed7aa; /* Orange border */
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
         }
 
@@ -249,15 +249,15 @@
         }
 
         th {
-            background: #f1f5f9;
+            background: #ffedd5; /* Light orange header */
             color: #1a202c;
             font-weight: 600;
             text-transform: uppercase;
         }
 
         td {
-            color: #64748b;
-            border-bottom: 1px solid #e2e8f0;
+            color: #475569;
+            border-bottom: 1px solid #fed7aa; /* Orange separator */
         }
 
         .game-image-container {
@@ -275,59 +275,59 @@
             object-fit: cover;
             border-radius: 8px;
             display: block;
-            border: 2px solid #e2e8f0;
+            border: 2px solid #fed7aa; /* Orange border */
             transition: all 0.3s ease;
             cursor: pointer;
         }
 
         .game-image:hover {
             transform: scale(1.05);
-            border-color: #3b82f6;
+            border-color: #f97316; /* Orange hover */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
         .game-image-placeholder {
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            background: linear-gradient(135deg, #ffedd5 0%, #fed7aa 100%); /* Orange gradient */
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #64748b;
+            color: #475569;
             font-size: 10px;
             text-align: center;
             font-weight: 500;
-            border: 2px solid #e2e8f0;
+            border: 2px solid #fed7aa;
         }
 
         .image-loading {
             width: 60px;
             height: 60px;
-            background: #f1f5f9;
+            background: #ffedd5; /* Light orange loading */
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 2px solid #e2e8f0;
+            border: 2px solid #fed7aa;
         }
 
         .image-error {
             width: 60px;
             height: 60px;
-            background: #fee2e2;
+            background: #fee2e2; /* Red error background */
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #dc2626;
+            color: #dc2626; /* Red text */
             font-size: 10px;
             text-align: center;
             border: 2px solid #fecaca;
         }
 
         .action-button {
-            background: #ef4444;
+            background: #dc2626; /* Red delete button */
             border: none;
             color: white;
             padding: 8px 12px;
@@ -338,7 +338,7 @@
         }
 
         .action-button:hover {
-            background: #dc2626;
+            background: #b91c1c; /* Darker red hover */
         }
 
         .loading {
@@ -346,15 +346,15 @@
             align-items: center;
             justify-content: center;
             padding: 80px;
-            color: #64748b;
+            color: #475569;
             font-size: 18px;
         }
 
         .loading-spinner {
             width: 32px;
             height: 32px;
-            border: 3px solid #e5e7eb;
-            border-top: 3px solid #3b82f6;
+            border: 3px solid #fed7aa; /* Orange border */
+            border-top: 3px solid #f97316; /* Orange spinner */
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-right: 16px;
@@ -368,8 +368,8 @@
         .image-spinner {
             width: 20px;
             height: 20px;
-            border: 2px solid #e5e7eb;
-            border-top: 2px solid #3b82f6;
+            border: 2px solid #fed7aa;
+            border-top: 2px solid #f97316;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
@@ -377,7 +377,7 @@
         .error {
             text-align: center;
             padding: 80px 24px;
-            color: #ef4444;
+            color: #dc2626; /* Red error text */
             font-size: 18px;
             font-weight: 500;
         }
@@ -504,7 +504,7 @@
                 <!-- Error State -->
                 <div id="error" class="error" style="display: none;">
                     <p>⚠️ Error loading purchase data. Please try again.</p>
-                    <button onclick="window.location.reload()" style="margin-top: 16px; padding: 8px 16px; background: #3b82f6; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                    <button onclick="window.location.reload()" style="margin-top: 16px; padding: 8px 16px; background: #f97316; color: white; border: none; border-radius: 6px; cursor: pointer;">
                         Retry
                     </button>
                 </div>
@@ -649,7 +649,7 @@
             document.getElementById('purchases-content').style.display = 'none';
             document.getElementById('error').innerHTML = `
                 <p>⚠️ ${message}</p>
-                <button onclick="window.location.reload()" style="margin-top: 16px; padding: 8px 16px; background: #3b82f6; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                <button onclick="window.location.reload()" style="margin-top: 16px; padding: 8px 16px; background: #f97316; color: white; border: none; border-radius: 6px; cursor: pointer;">
                     Retry
                 </button>
             `;
@@ -796,5 +796,6 @@
             });
         });
     </script>
+    <co-pilot user-id="4338654d-a7a5-4222-a3a4-c0f907d1b88b" chatbot-id="acf9dad6-dff6-46fb-b8fd-0f7d2b8d739f" platform-id="9d70ce56-fa1b-44e9-852c-1e41a68ada10" is-local="false"><a href="https://www.chatsimple.ai/?utm_source=widget&utm_medium=referral"></a></co-pilot> <script src="https://cdn.chatsimple.ai/ai-loader.js" defer></script>
 </body>
 </html>

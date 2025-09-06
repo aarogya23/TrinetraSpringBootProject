@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishlist - Trinetra Games</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="/css/product.css" rel="stylesheet">
+    <link href="/css/Index.css" rel="stylesheet">
+    <style>
+        .wishlist-container {
+            padding: 20px;
+        }
+        .wishlist-item {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #fff;
+        }
+        .dark-mode .wishlist-item {
+            background: rgba(40, 40, 40, 0.8);
+            border-color: #4a4a4a;
+        }
+        .wishlist-item img {
+            width: 100px;
+            height: auto;
+            border-radius: 8px;
+            margin-right: 20px;
+        }
+        .wishlist-item-details {
+            flex-grow: 1;
+        }
+        .wishlist-item-details h5 {
+            margin: 0 0 10px;
+            font-size: 18px;
+        }
+        .wishlist-item-details p {
+            margin: 0;
+            color: #666;
+        }
+        .dark-mode .wishlist-item-details p {
+            color: #bdc3c7;
+        }
+        .wishlist-item-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .action-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .action-btn.add-to-cart-btn {
+            background: linear-gradient(135deg, #ff9500, #ffcd00);
+            color: white;
+        }
+        .action-btn.remove-btn {
+            background: linear-gradient(135deg, #ff4d4d, #ff8080);
+            color: white;
+        }
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 149, 0, 0.4);
+        }
+        .action-btn.add-to-cart-btn:hover {
+            background: linear-gradient(135deg, #e6840b, #e6b800);
+        }
+        .action-btn.remove-btn:hover {
+            background: linear-gradient(135deg, #e60000, #ff6666);
+        }
+        .empty-wishlist {
+            text-align: center;
+            padding: 50px 0;
+            color: #666;
+        }
+        .dark-mode .empty-wishlist {
+            color: #bdc3c7;
+        }
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1050;
+        }
+        @media (max-width: 576px) {
+            .wishlist-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .wishlist-item img {
+                margin-bottom: 15px;
+            }
+            .wishlist-item-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+        .theme-toggle {
+            background: var(--toggle-bg, #333);
+            border: 2px solid var(--toggle-border, #555);
+            border-radius: 50px;
+            padding: 6px 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            margin-left: 15px;
+        }
+        .theme-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        .theme-toggle i {
+            font-size: 16px;
+            color: var(--toggle-icon-color, #fff);
+            transition: all 0.3s ease;
+        }
+        .theme-toggle-text {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--toggle-text-color, #fff);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        @media (max-width: 768px) {
+            .theme-toggle {
+                margin-left: 0;
+                margin-top: 10px;
+                justify-content: center;
+            }
+            .mobile-theme-toggle {
+                display: flex;
+                justify-content: center;
+                padding: 10px 0;
+                border-top: 1px solid var(--border-color, #333);
+                margin-top: 10px;
+            }
+        }
+        @media (max-width: 768px) {
+            .desktop-theme-toggle {
+                display: none !important;
+            }
+        }
+        @media (min-width: 769px) {
+            .mobile-theme-toggle {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Toast Notification Container -->
+    <div class="toast-container position-fixed top-0 end-0 p-3" id="toast-container"></div>
+
+    <header class="header">
+        <div class="header-main">
+            <div class="logo">
+                <img src="/resources/image/black.png" alt="Trinetra Games" class="logo">
+            </div>
+            <!-- Desktop Navigation -->
+            <nav class="main-nav">
+                <a href="/index.html" class="nav-link">Home</a>
+                <a href="/aiask" class="nav-link">AskAi</a>
+                <a href="/library.html" class="nav-link">Library</a>
+                <a href="/wishlist.html" class="nav-link active" id="wishlist-link">
+                    Wishlist
+                    <span class="badge" id="wishlist-badge"></span>
+                </a>
+                <a href="/cart" class="nav-link" id="cart-link">
+                    Cart
+                    <span class="badge" id="cart-badge"></span>
+                </a>
+            </nav>
+            <!-- Desktop Search Box -->
+            <div class="search-box desktop-search">
+                <form id="search-form">
+                    <input type="text" placeholder="Search for games..." id="searchInput" aria-label="Search for games" oninput="searchGames()">
+                    <button type="submit" aria-label="Search">Search</button>
+                    <div id="searchResults" class="search-results"></div>
+                </form>
+            </div>
+            <!-- Desktop Theme Toggle -->
+            <div class="theme-toggle desktop-theme-toggle" id="theme-toggle">
+                <i class="fas fa-sun" id="theme-icon"></i>
+                <span class="theme-toggle-text" id="theme-text">Light</span>
+            </div>
+            <!-- Profile with Dropdown - for Desktop -->
+            <div class="profile-container" id="profile-container">
+                <img src="/image/question.png" alt="Profile" class="profile-icon" style="border-radius: 50%;">
+                <div class="profile-dropdown" id="profile-dropdown" style="display: none;">
+                    <a href="/login" class="dropdown-item">Login</a>
+                    <a href="/signup" class="dropdown-item">Signup</a>
+                    <div class="dropdown-item logout" id="logout-button">Logout</div>
+                </div>
+            </div>
+            <div class="hamburger-menu" id="hamburger-menu">
+                <div class="humburger-icon" id="hamburger-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Navigation -->
+        <div class="mobile-nav" id="mobile-nav">
+            <div class="mobile-profile-section">
+                <div class="mobile-profile-container" id="mobile-profile-container">
+                    <img src="/image/question.png" alt="Profile" class="mobile-profile-icon">
+                    <div class="mobile-profile-info">
+                        <div class="mobile-profile-name">User Profile</div>
+                        <div class="mobile-profile-dropdown" id="mobile-profile-dropdown" style="display: none;">
+                            <a href="/login" class="dropdown-item">Login</a>
+                            <a href="/signup" class="dropdown-item">Signup</a>
+                            <div class="dropdown-item logout" id="mobile-logout-button">Logout</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a href="/index.html" class="nav-link">Home</a>
+            <a href="/aiask" class="nav-link">AskAi</a>
+            <a href="/library.html" class="nav-link">Library</a>
+            <a href="/wishlist.html" class="nav-link active" id="mobile-wishlist-link">
+                Wishlist
+                <span class="badge" id="mobile-wishlist-badge"></span>
+            </a>
+            <a href="/cart" class="nav-link" id="mobile-cart-link">
+                Cart
+                <span class="badge" id="mobile-cart-badge"></span>
+            </a>
+            <div class="search-box mobile-search">
+                <form id="mobile-search-form">
+                    <input type="text" placeholder="Search for games..." id="mobile-search-input" aria-label="Search for games" oninput="searchGamesMobile()">
+                    <button type="submit" aria-label="Search">Search</button>
+                    <div id="mobileSearchResults" class="search-results"></div>
+                </form>
+            </div>
+            <div class="mobile-theme-toggle">
+                <div class="theme-toggle" id="mobile-theme-toggle">
+                    <i class="fas fa-sun" id="mobile-theme-icon"></i>
+                    <span class="theme-toggle-text" id="mobile-theme-text">Light</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Breadcrumb Navigation -->
+        <div class="container mt-3">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index.html">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Wishlist</li>
+                </ol>
+            </nav>
+        </div>
+
+        <!-- Wishlist Section -->
+        <section class="wishlist-container container">
+            <h1 class="mb-4">Your Wishlist</h1>
+            <div id="wishlist-items"></div>
+            <div id="empty-wishlist" class="empty-wishlist" style="display: none;">
+                <h5>Your wishlist is empty. Add some games to get started!</h5>
+                <a href="/index.html" class="btn btn-primary mt-3">Browse Games</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- JavaScript for interactivity -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+
+            updateCartBadge();
+            updateWishlistBadge();
+            renderWishlist();
+
+            document.getElementById('profile-container').addEventListener('click', () => {
+                const dropdown = document.getElementById('profile-dropdown');
+                dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+            });
+
+            document.getElementById('mobile-profile-container').addEventListener('click', () => {
+                const mobileDropdown = document.getElementById('mobile-profile-dropdown');
+                mobileDropdown.style.display = mobileDropdown.style.display === 'block' ? 'none' : 'block';
+            });
+
+            document.getElementById('hamburger-icon').addEventListener('click', () => {
+                const mobileNav = document.getElementById('mobile-nav');
+                mobileNav.classList.toggle('open');
+            });
+
+            function renderWishlist() {
+                const wishlistItemsDiv = document.getElementById('wishlist-items');
+                const emptyWishlistDiv = document.getElementById('empty-wishlist');
+                wishlistItemsDiv.innerHTML = '';
+
+                if (wishlist.length === 0) {
+                    emptyWishlistDiv.style.display = 'block';
+                    return;
+                }
+
+                emptyWishlistDiv.style.display = 'none';
+                wishlist.forEach(item => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'wishlist-item';
+                    itemDiv.innerHTML = `
+                        <img src="${item.image}" alt="${item.name}">
+                        <div class="wishlist-item-details">
+                            <h5>${item.name}</h5>
+                            <p>Rs ${item.price}</p>
+                        </div>
+                        <div class="wishlist-item-actions">
+                            <button class="action-btn add-to-cart-btn" data-game-id="${item.id}" data-game-name="${item.name}" data-game-price="${item.price}" data-game-image="${item.image}">
+                                <i class="fas fa-shopping-cart"></i> Add to Cart
+                            </button>
+                            <button class="action-btn remove-btn" data-game-id="${item.id}">
+                                <i class="fas fa-trash"></i> Remove
+                            </button>
+                        </div>
+                    `;
+                    wishlistItemsDiv.appendChild(itemDiv);
+                });
+
+                // Add event listeners to buttons
+                document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+                    button.addEventListener('click', handleAddToCart);
+                });
+                document.querySelectorAll('.remove-btn').forEach(button => {
+                    button.addEventListener('click', handleRemoveFromWishlist);
+                });
+            }
+
+            function handleAddToCart(event) {
+                const button = event.currentTarget;
+                const gameId = button.dataset.gameId;
+                const gameName = button.dataset.gameName;
+                const gamePrice = parseFloat(button.dataset.gamePrice);
+                const gameImage = button.dataset.gameImage;
+
+                const cartItem = {
+                    id: gameId,
+                    name: gameName,
+                    price: gamePrice,
+                    image: gameImage,
+                    quantity: 1
+                };
+
+                const existingItem = cart.find(item => item.id === gameId);
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    cart.push(cartItem);
+                }
+
+                localStorage.setItem('cart', JSON.stringify(cart));
+                wishlist = wishlist.filter(item => item.id !== gameId);
+                localStorage.setItem('wishlist', JSON.stringify(wishlist));
+
+                updateCartBadge();
+                updateWishlistBadge();
+                renderWishlist();
+                showToast(`Added ${gameName} to cart!`);
+                window.location.href = '/cart';
+            }
+
+            function handleRemoveFromWishlist(event) {
+                const button = event.currentTarget;
+                const gameId = button.dataset.gameId;
+                const gameName = wishlist.find(item => item.id === gameId).name;
+
+                wishlist = wishlist.filter(item => item.id !== gameId);
+                localStorage.setItem('wishlist', JSON.stringify(wishlist));
+                updateWishlistBadge();
+                renderWishlist();
+                showToast(`Removed ${gameName} from wishlist!`);
+            }
+
+            function updateCartBadge() {
+                const cartBadge = document.getElementById('cart-badge');
+                const mobileCartBadge = document.getElementById('mobile-cart-badge');
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+                if (cartBadge) {
+                    cartBadge.textContent = totalItems;
+                    cartBadge.style.display = totalItems > 0 ? 'inline' : 'none';
+                }
+                if (mobileCartBadge) {
+                    mobileCartBadge.textContent = totalItems;
+                    mobileCartBadge.style.display = totalItems > 0 ? 'inline' : 'none';
+                }
+            }
+
+            function updateWishlistBadge() {
+                const wishlistBadge = document.getElementById('wishlist-badge');
+                const mobileWishlistBadge = document.getElementById('mobile-wishlist-badge');
+                const totalItems = wishlist.length;
+
+                if (wishlistBadge) {
+                    wishlistBadge.textContent = totalItems;
+                    wishlistBadge.style.display = totalItems > 0 ? 'inline' : 'none';
+                }
+                if (mobileWishlistBadge) {
+                    mobileWishlistBadge.textContent = totalItems;
+                    mobileWishlistBadge.style.display = totalItems > 0 ? 'inline' : 'none';
+                }
+            }
+
+            function showToast(message) {
+                const toastContainer = document.getElementById('toast-container');
+                const toast = document.createElement('div');
+                toast.className = 'toast show';
+                toast.setAttribute('role', 'alert');
+                toast.setAttribute('aria-live', 'assertive');
+                toast.setAttribute('aria-atomic', 'true');
+
+                toast.innerHTML = `
+                    <div class="toast-header">
+                        <strong class="me-auto">Notification</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body">${message}</div>
+                `;
+
+                toastContainer.appendChild(toast);
+                const bsToast = new bootstrap.Toast(toast);
+                bsToast.show();
+                setTimeout(() => {
+                    bsToast.hide();
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            }
+        });
+    </script>
+    <script th:src="@{/js/darklight.js}"></script>
+    <script th:src="@{/js/search.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

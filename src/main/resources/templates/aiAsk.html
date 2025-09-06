@@ -482,36 +482,30 @@
         <!-- Toasts will be dynamically added here -->
     </div>
 
-     <header class="header">
+      <header class="header">
         <div class="header-main">
             <div class="logo">
                 <img src="resources/image/black.png" alt="Trinetra Games" class="logo">
             </div>
             <!-- Desktop Navigation -->
             <nav class="main-nav">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="AiAsk.html" class="nav-link">AskAi</a>
-                <a href="library.html" class="nav-link">Library</a>
-                <a href="wishlist.html" class="nav-link" id="wishlist-link">
+                <a href="home" class="nav-link">Home</a>
+                <a href="modelchat" class="nav-link active">AskAi</a>
+                <a href="library" class="nav-link">Library</a>
+                <a href="wish" class="nav-link" id="wishlist-link">
                     Wishlist
                     <span class="badge" id="wishlist-badge"></span>
                 </a>
-                <a href="cart" class="nav-link active" id="cart-link">
+                <a href="cart" class="nav-link" id="cart-link">
                     Cart
                     <span class="badge" id="cart-badge">1</span>
                 </a>
             </nav>
             
             <!-- Desktop Search Box -->
-            <div class="search-box desktop-search">
+             <div class="search-box desktop-search">
                 <form id="search-form">
-                    <input
-                        type="text"
-                        placeholder="Search for games..."
-                        id="searchInput"
-                        aria-label="Search for games"
-                        oninput="searchGames()"
-                    >
+                    <input type="text" placeholder="Search for games..." id="searchInput" aria-label="Search for games" oninput="searchGames()">
                     <button type="submit" aria-label="Search">Search</button>
                     <div id="searchResults" class="search-results"></div>
                 </form>
@@ -527,14 +521,14 @@
             
             <!-- Profile with Dropdown - for Desktop -->
             <div class="profile-container" id="profile-container">
-                <img src="image/question.png" alt="Profile" class="profile-icon" style="border-radius: 50%;">
+                <img src="image/profile.png" alt="Profile" class="profile-icon" style="border-radius: 50%;">
                 
                 <!-- Profile Dropdown Menu -->
                 <div class="profile-dropdown" id="profile-dropdown" style="display: none;">
-                    <a th:href="@{/profilepage}" class="dropdown-item" target="_blank">Profile</a>
+                    <a href="profile" class="dropdown-item" target="_blank">Profile</a>
                     
-                    <a href="signup" class="dropdown-item">Payment Connection</a>
-                    <div class="dropdown-item logout" id="logout-button">Logout</div>
+                    <a href="logout" class="dropdown-item">Log out</a>
+                    
                 </div>
             </div>
             
@@ -551,29 +545,29 @@
         <div class="mobile-nav" id="mobile-nav">
             <!-- Mobile Profile Section at the top of mobile menu -->
             <div class="mobile-profile-section">
-                <div class="mobile-profile-container" id="mobile-profile-container">
-                    <img src="profile.jpg" alt="Profile" class="mobile-profile-icon">
+                <div class="mobile-profile-container" id="mobile-profile-container" >
+                    <img src = "image/profile.png" alt="Profile" class="mobile-profile-icon">
                     <div class="mobile-profile-info">
                         <div class="mobile-profile-name">User Profile</div>
                         
                         <!-- Mobile Profile Dropdown Menu -->
                         <div class="mobile-profile-dropdown" id="mobile-profile-dropdown" style="display: none;">
-                            <a href="profile.html" class="dropdown-item">My Profile</a>
-                            <a href="settings.html" class="dropdown-item">Settings</a>
-                            <div class="dropdown-item logout" id="mobile-logout-button">Logout</div>
+                            <a href="profile" class="dropdown-item">My Profile</a>
+                            
+                            <a href="logout" class="dropdown-item">Log out</a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <a href="index.html" class="nav-link">Home</a>
-            <a href="index.html" class="nav-link">AskAi</a>
-            <a href="LIBARAY.html" class="nav-link">Library</a>
-            <a href="wishlist.html" class="nav-link" id="mobile-wishlist-link">
+            <a href="home" class="nav-link">Home</a>
+            <a href="modelchat" class="nav-link">AskAi</a>
+            <a href="library" class="nav-link">Library</a>
+            <a href="wish" class="nav-link" id="mobile-wishlist-link">
                 Wishlist
                 <span class="badge" id="mobile-wishlist-badge"></span>
             </a>
-            <a href="ADD TO CART1.html" class="nav-link active" id="mobile-cart-link">
+            <a href="cart" class="nav-link active" id="mobile-cart-link">
                 Cart
                 <span class="badge" id="mobile-cart-badge">1</span>
             </a>
@@ -1199,7 +1193,7 @@
             renderMessages();
         });
     </script>
-        <script src="" th:src="@{js/searchform.js}"></script>
+    <script src="" th:src="@{js/searchform.js}"></script>
     <script async type='module' src='https://interfaces.zapier.com/assets/web-components/zapier-interfaces/zapier-interfaces.esm.js'></script>
     <script src="" th:src="@{js/themecontroller.js}"></script>
     <script src="" th:src="@{js/navbar.js}"></script>

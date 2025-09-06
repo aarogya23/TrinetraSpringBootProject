@@ -76,8 +76,7 @@ public class GameController {
         return "checkout";
     }
 
-    
-
+    // Confirm purchase
     @PostMapping("/confirmPurchase")
     public String confirmPurchase(
             @RequestParam("gameId") int gameId,
@@ -90,6 +89,7 @@ public class GameController {
             @RequestParam(value = "khaltiMobile", required = false) String khaltiMobile,
             @RequestParam(value = "imepayMobile", required = false) String imepayMobile,
             @RequestParam(value = "bankName", required = false) String bankName,
+            @RequestParam(value = "email") String email,
             Model model,
             RedirectAttributes redirectAttributes) {
 
@@ -100,30 +100,63 @@ public class GameController {
             return "redirect:/index.html";
         }
 
+        // Validate email
+        if (email == null || email.trim().isEmpty()) {
+            redirectAttributes.addFlashAttribute("error", "Email is required!");
+            return "redirect:/cart";
+        }
+        if (!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+            redirectAttributes.addFlashAttribute("error", "Invalid email format!");
+            return "redirect:/cart";
+        }
+
+        // Construct payment details (excluding email, as it's stored separately)
         String paymentDetails;
         switch (paymentMethod) {
             case "card":
-                paymentDetails = "Card ending in " + (cardNumber != null && cardNumber.length() >= 4 
+                if (cardNumber == null || cardholderName == null || expiryDate == null || cvv == null) {
+                    redirectAttributes.addFlashAttribute("error", "All card details are required!");
+                    return "redirect:/cart";
+                }
+                paymentDetails = "Card ending in " + (cardNumber.length() >= 4 
                     ? cardNumber.substring(cardNumber.length() - 4) : "N/A");
                 break;
             case "esewa":
-                paymentDetails = "eSewa ID: " + (esewaId != null ? esewaId : "N/A");
+                if (esewaId == null || esewaId.trim().isEmpty()) {
+                    redirectAttributes.addFlashAttribute("error", "eSewa ID is required!");
+                    return "redirect:/cart";
+                }
+                paymentDetails = "eSewa ID: " + esewaId;
                 break;
             case "khalti":
-                paymentDetails = "Khalti Mobile: " + (khaltiMobile != null ? khaltiMobile : "N/A");
+                if (khaltiMobile == null || khaltiMobile.trim().isEmpty()) {
+                    redirectAttributes.addFlashAttribute("error", "Khalti mobile number is required!");
+                    return "redirect:/cart";
+                }
+                paymentDetails = "Khalti Mobile: " + khaltiMobile;
                 break;
             case "imepay":
-                paymentDetails = "IME Pay Mobile: " + (imepayMobile != null ? imepayMobile : "N/A");
+                if (imepayMobile == null || imepayMobile.trim().isEmpty()) {
+                    redirectAttributes.addFlashAttribute("error", "IME Pay mobile number is required!");
+                    return "redirect:/cart";
+                }
+                paymentDetails = "IME Pay Mobile: " + imepayMobile;
                 break;
             case "bank":
-                paymentDetails = "Bank: " + (bankName != null ? bankName : "N/A");
+                if (bankName == null || bankName.trim().isEmpty()) {
+                    redirectAttributes.addFlashAttribute("error", "Bank name is required!");
+                    return "redirect:/cart";
+                }
+                paymentDetails = "Bank: " + bankName;
                 break;
             default:
-                paymentDetails = "Unknown";
+                redirectAttributes.addFlashAttribute("error", "Invalid payment method!");
+                return "redirect:/cart";
         }
 
         String image = game.getImage() != null ? game.getImage() : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==";
 
+        // Create purchase with email as a separate field
         Purchase purchase = new Purchase(
                 userId,
                 gameId,
@@ -136,23 +169,26 @@ public class GameController {
                 "Ready to Play",
                 UUID.randomUUID().toString().substring(0, 8).toUpperCase(),
                 null,
-                "0 hours"
+                "0 hours",
+                email // Store email in the Purchase model
         );
         purchaseRepository.save(purchase);
 
+        // Remove item from cart
         Cart cartItem = cartRepository.findByUserIdAndGameId(userId, gameId);
         if (cartItem != null) {
             cartRepository.delete(cartItem);
         }
 
+        // Add attributes for the library page
         model.addAttribute("purchase", purchase);
         model.addAttribute("game", game);
-        model.addAttribute("message", "Purchase successful! Thank you for your order.");
+        model.addAttribute("message", "Purchase successful! A confirmation has been sent to " + email + ".");
 
         return "library";
     }
-    
- // Show all reviews (standalone review page)
+
+    // Show all reviews (standalone review page)
     @GetMapping("/review")
     public String showAllReviews(Model model) {
         List<Review> reviews = reviewRepository.findAllByOrderByCreatedAtAsc();

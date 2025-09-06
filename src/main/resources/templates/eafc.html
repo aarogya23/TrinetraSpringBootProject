@@ -103,6 +103,75 @@
             max-width: 100%;
             object-fit: contain;
             border: 1px solid #ddd;
+            cursor: pointer;
+        }
+        .product-main-video {
+            height: 272px;
+            max-width: 100%;
+            border: 1px solid #ddd;
+        }
+        .thumbnail {
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border 0.3s ease;
+        }
+        .thumbnail.active {
+            border: 2px solid #ff9500;
+        }
+        .youtube-thumbnail {
+            position: relative;
+        }
+        .youtube-thumbnail::after {
+            content: '\f167';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            color: #ff0000;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            padding: 5px;
+        }
+        .action-btn.add-to-cart-btn:hover, .action-btn.wishlist-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 149, 0, 0.4);
+            background: linear-gradient(135deg, #e6840b, #e6b800);
+        }
+        /* Full-screen image styles */
+        .fullscreen-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        .fullscreen-image {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 30px;
+            color: #fff;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            padding: 5px 10px;
+            transition: background 0.3s ease;
+        }
+        .close-btn:hover {
+            background: rgba(0, 0, 0, 0.8);
         }
     </style>
 </head>
@@ -128,7 +197,7 @@
                 <a href="/index.html" class="nav-link">Home</a>
                 <a href="/aiask" class="nav-link">AskAi</a>
                 <a href="/library.html" class="nav-link">Library</a>
-                <a href="/wishlist.html" class="nav-link" id="wishlist-link">
+                <a href="/wish" class="nav-link" id="wishlist-link">
                     Wishlist
                     <span class="badge" id="wishlist-badge"></span>
                 </a>
@@ -228,16 +297,16 @@
                 <div class="col-lg-6">
                     <div class="product-gallery">
                         <img th:src="'data:image/png;base64,' + ${game.image}" th:alt="${game.gamename}" class="product-main-image" id="main-product-image" style="height: 272px;">
-                        <video class="product-main-video" id="main-product-video" controls style="display: none; width: 573px;">
-                            <source src="" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
+                        <div class="product-main-video" id="main-product-video" style="display: none; height: 272px; max-width: 100%;">
+                            <iframe id="youtube-iframe" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width: 100%; height: 100%;"></iframe>
+                        </div>
                         <div class="product-thumbnails">
                             <img th:src="'data:image/png;base64,' + ${game.image}" th:alt="${game.gamename} + ' - Main'" class="thumbnail active" onclick="changeImage(this.src)">
-                            <img th:src="${game.gameImage1}" alt="Game Image 1" class="thumbnail" onclick="changeImage(this.src)">
-                            <img th:src="${game.gameImage2}" alt="Game Image 2" class="thumbnail" onclick="changeImage(this.src)">
-                            <img th:src="${game.gameImage3}" alt="Game Image 3" class="thumbnail" onclick="changeImage(this.src)">
-                            <img th:src="${game.gameImage4}" alt="Game Image 4" class="thumbnail" onclick="changeImage(this.src)">
+                            <img th:src="${game.gameImage1}" th:alt="${game.gamename} + ' - Image 1'" class="thumbnail" th:if="${game.gameImage1}" onclick="changeImage(this.src)">
+                            <img th:src="${game.gameImage2}" th:alt="${game.gamename} + ' - Image 2'" class="thumbnail" th:if="${game.gameImage2}" onclick="changeImage(this.src)">
+                            <img th:src="${game.gameImage3}" th:alt="${game.gamename} + ' - Image 3'" class="thumbnail" th:if="${game.gameImage3}" onclick="changeImage(this.src)">
+                            <img th:src="${game.gameImage4}" th:alt="${game.gamename} + ' - Image 4'" class="thumbnail" th:if="${game.gameImage4}" onclick="changeImage(this.src)">
+                            <img th:if="${game.youtubeLink}" th:src="'https://img.youtube.com/vi/' + ${#strings.substringAfter(game.youtubeLink, game.youtubeLink.contains('youtu.be/') ? 'youtu.be/' : 'watch?v=')} + '/0.jpg'" th:alt="${game.gamename} + ' - Trailer'" class="thumbnail youtube-thumbnail" th:data-youtube="${game.youtubeLink}" onclick="changeVideo(this.getAttribute('data-youtube'))">
                         </div>
                     </div>
                 </div>
@@ -266,20 +335,28 @@
                             <span class="discount">-33%</span>
                         </div>
                         <div class="action-buttons">
-                            <form th:action="@{/buyNow}" method="post" style="display: inline;">
-                                <input type="hidden" name="gameId" th:value="${game.id}">
-                                <button type="submit" class="action-btn buy-now-btn" id="buy-now-btn">
-                                    <i class="fas fa-bolt"></i> Buy Now
-                                </button>
-                            </form>
+                            <button class="action-btn add-to-cart-btn" id="buy-now-btn"
+                                    th:data-game-id="${game.id}"
+                                    th:data-game-name="${game.gamename}"
+                                    th:data-game-price="${game.gameprice}"
+                                    th:data-game-image="'data:image/png;base64,' + ${game.image}"
+                                    style="background: linear-gradient(135deg, #ff9500, #ffcd00); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;">
+                                <i class="fas fa-bolt"></i> Buy Now
+                            </button>
                             <button class="action-btn add-to-cart-btn" id="add-to-cart-btn"
-                    			th:data-game-id="${game.id}"
-                    			th:data-game-name="${game.gamename}"
-                   			    th:data-game-price="${game.gameprice}"
-                    			th:data-game-image="'data:image/png;base64,' + ${game.image}">
-                			<i class="fas fa-shopping-cart"></i> Add to Cart
-            				</button>
-                            <button class="action-btn wishlist-btn" id="wishlist-btn" th:onclick="'addToWishlist(' + ${game.id} + ')'">
+                                    th:data-game-id="${game.id}"
+                                    th:data-game-name="${game.gamename}"
+                                    th:data-game-price="${game.gameprice}"
+                                    th:data-game-image="'data:image/png;base64,' + ${game.image}"
+                                   >
+                                <i class="fas fa-shopping-cart"></i> Add to Cart
+                            </button>
+                            <button class="action-btn wishlist-btn" id="wishlist-btn"
+                                    th:data-game-id="${game.id}"
+                                    th:data-game-name="${game.gamename}"
+                                    th:data-game-price="${game.gameprice}"
+                                    th:data-game-image="'data:image/png;base64,' + ${game.image}"
+                                   >
                                 <i class="far fa-heart"></i>
                             </button>
                         </div>
@@ -410,32 +487,64 @@
                 </div>
             </div>
         </section>
+
+        <!-- Full-screen Image Container -->
+        <div class="fullscreen-container" id="fullscreen-container">
+            <img src="" class="fullscreen-image" id="fullscreen-image">
+            <span class="close-btn" id="close-fullscreen">&times;</span>
+        </div>
     </main>
 
     <!-- JavaScript for interactivity -->
     <script>
         function changeImage(imageSrc) {
             const image = document.getElementById('main-product-image');
-            const video = document.getElementById('main-product-video');
+            const videoContainer = document.getElementById('main-product-video');
             image.src = imageSrc;
             image.style.display = 'block';
-            video.style.display = 'none';
+            videoContainer.style.display = 'none';
             const thumbnails = document.querySelectorAll('.thumbnail');
             thumbnails.forEach(thumb => thumb.classList.remove('active'));
             event.target.classList.add('active');
         }
 
-        function changeVideo(videoSrc) {
+        function changeVideo(youtubeUrl) {
             const image = document.getElementById('main-product-image');
-            const video = document.getElementById('main-product-video');
-            video.querySelector('source').src = videoSrc;
-            video.load();
-            image.style.display = 'none';
-            video.style.display = 'block';
-            const thumbnails = document.querySelectorAll('.thumbnail');
-            thumbnails.forEach(thumb => thumb.classList.remove('active'));
-            event.target.classList.add('active');
+            const videoContainer = document.getElementById('main-product-video');
+            const youtubeIframe = document.getElementById('youtube-iframe');
+            
+            // Extract YouTube video ID from URL
+            let videoId = '';
+            if (youtubeUrl.includes('youtu.be/')) {
+                videoId = youtubeUrl.split('youtu.be/')[1].split('?')[0];
+            } else if (youtubeUrl.includes('watch?v=')) {
+                videoId = youtubeUrl.split('watch?v=')[1].split('&')[0];
+            }
+
+            // Set iframe source to embed YouTube video
+            if (videoId) {
+                youtubeIframe.src = `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1`;
+                image.style.display = 'none';
+                videoContainer.style.display = 'block';
+                const thumbnails = document.querySelectorAll('.thumbnail');
+                thumbnails.forEach(thumb => thumb.classList.remove('active'));
+                event.target.classList.add('active');
+            }
         }
+
+        // Full-screen image functionality
+        document.getElementById('main-product-image').addEventListener('click', () => {
+            const fullscreenContainer = document.getElementById('fullscreen-container');
+            const fullscreenImage = document.getElementById('fullscreen-image');
+            const mainImage = document.getElementById('main-product-image');
+            fullscreenImage.src = mainImage.src;
+            fullscreenContainer.style.display = 'flex';
+        });
+
+        document.getElementById('close-fullscreen').addEventListener('click', () => {
+            const fullscreenContainer = document.getElementById('fullscreen-container');
+            fullscreenContainer.style.display = 'none';
+        });
 
         const tabItems = document.querySelectorAll('.tab-item');
         const tabContents = document.querySelectorAll('.tab-content');
@@ -477,108 +586,147 @@
                 setTimeout(() => toast.hide(), 3000);
             }
         });
+
+        // Cart and Wishlist functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+
+            updateCartBadge();
+            updateWishlistBadge();
+
+            const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', handleCartAction);
+            });
+
+            const wishlistButton = document.getElementById('wishlist-btn');
+            wishlistButton.addEventListener('click', handleWishlistAction);
+
+            function handleCartAction(event) {
+                const button = event.currentTarget;
+                const gameId = button.dataset.gameId;
+                const gameName = button.dataset.gameName;
+                const gamePrice = parseFloat(button.dataset.gamePrice);
+                const gameImage = button.dataset.gameImage;
+
+                const cartItem = {
+                    id: gameId,
+                    name: gameName,
+                    price: gamePrice,
+                    image: gameImage,
+                    quantity: 1
+                };
+
+                const existingItem = cart.find(item => item.id === gameId);
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    cart.push(cartItem);
+                }
+
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateCartBadge();
+                showToast(`Added ${gameName} to cart!`);
+                window.location.href = '/cart';
+            }
+
+            function handleWishlistAction(event) {
+                const button = event.currentTarget;
+                const gameId = button.dataset.gameId;
+                const gameName = button.dataset.gameName;
+                const gamePrice = parseFloat(button.dataset.gamePrice);
+                const gameImage = button.dataset.gameImage;
+
+                const wishlistItem = {
+                    id: gameId,
+                    name: gameName,
+                    price: gamePrice,
+                    image: gameImage
+                };
+
+                const existingItem = wishlist.find(item => item.id === gameId);
+                if (!existingItem) {
+                    wishlist.push(wishlistItem);
+                    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+                    updateWishlistBadge();
+                    showToast(`Added ${gameName} to wishlist!`);
+                    window.location.href = '/wish';
+                } else {
+                    showToast(`${gameName} is already in your wishlist!`);
+                }
+            }
+
+            function updateCartBadge() {
+                const cartBadge = document.getElementById('cart-badge');
+                const mobileCartBadge = document.getElementById('mobile-cart-badge');
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+                if (cartBadge) {
+                    cartBadge.textContent = totalItems;
+                    cartBadge.style.display = totalItems > 0 ? 'inline' : 'none';
+                }
+                if (mobileCartBadge) {
+                    mobileCartBadge.textContent = totalItems;
+                    mobileCartBadge.style.display = totalItems > 0 ? 'inline' : 'none';
+                }
+            }
+
+            function updateWishlistBadge() {
+                const wishlistBadge = document.getElementById('wishlist-badge');
+                const mobileWishlistBadge = document.getElementById('mobile-wishlist-badge');
+                const totalItems = wishlist.length;
+
+                if (wishlistBadge) {
+                    wishlistBadge.textContent = totalItems;
+                    wishlistBadge.style.display = totalItems > 0 ? 'inline' : 'none';
+                }
+                if (mobileWishlistBadge) {
+                    mobileWishlistBadge.textContent = totalItems;
+                    mobileWishlistBadge.style.display = totalItems > 0 ? 'inline' : 'none';
+                }
+            }
+
+            function showToast(message) {
+                const toastContainer = document.getElementById('toast-container');
+                const toast = document.createElement('div');
+                toast.className = 'toast show';
+                toast.setAttribute('role', 'alert');
+                toast.setAttribute('aria-live', 'assertive');
+                toast.setAttribute('aria-atomic', 'true');
+
+                toast.innerHTML = `
+                    <div class="toast-header">
+                        <strong class="me-auto">Notification</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body">${message}</div>
+                `;
+
+                toastContainer.appendChild(toast);
+                const bsToast = new bootstrap.Toast(toast);
+                bsToast.show();
+                setTimeout(() => {
+                    bsToast.hide();
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            }
+
+            function getCart() {
+                return JSON.parse(localStorage.getItem('cart')) || [];
+            }
+
+            function getWishlist() {
+                return JSON.parse(localStorage.getItem('wishlist')) || [];
+            }
+
+            function clearCart() {
+                cart = [];
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateCartBadge();
+            }
+        });
     </script>
-   <script>
-   document.addEventListener('DOMContentLoaded', () => {
-	    // Initialize cart from localStorage or create empty array
-	    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-	    // Update cart badge on page load
-	    updateCartBadge();
-
-	    // Add event listeners to all add-to-cart buttons
-	    const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
-	    addToCartButtons.forEach(button => {
-	        button.addEventListener('click', addToCart);
-	    });
-
-	    function addToCart(event) {
-	        const button = event.currentTarget;
-	        const gameId = button.dataset.gameId;
-	        const gameName = button.dataset.gameName;
-	        const gamePrice = parseFloat(button.dataset.gamePrice);
-	        const gameImage = button.dataset.gameImage;
-
-	        // Create cart item object
-	        const cartItem = {
-	            id: gameId,
-	            name: gameName,
-	            price: gamePrice,
-	            image: gameImage,
-	            quantity: 1
-	        };
-
-	        // Check if item already exists in cart
-	        const existingItem = cart.find(item => item.id === gameId);
-	        if (existingItem) {
-	            existingItem.quantity += 1;
-	        } else {
-	            cart.push(cartItem);
-	        }
-
-	        // Save updated cart to localStorage
-	        localStorage.setItem('cart', JSON.stringify(cart));
-
-	        // Update cart badge
-	        updateCartBadge();
-
-	        // Show toast notification
-	        showToast(`Added ${gameName} to cart!`);
-	    }
-
-	    function updateCartBadge() {
-	        const cartBadge = document.getElementById('cart-badge');
-	        const mobileCartBadge = document.getElementById('mobile-cart-badge');
-	        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-
-	        if (cartBadge) {
-	            cartBadge.textContent = totalItems;
-	            cartBadge.style.display = totalItems > 0 ? 'inline' : 'none';
-	        }
-	        if (mobileCartBadge) {
-	            mobileCartBadge.textContent = totalItems;
-	            mobileCartBadge.style.display = totalItems > 0 ? 'inline' : 'none';
-	        }
-	    }
-
-	    function showToast(message) {
-	        const toastContainer = document.getElementById('toast-container');
-	        const toast = document.createElement('div');
-	        toast.className = 'toast show';
-	        toast.setAttribute('role', 'alert');
-	        toast.setAttribute('aria-live', 'assertive');
-	        toast.setAttribute('aria-atomic', 'true');
-
-	        toast.innerHTML = `
-	            <div class="toast-header">
-	                <strong class="me-auto">Notification</strong>
-	                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-	            </div>
-	            <div class="toast-body">${message}</div>
-	        `;
-
-	        toastContainer.appendChild(toast);
-	        const bsToast = new bootstrap.Toast(toast);
-	        bsToast.show();
-	        setTimeout(() => {
-	            bsToast.hide();
-	            setTimeout(() => toast.remove(), 300);
-	        }, 3000);
-	    }
-
-	    // Function to get cart contents (useful for cart page)
-	    function getCart() {
-	        return JSON.parse(localStorage.getItem('cart')) || [];
-	    }
-
-	    // Function to clear cart (optional, can be used on checkout)
-	    function clearCart() {
-	        cart = [];
-	        localStorage.setItem('cart', JSON.stringify(cart));
-	        updateCartBadge();
-	    }
-	});
-   </script>
     <script th:src="@{/js/darklight.js}"></script>
     <script th:src="@{/js/search.js}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

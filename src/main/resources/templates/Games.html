@@ -17,7 +17,7 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: #f8fafc;
+            background: #fff7ed;
             color: #1a202c;
             line-height: 1.5;
             min-height: 100vh;
@@ -105,16 +105,16 @@
         }
 
         .nav-item:hover {
-            background: #f1f5f9;
-            color: #3b82f6;
+            background: #fef3c7;
+            color: #f97316;
             padding-left: 32px;
         }
 
         .nav-item.active {
-            background: #eff6ff;
-            color: #3b82f6;
+            background: #fff7ed;
+            color: #f97316;
             font-weight: 600;
-            border-right: 3px solid #3b82f6;
+            border-right: 3px solid #f97316;
         }
 
         .nav-icon {
@@ -141,7 +141,7 @@
 
         .mobile-menu-button {
             display: none;
-            background: #3b82f6;
+            background: #f97316;
             border: none;
             color: white;
             font-size: 18px;
@@ -152,7 +152,7 @@
         }
 
         .mobile-menu-button:hover {
-            background: #2563eb;
+            background: #ea580c;
         }
 
         .container {
@@ -167,9 +167,9 @@
         .form-section {
             margin-bottom: 30px;
             padding: 25px;
-            background: #f8f9fa;
+            background: #fef3c7;
             border-radius: 10px;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid #f97316;
         }
 
         .section-title {
@@ -191,8 +191,8 @@
         }
 
         .form-control:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+            border-color: #f97316;
+            box-shadow: 0 0 0 0.2rem rgba(249, 115, 22, 0.25);
         }
 
         .form-label {
@@ -202,33 +202,33 @@
         }
 
         .btn-submit {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
             border: none;
             color: white;
-            padding: 15px 40px;
+            padding: 12px 30px;
             font-size: 16px;
             font-weight: 600;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
-            width: 100%;
+            width: auto;
         }
 
         .btn-submit:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 8px 25px rgba(249, 115, 22, 0.3);
         }
 
         .btn-clear {
             background: #6c757d;
             border: none;
             color: white;
-            padding: 10px 30px;
-            font-size: 14px;
+            padding: 12px 30px;
+            font-size: 16px;
             font-weight: 500;
             border-radius: 6px;
             cursor: pointer;
-            margin-right: 15px;
+            margin-right: 24px;
         }
 
         .btn-clear:hover {
@@ -245,8 +245,8 @@
         }
 
         .image-upload:hover {
-            border-color: #667eea;
-            background: #f8f9ff;
+            border-color: #f97316;
+            background: #fff7ed;
         }
 
         .upload-text {
@@ -274,7 +274,7 @@
             left: 24px;
             right: 24px;
             padding: 16px;
-            background: #f8fafc;
+            background: #fff7ed;
             border-radius: 12px;
             border: 1px solid #e2e8f0;
         }
@@ -319,6 +319,95 @@
             background: #dc2626;
         }
 
+        .games-list {
+            margin-top: 40px;
+            background: #fff7ed;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-top: 4px solid #f97316;
+        }
+
+        .games-list h2 {
+            color: #333;
+            font-weight: 600;
+            font-size: 24px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .table {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .table th {
+            background: #f97316;
+            color: white;
+            font-weight: 600;
+        }
+
+        .table td {
+            vertical-align: middle;
+        }
+
+        .table img {
+            width: 80px;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .btn-notify {
+            background: #f97316;
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 24px;
+        }
+
+        .btn-notify:hover {
+            background: #ea580c;
+            transform: translateY(-1px);
+        }
+
+        .btn-notify:disabled {
+            background: #f97316;
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-edit-images {
+            background: #0d6efd;
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-edit-images:hover {
+            background: #0a58ca;
+            transform: translateY(-1px);
+        }
+
+        .image-links {
+            max-width: 150px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -338,7 +427,7 @@
                 display: block;
             }
 
-            .container {
+            .container, .games-list {
                 margin: 10px;
                 padding: 20px;
             }
@@ -347,10 +436,14 @@
                 width: 140px;
                 height: auto;
             }
+
+            .table-responsive {
+                overflow-x: auto;
+            }
         }
 
         @media (max-width: 480px) {
-            .container {
+            .container, .games-list {
                 margin: 5px;
                 padding: 15px;
             }
@@ -396,7 +489,7 @@
             </nav>
 
             <div class="user-profile">
-                <div class="user-avatar" style="background: #3b82f6; width: 40px; height: 40px; font-size: 16px;">A</div>
+                <div class="user-avatar" style="background: #f97316; width: 40px; height: 40px; font-size: 16px;">A</div>
                 <div class="profile-info">
                     <div class="profile-name">Admin User</div>
                     <div class="profile-email">admin@trinetra.games</div>
@@ -419,7 +512,7 @@
 
             <div class="container">
                 <!-- Game Form -->
-                <form action="addGame" method="post" enctype="multipart/form-data">
+                <form action="/addGame" method="post" enctype="multipart/form-data" id="gameForm">
                     <!-- Basic Information -->
                     <div class="form-section">
                         <h3 class="section-title">
@@ -525,7 +618,7 @@
                                     <small>JPG, PNG formats supported. Recommended: 1920x1080px</small>
                                 </div>
                                 <input type="file" class="form-control" id="imageFile" name="imageFile"
-                                       accept="image/*" required style="margin-top: 15px;">
+                                       accept="image/jpeg,image/png" required style="margin-top: 15px;">
                             </div>
                         </div>
                     </div>
@@ -537,24 +630,216 @@
                     </div>
                 </form>
             </div>
+
+            <!-- Games List Section -->
+            <div class="games-list">
+                <h2>
+                    <i class="fas fa-gamepad"></i> Games List
+                </h2>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">Image</th>
+                                <th scope="col">Game Name</th>
+                                <th scope="col">Price (Rs)</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Genre</th>
+                                <th scope="col">Platform</th>
+                                <th scope="col">Image Links & Game Link</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="gameTableBody">
+                            <!-- Games will be dynamically added here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
+    <!-- Bootstrap Modal for Adding Additional Image URLs and Link -->
+    <div class="modal fade" id="addImagesModal" tabindex="-1" aria-labelledby="addImagesModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addImagesModalLabel">Add/Edit Game Image URLs and Links</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="additionalImagesForm">
+                        <input type="hidden" id="gameId" name="gameId">
+                        <div class="mb-3">
+                            <label for="gameImage1" class="form-label">Image 1 URL (e.g., /image/1.jpg)</label>
+                            <input type="text" class="form-control" id="gameImage1" name="gameImage1" placeholder="/image/1.jpg">
+                        </div>
+                        <div class="mb-3">
+                            <label for="gameImage2" class="form-label">Image 2 URL (e.g., /image/2.jpg)</label>
+                            <input type="text" class="form-control" id="gameImage2" name="gameImage2" placeholder="/image/2.jpg">
+                        </div>
+                        <div class="mb-3">
+                            <label for="gameImage3" class="form-label">Image 3 URL (e.g., /image/3.jpg)</label>
+                            <input type="text" class="form-control" id="gameImage3" name="gameImage3" placeholder="/image/3.jpg">
+                        </div>
+                        <div class="mb-3">
+                            <label for="gameImage4" class="form-label">Image 4 URL (e.g., /image/4.jpg)</label>
+                            <input type="text" class="form-control" id="gameImage4" name="gameImage4" placeholder="/image/4.jpg">
+                        </div>
+                        <div class="mb-3">
+                            <label for="link" class="form-label">Game Link (e.g., /games/link)</label>
+                            <input type="text" class="form-control" id="link" name="link" placeholder="/games/link">
+                        </div>
+                        <div class="mb-3">
+                            <label for="youtubeLink" class="form-label">YouTube Link (e.g., https://www.youtube.com/watch?v=video_id)</label>
+                            <input type="text" class="form-control" id="youtubeLink" name="youtubeLink" placeholder="https://www.youtube.com/watch?v=video_id">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="submitImagesBtn">Save URLs</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Simple form validation and clear function
         function clearForm() {
             if (confirm('Are you sure you want to clear all form data?')) {
-                document.querySelector('form').reset();
+                document.querySelector('#gameForm').reset();
             }
         }
 
-        // Simple form validation before submit
-        document.querySelector('form').addEventListener('submit', function(e) {
+        // Function to add game to table
+        function addGameToTable(game) {
+            const tableBody = document.getElementById('gameTableBody');
+            const row = document.createElement('tr');
+
+            // Create image element
+            const imageCell = document.createElement('td');
+            const img = document.createElement('img');
+            img.src = game.image ? `data:image/jpeg;base64,${game.image}` : '/image/placeholder.jpg';
+            img.alt = game.gamename || 'Game Cover Image';
+            imageCell.appendChild(img);
+
+            // Create other cells
+            const nameCell = document.createElement('td');
+            nameCell.textContent = game.gamename || '-';
+
+            const priceCell = document.createElement('td');
+            priceCell.textContent = game.gameprice ? parseFloat(game.gameprice).toFixed(2) : '0.00';
+
+            const categoryCell = document.createElement('td');
+            categoryCell.textContent = game.category || '-';
+
+            const genreCell = document.createElement('td');
+            genreCell.textContent = game.gamegenre || '-';
+
+            const platformCell = document.createElement('td');
+            platformCell.textContent = game.platform || '-';
+
+            // Image Links, Game Link, and YouTube Link cell
+            const imageLinksCell = document.createElement('td');
+            imageLinksCell.className = 'image-links';
+            const links = [
+                game.gameImage1,
+                game.gameImage2,
+                game.gameImage3,
+                game.gameImage4,
+                game.link,
+                game.youtubeLink
+            ].filter(link => link).join(', ') || '-';
+            imageLinksCell.textContent = links;
+            imageLinksCell.title = links; // Show full links on hover
+
+            // Create action cell with notify button and edit images button
+            const actionCell = document.createElement('td');
+            
+            // Notify button
+            const notifyButton = document.createElement('button');
+            notifyButton.className = 'btn-notify';
+            notifyButton.innerHTML = '<i class="fas fa-envelope"></i> Notify';
+            notifyButton.setAttribute('data-id', game.id);
+            notifyButton.addEventListener('click', function() {
+                const button = this;
+                button.disabled = true;
+                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+                fetch(`/api/send-notification/${game.id}`, {
+                    method: 'POST'
+                })
+                .then(response => response.text())
+                .then(message => {
+                    alert(message);
+                    button.disabled = false;
+                    button.innerHTML = '<i class="fas fa-envelope"></i> Notify';
+                })
+                .catch(error => {
+                    console.error('Error sending notification:', error);
+                    alert('Failed to send notifications');
+                    button.disabled = false;
+                    button.innerHTML = '<i class="fas fa-envelope"></i> Notify';
+                });
+            });
+            actionCell.appendChild(notifyButton);
+
+            // Edit Images button
+            const editImagesButton = document.createElement('button');
+            editImagesButton.className = 'btn-edit-images';
+            editImagesButton.innerHTML = '<i class="fas fa-images"></i> Edit URLs';
+            editImagesButton.setAttribute('data-id', game.id);
+            editImagesButton.setAttribute('data-bs-toggle', 'modal');
+            editImagesButton.setAttribute('data-bs-target', '#addImagesModal');
+            editImagesButton.addEventListener('click', function() {
+                document.getElementById('gameId').value = game.id;
+                document.getElementById('gameImage1').value = game.gameImage1 || '';
+                document.getElementById('gameImage2').value = game.gameImage2 || '';
+                document.getElementById('gameImage3').value = game.gameImage3 || '';
+                document.getElementById('gameImage4').value = game.gameImage4 || '';
+                document.getElementById('link').value = game.link || '';
+                document.getElementById('youtubeLink').value = game.youtubeLink || '';
+            });
+            actionCell.appendChild(editImagesButton);
+
+            // Append cells to row
+            row.appendChild(imageCell);
+            row.appendChild(nameCell);
+            row.appendChild(priceCell);
+            row.appendChild(categoryCell);
+            row.appendChild(genreCell);
+            row.appendChild(platformCell);
+            row.appendChild(imageLinksCell);
+            row.appendChild(actionCell);
+
+            // Append row to table
+            tableBody.appendChild(row);
+        }
+
+        // Fetch and populate games on page load
+        function loadGames() {
+            fetch('/api/games')
+                .then(response => response.json())
+                .then(games => {
+                    const tableBody = document.getElementById('gameTableBody');
+                    tableBody.innerHTML = ''; // Clear existing rows
+                    games.forEach(game => addGameToTable(game));
+                })
+                .catch(error => {
+                    console.error('Error fetching games:', error);
+                    alert('Failed to load games. Please try again.');
+                });
+        }
+
+        // Form submission handling with validation
+        document.getElementById('gameForm').addEventListener('submit', function(e) {
             const gamename = document.getElementById('gamename').value.trim();
             const gameprice = document.getElementById('gameprice').value;
             const category = document.getElementById('category').value;
             const imageFile = document.getElementById('imageFile').files[0];
 
+            // Client-side validation
             if (!gamename) {
                 alert('Please enter a game name');
                 document.getElementById('gamename').focus();
@@ -583,10 +868,49 @@
                 return;
             }
 
-            // Show simple loading message
+            // Show loading message
             const submitBtn = document.querySelector('.btn-submit');
             submitBtn.disabled = true;
             submitBtn.innerHTML = '⏳ Adding Game...';
+        });
+
+        // Handle submission of additional images and links form
+        document.getElementById('submitImagesBtn').addEventListener('click', function() {
+            const gameId = document.getElementById('gameId').value;
+            const gameImage1 = document.getElementById('gameImage1').value.trim();
+            const gameImage2 = document.getElementById('gameImage2').value.trim();
+            const gameImage3 = document.getElementById('gameImage3').value.trim();
+            const gameImage4 = document.getElementById('gameImage4').value.trim();
+            const link = document.getElementById('link').value.trim();
+            const youtubeLink = document.getElementById('youtubeLink').value.trim();
+
+            const data = {
+                gameImage1,
+                gameImage2,
+                gameImage3,
+                gameImage4,
+                link,
+                youtubeLink
+            };
+
+            fetch(`/api/update-images/${gameId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.text())
+            .then(message => {
+                alert(message);
+                const modal = bootstrap.Modal.getInstance(document.getElementById('addImagesModal'));
+                modal.hide();
+                loadGames(); // Reload table to reflect updated URLs
+            })
+            .catch(error => {
+                console.error('Error updating URLs:', error);
+                alert('Failed to update URLs');
+            });
         });
 
         // Mobile menu functionality
@@ -608,7 +932,6 @@
                 mobileOverlay.classList.remove('active');
             });
 
-            // Close sidebar when clicking nav items on mobile
             const navItems = document.querySelectorAll('.nav-item');
             navItems.forEach(item => {
                 item.addEventListener('click', function() {
@@ -620,7 +943,6 @@
                 });
             });
 
-            // Handle window resize
             window.addEventListener('resize', function() {
                 if (window.innerWidth > 768) {
                     sidebar.classList.remove('active');
@@ -630,9 +952,10 @@
             });
         }
 
-        // Initialize mobile menu on page load
+        // Initialize mobile menu and load games on page load
         document.addEventListener('DOMContentLoaded', function() {
             setupMobileMenu();
+            loadGames();
         });
     </script>
 </body>

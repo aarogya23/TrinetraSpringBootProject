@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login to Trinetra Games</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
     <style>
         * {
             margin: 0;
@@ -521,12 +523,12 @@
             
             <h1>Welcome Back</h1>
             <p class="subtitle">Sign in to your Trinetra Games account</p><br>
-            <p  style= "color:red" th:text="${error}"></p>
+            <p style="color:red" th:text="${error}"></p>
         </div>
 
         <form id="loginForm" method="POST" action="/login">
             <div class="form-group">
-                <label for="email"> Username</label>
+                <label for="email">Username</label>
                 <div class="input-container">
                     <input type="text" id="email" name="username" class="form-control" required>
                     <i class="fas fa-user input-icon"></i>
@@ -561,7 +563,7 @@
         </div>
 
         <div class="social-login">
-            <button class="social-btn google" onclick="loginWithGoogle()">
+            <button class="social-btn google" id="googleSignInBtn">
                 <i class="fab fa-google"></i>
                 Google
             </button>
@@ -589,7 +591,6 @@
         function togglePassword() {
             const passwordInput = document.getElementById('password');
             const icon = document.querySelector('.input-icon');
-            
             if (passwordInput.type === 'password') {
                 passwordInput.type = 'text';
                 icon.className = 'fas fa-eye-slash input-icon';
@@ -599,14 +600,77 @@
             }
         }
 
-        function loginWithGoogle() {
-            // Placeholder for Google login functionality
-            alert('Google login integration would be implemented here');
+        function initializeGoogleSignIn() {
+            google.accounts.id.initialize({
+                client_id: 'your-google-client-id', // Replace with your Google Client ID
+                callback: handleGoogleSignIn
+            });
+            google.accounts.id.renderButton(
+                document.getElementById('googleSignInBtn'),
+                { theme: 'outline', size: 'large' }
+            );
+        }
+
+        function handleGoogleSignIn(response) {
+            const credential = response.credential;
+            fetch('http://localhost:8083/api/auth/google', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ token: credential })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Google login failed');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Backend response:', data);
+                window.location.href = '/dashboard';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('emailError').style.display = 'block';
+                document.getElementById('emailError').textContent = 'Google login failed';
+            });
         }
 
         function loginWithFacebook() {
-            // Placeholder for Facebook login functionality
-            alert('Facebook login integration would be implemented here');
+            FB.init({
+                appId: 'your-facebook-app-id', // Replace with your Facebook App ID
+                cookie: true,
+                xfbml: true,
+                version: 'v21.0'
+            });
+            FB.login(function(response) {
+                if (response.authResponse) {
+                    const accessToken = response.authResponse.accessToken;
+                    fetch('http://localhost:8080/api/auth/facebook', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ accessToken: accessToken })
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Facebook login failed');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Backend response:', data);
+                        window.location.href = '/dashboard';
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        document.getElementById('emailError').style.display = 'block';
+                        document.getElementById('emailError').textContent = 'Facebook login failed';
+                    });
+                } else {
+                    console.log('User cancelled login or did not fully authorize.');
+                    document.getElementById('emailError').style.display = 'block';
+                    document.getElementById('emailError').textContent = 'Facebook login cancelled';
+                }
+            }, { scope: 'email,public_profile' });
         }
 
         // Form validation
@@ -620,7 +684,6 @@
                 return;
             }
 
-            // Basic email/username validation
             if (email.includes('@') && !email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
                 e.preventDefault();
                 document.getElementById('emailError').style.display = 'block';
@@ -628,16 +691,13 @@
                 return;
             }
 
-            // Clear any previous errors
             document.getElementById('emailError').style.display = 'none';
         });
 
-        // Clear error messages on input
         document.getElementById('email').addEventListener('input', function() {
             document.getElementById('emailError').style.display = 'none';
         });
 
-        // Add some subtle animations
         document.querySelectorAll('.form-control').forEach(input => {
             input.addEventListener('focus', function() {
                 this.parentElement.parentElement.style.transform = 'scale(1.02)';
@@ -647,6 +707,11 @@
                 this.parentElement.parentElement.style.transform = 'scale(1)';
             });
         });
+
+        // Initialize Google Sign-In
+        window.onload = function() {
+            initializeGoogleSignIn();
+        };
     </script>
 </body>
 </html>

@@ -1,15 +1,19 @@
 package com.trinetra.controller;
 
+import com.trinetra.model.Game;
 import com.trinetra.model.Purchase;
 import com.trinetra.model.UserClass;
+import com.trinetra.repository.GameRepository;
 import com.trinetra.repository.PurchaseRepository;
 import com.trinetra.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/api/purchases")
@@ -20,6 +24,9 @@ public class PurchaseController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private GameRepository gameRepository; // Added to fetch game details
 
     @GetMapping("/dashboard")
     public String showDashboard() {
@@ -90,5 +97,32 @@ public class PurchaseController {
         purchase.setLastPlayed(LocalDateTime.now().toString());
         prepo.save(purchase);
         return "redirect:/api/purchases/library";
+    }
+
+    @PostMapping("/purchase")
+    @ResponseBody
+    public String addPurchase(@RequestParam Long userId, @RequestParam Long gameId) {
+        // Validate user
+        UserClass user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        // Validate game
+        Game game = gameRepository.findById(gameId)
+                .orElseThrow(() -> new RuntimeException("Game not found"));
+
+        // Create new purchase
+        Purchase purchase = new Purchase();
+        purchase.setUserId(userId);
+        purchase.setGameName(game.getGamename());
+        purchase.setGamePrice(game.getGameprice());
+        purchase.setImage(game.getImage()); // Copy Base64 image from Game
+       
+        purchase.setStatus("Completed");
+        purchase.setSecretCode(UUID.randomUUID().toString()); // Generate unique code
+        purchase.setPaymentMethod("Default"); // TODO: Replace with actual payment method
+        purchase.setPaymentDetails("N/A"); // TODO: Replace with actual payment details
+  
+
+        prepo.save(purchase);
+        return "Purchase successful for user ID: " + userId;
     }
 }

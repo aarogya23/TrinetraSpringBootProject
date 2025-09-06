@@ -20,9 +20,8 @@
         }
         
         body {
-        font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-   
-           background: #f8fafc;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #fff7ed;
             color: #1a202c;
             line-height: 1.5;
             min-height: 100vh;
@@ -37,7 +36,7 @@
         .sidebar {
             width: 280px;
             background: #ffffff;
-            border-right: 1px solid #e2e8f0;
+            border-right: 1px solid #fed7aa;
             padding: 0;
             position: fixed;
             height: 100vh;
@@ -70,7 +69,7 @@
         
         .logo {
             padding: 24px;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid #fed7aa;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -93,7 +92,7 @@
             display: flex;
             align-items: center;
             padding: 16px 24px;
-            color: #64748b;
+            color: #475569;
             text-decoration: none;
             transition: all 0.3s ease;
             border: none;
@@ -109,16 +108,16 @@
         }
         
         .nav-item:hover {
-            background: #f1f5f9;
-            color: #3b82f6;
+            background: #fef3c7;
+            color: #f97316;
             padding-left: 32px;
         }
         
         .nav-item.active {
-            background: #eff6ff;
-            color: #3b82f6;
+            background: #ffedd5;
+            color: #f97316;
             font-weight: 600;
-            border-right: 3px solid #3b82f6;
+            border-right: 3px solid #f97316;
         }
         
         .nav-icon {
@@ -145,7 +144,7 @@
         
         .header {
             background: #ffffff;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid #fed7aa;
             padding: 0 32px;
             height: 80px;
             display: flex;
@@ -157,7 +156,7 @@
         
         .mobile-menu-button {
             display: none;
-            background: #3b82f6;
+            background: #f97316;
             border: none;
             color: white;
             font-size: 18px;
@@ -168,7 +167,7 @@
         }
         
         .mobile-menu-button:hover {
-            background: #2563eb;
+            background: #ea580c;
         }
         
         .welcome-section h1 {
@@ -180,7 +179,7 @@
         
         .welcome-section p {
             font-size: 16px;
-            color: #64748b;
+            color: #475569;
             font-weight: 500;
         }
         
@@ -191,7 +190,7 @@
         }
         
         .refresh-button {
-            background: #10b981;
+            background: #eab308;
             border: none;
             color: white;
             padding: 12px 20px;
@@ -206,14 +205,14 @@
         }
         
         .refresh-button:hover {
-            background: #059669;
+            background: #ca8a04;
             transform: translateY(-1px);
         }
         
         .content-area {
             flex: 1;
             padding: 24px 32px;
-            background: #f8fafc;
+            background: #fff7ed;
             overflow-x: auto;
         }
         
@@ -239,11 +238,11 @@
         }
         
         .stat-card {
-            background: #ffffff;
+            background: transparent;
             border-radius: 16px;
             padding: 24px;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            border: 2px solid #fed7aa;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
@@ -251,7 +250,7 @@
         
         .stat-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.15);
+            box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.25);
         }
         
         .stat-card::before {
@@ -261,12 +260,11 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: var(--accent-color, #3b82f6);
+            background: var(--accent-color, #f97316);
         }
         
         .stat-header {
             display: flex;
-            items-center;
             justify-content: space-between;
             margin-bottom: 16px;
         }
@@ -279,8 +277,8 @@
             align-items: center;
             justify-content: center;
             font-size: 24px;
-            color: white;
-            background: var(--accent-color, #3b82f6);
+            color: #1a202c; /* Changed to dark text for visibility without background */
+            background: transparent; /* Removed background */
         }
         
         .stat-value {
@@ -292,7 +290,7 @@
         
         .stat-label {
             font-size: 16px;
-            color: #64748b;
+            color: #475569;
             font-weight: 500;
         }
         
@@ -306,8 +304,8 @@
         }
         
         .stat-change.positive {
-            background: #dcfce7;
-            color: #166534;
+            background: #fef3c7;
+            color: #b45309;
         }
         
         .stat-change.negative {
@@ -326,7 +324,7 @@
             background: #ffffff;
             border-radius: 16px;
             padding: 24px;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #fed7aa;
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
         }
         
@@ -363,7 +361,7 @@
             background: #ffffff;
             border-radius: 16px;
             padding: 24px;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #fed7aa;
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
         }
         
@@ -372,7 +370,7 @@
             align-items: center;
             gap: 12px;
             padding: 12px 0;
-            border-bottom: 1px solid #f1f5f9;
+            border-bottom: 1px solid #fef3c7;
         }
         
         .recent-user-item:last-child {
@@ -403,12 +401,12 @@
         
         .recent-user-email {
             font-size: 12px;
-            color: #64748b;
+            color: #475569;
         }
         
         .recent-user-time {
             font-size: 12px;
-            color: #64748b;
+            color: #475569;
         }
         
         .user-profile {
@@ -420,9 +418,9 @@
             left: 24px;
             right: 24px;
             padding: 16px;
-            background: #f8fafc;
+            background: #fff7ed;
             border-radius: 12px;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #fed7aa;
         }
         
         .user-profile img {
@@ -444,14 +442,14 @@
         
         .profile-email {
             font-size: 14px;
-            color: #64748b;
+            color: #475569;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
         
         .logout-button {
-            background: #ef4444;
+            background: #dc2626;
             border: none;
             color: white;
             cursor: pointer;
@@ -462,7 +460,7 @@
         }
         
         .logout-button:hover {
-            background: #dc2626;
+            background: #b91c1c;
         }
         
         .loading {
@@ -470,15 +468,15 @@
             align-items: center;
             justify-content: center;
             padding: 80px;
-            color: #64748b;
+            color: #475569;
             font-size: 18px;
         }
         
         .loading-spinner {
             width: 32px;
             height: 32px;
-            border: 3px solid #e5e7eb;
-            border-top: 3px solid #3b82f6;
+            border: 3px solid #fed7aa;
+            border-top: 3px solid #f97316;
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-right: 16px;
@@ -492,7 +490,7 @@
         .error {
             text-align: center;
             padding: 80px 24px;
-            color: #ef4444;
+            color: #dc2626;
             font-size: 18px;
             font-weight: 500;
         }
@@ -589,16 +587,15 @@
                     <span class="nav-icon">👥</span>
                     All Users
                 </a>
-                <a href="addgamebro" class="nav-item">
+                <a href="addgame" class="nav-item">
                     <span class="nav-icon">🎮</span>
                     Add all Games
                 </a>
                 <a th:href="@{/api/purchases/adminpurchase}" class="nav-item">
-             
                     <span class="nav-icon">💳</span>
                     Game Purchases
                 </a>
-                <a href="#" class="nav-item">
+                <a href="addgamebro" class="nav-item">
                     <span class="nav-icon">📊</span>
                     Sales Analytics
                 </a>
@@ -609,7 +606,7 @@
             </nav>
             
             <div class="user-profile">
-                <div class="user-avatar" style="background: #3b82f6; width: 40px; height: 40px; font-size: 16px;">A</div>
+                <div class="user-avatar" style="background: #f97316; width: 40px; height: 40px; font-size: 16px;">A</div>
                 <div class="profile-info">
                     <div class="profile-name">Admin User</div>
                     <div class="profile-email">admin@trinetra.games</div>
@@ -652,7 +649,7 @@
                 <!-- Error State -->
                 <div id="error" class="error" style="display: none;">
                     <p>⚠️ Error loading dashboard data. Please try again.</p>
-                    <button onclick="loadDashboardData()" style="margin-top: 16px; padding: 8px 16px; background: #3b82f6; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                    <button onclick="loadDashboardData()" style="margin-top: 16px; padding: 8px 16px; background: #f97316; color: white; border: none; border-radius: 6px; cursor: pointer;">
                         Retry
                     </button>
                 </div>
@@ -661,7 +658,7 @@
                 <div id="dashboard-content" style="display: none;">
                     <!-- Stats Cards -->
                     <div class="stats-grid">
-                        <div class="stat-card" style="--accent-color: #3b82f6;">
+                        <div class="stat-card" style="--accent-color: #f97316;">
                             <div class="stat-header">
                                 <div class="stat-icon">👥</div>
                             </div>
@@ -670,7 +667,7 @@
                             <div class="stat-change positive" id="userGrowth">+12% from last month</div>
                         </div>
                         
-                        <div class="stat-card" style="--accent-color: #10b981;">
+                        <div class="stat-card" style="--accent-color: #eab308;">
                             <div class="stat-header">
                                 <div class="stat-icon">🌍</div>
                             </div>
@@ -688,7 +685,7 @@
                             <div class="stat-change positive" id="passwordStrength">Good security</div>
                         </div>
                         
-                        <div class="stat-card" style="--accent-color: #8b5cf6;">
+                        <div class="stat-card" style="--accent-color: #d97706;">
                             <div class="stat-header">
                                 <div class="stat-icon">📱</div>
                             </div>
@@ -763,8 +760,8 @@
         
         // Avatar colors for consistency
         const avatarColors = [
-            '#3b82f6', '#059669', '#dc2626', '#d97706',
-            '#7c3aed', '#db2777', '#0891b2', '#65a30d'
+            '#f97316', '#eab308', '#dc2626', '#d97706',
+            '#c2410c', '#ca8a04', '#f59e0b', '#b45309'
         ];
         
         function getAvatarColor(name) {
@@ -855,12 +852,12 @@
                     datasets: [{
                         label: 'New Registrations',
                         data: data.registrations,
-                        borderColor: '#3b82f6',
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        borderColor: '#f97316',
+                        backgroundColor: 'rgba(249, 115, 22, 0.1)',
                         borderWidth: 3,
                         fill: true,
                         tension: 0.4,
-                        pointBackgroundColor: '#3b82f6',
+                        pointBackgroundColor: '#f97316',
                         pointBorderColor: '#ffffff',
                         pointBorderWidth: 2,
                         pointRadius: 6
@@ -902,7 +899,7 @@
                     labels: ['Strong', 'Medium', 'Weak'],
                     datasets: [{
                         data: [strengths.strong, strengths.medium, strengths.weak],
-                        backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
+                        backgroundColor: ['#eab308', '#f59e0b', '#dc2626'],
                         borderWidth: 0,
                         cutout: '70%'
                     }]
@@ -936,7 +933,7 @@
                         label: 'Users',
                         data: countries.map(([, count]) => count),
                         backgroundColor: [
-                            '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ef4444'
+                            '#f97316', '#eab308', '#f59e0b', '#d97706', '#c2410c'
                         ],
                         borderRadius: 8,
                         borderSkipped: false
@@ -979,7 +976,7 @@
                     datasets: [{
                         data: domains.map(([, count]) => count),
                         backgroundColor: [
-                            '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ef4444'
+                            '#f97316', '#eab308', '#f59e0b', '#d97706', '#c2410c'
                         ],
                         borderWidth: 0
                     }]
@@ -1023,7 +1020,7 @@
             const container = document.getElementById('recentUsersList');
             
             if (recentUsers.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #64748b; padding: 40px;">No recent users found</p>';
+                container.innerHTML = '<p style="text-align: center; color: #475569; padding: 40px;">No recent users found</p>';
                 return;
             }
             
@@ -1123,7 +1120,7 @@
                     <p style="font-size: 14px; color: #666; margin-top: 8px;">
                         ${err.message}
                     </p>
-                    <button onclick="loadDashboardData()" style="margin-top: 16px; padding: 8px 16px; background: #3b82f6; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                    <button onclick="loadDashboardData()" style="margin-top: 16px; padding: 8px 16px; background: #f97316; color: white; border: none; border-radius: 6px; cursor: pointer;">
                         Retry
                     </button>
                 `;
